@@ -8,6 +8,7 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -107,7 +108,7 @@ export default function Header() {
             <Grid item xs={12} sm={3} style={{ gridColumnStart: "revert" }}>
               <div className={classes.grow} />
               <div className={classes.sectionDesktop}>
-                <Button variant="contained">Login</Button>
+                <Button variant="contained"><AccountCircleIcon/>Login</Button>
               </div>
             </Grid>
           </Grid>
