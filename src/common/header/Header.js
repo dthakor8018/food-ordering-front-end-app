@@ -13,32 +13,30 @@ class Header extends Component {
         this.state = {
             anchorEl: null,
             searchValue: "",
-            userProfileData: null
+            loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
         };
 
     }
 
     /* get User Profile data */
-    getUserProfile() {
-        fetch(this.props.baseUrl + "?access_token=" + sessionStorage.getItem("access-token"))
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    this.setState({ userProfileData: result.data });
-
-                },
-                (error) => {
-                    console.log("error...", error);
-                }
-            );
-    }
+    // getUserProfile() {
+    //     fetch(this.props.baseUrl + "?access_token=" + sessionStorage.getItem("access-token"))
+    //         .then(res => res.json())
+    //         .then(
+    //             (result) => {
+    //                 this.setState({ userProfileData: result.data });
+    //             },
+    //             (error) => {
+    //                 console.log("error...", error);
+    //             }
+    //         );
+    // }
 
     /*check user is logged in or not*/
     componentDidMount() {
         if (this.state.loggedIn === false) {
-         //   this.props.history.push("/");
+            this.props.history.push("/");
         }
-        this.getUserProfile();
     }
 
     menuOpenHandler = (event) => {

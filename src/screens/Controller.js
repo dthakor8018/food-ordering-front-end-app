@@ -5,7 +5,7 @@ import Login from './login/Login';
 class Controller extends Component {
   constructor() {
     super();
-    this.baseUrl = 'https://api.instagram.com/v1/users/self/';
+    this.baseUrl = 'http://localhost:8080/api/';
   }
   render() {
     return (

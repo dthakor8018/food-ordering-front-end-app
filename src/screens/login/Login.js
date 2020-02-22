@@ -19,7 +19,9 @@ class Login extends Component {
       passwordRequired: false,
       password: "",
       loginError: false,
-      loggedIn: sessionStorage.getItem("access-token") == null ? false : true
+      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
+      accessToken: null,
+      userProfileData: null
     };
   }
 
@@ -48,24 +50,47 @@ class Login extends Component {
 
     if (this.state.username !== "" && this.state.password !== "") {
       if (
-        this.state.username === "admin" &&
-        this.state.password === "password"
-      ) {
-        sessionStorage.setItem(
-          "access-token",
-          "8661035776.d0fcd39.39f63ab2f88d4f9c92b0862729ee2784"
-        );
-        this.props.history.push("/home");
-      } else {
-        this.setState({ loginError: true });
-      }
+        fetch(
+          this.props.baseUrl + "customer/login", 
+          {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'application/json;charset=utf-8',
+              'Accept': 'application/json;charset=UTF-8',
+              'Access-Control-Allow-Headers': true,
+              'authorization': 'Basic ' + btoa(this.state.username + ':' + this.state.password),
+              'credentials': 'true'
+            }
+          }
+        ).then((response) => { 
+          response.json().then((json) => {
+            console.log(json)
+              this.setState({
+                userProfileData: json,
+              });
+              sessionStorage.setItem("user-profile", json); 
+          })
+          response.headers.forEach((val, key) => {
+            if(key === "access-token") {
+              this.setState({
+                key: val
+              });
+              sessionStorage.setItem("access-token", val); 
+            }
+          })
+        }, error => {
+          console.log("Error while login to FoodOrderingApp", error)
+        }) )
+        {
+          this.props.history.push("/home");
+        }
     }
   };
-
   render() {
     return (
       <div>
-        <Header {...this.props} showSearchBar={true}/>
+        <Header {...this.props} showSearchBar={true} />
         <div className="login-page-content">
           <Card className="login-card">
             <CardContent className="login-card-content">
@@ -86,8 +111,8 @@ class Login extends Component {
                   </FormHelperText>
                 ) : null}
               </FormControl>
-              <br/>
-              <br/>
+              <br />
+              <br />
               <FormControl className="login-card-form-password" required>
                 <InputLabel htmlFor="password">Password</InputLabel>
                 <Input
@@ -102,8 +127,8 @@ class Login extends Component {
                   </FormHelperText>
                 ) : null}
               </FormControl>
-              <br/>
-              <br/>
+              <br />
+              <br />
               {this.state.loginError ? (
                 <FormHelperText>
                   <span className="red">
@@ -111,7 +136,7 @@ class Login extends Component {
                   </span>
                 </FormHelperText>
               ) : null}
-              <br/>
+              <br />
               <Button
                 className="login-card-button"
                 variant="contained"
