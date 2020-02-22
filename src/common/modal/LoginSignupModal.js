@@ -22,11 +22,20 @@ class LoginSignupModal extends Component {
         super();
         this.state = {
             tab: 'login',
-            usernameRequired: false,
-            username: "",
-            passwordRequired: false,
-            password: "",
+            lUsernameRequired: false,
+            lUsername: "",
+            lPasswordRequired: false,
+            lPassword: "",
             loginError: false,
+            sFirstNameRequired: false,
+            sFirstName: "",
+            sLastName: "",
+            sPasswordRequired: false,
+            sPassword: "",
+            sEmailRequired: false,
+            sEmail: "",
+            sContactNoRequired: false,
+            sContactNo: "",
             loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
             accessToken: null,
             userProfileData: null
@@ -40,32 +49,40 @@ class LoginSignupModal extends Component {
 
 
     }
-    inputUsernameChangeHandler = e => {
+    inputlUsernameChangeHandler = e => {
         this.setState({
-            username: e.target.value
+            lUsername: e.target.value
         });
         if (!e.target.value) {
-            this.setState({ usernameRequired: true });
+            this.setState({ lUsernameRequired: true });
         } else {
-            this.setState({ usernameRequired: false });
+            this.setState({ lUsernameRequired: false });
         }
     };
-    inputPasswordChangeHandler = e => {
+    inputlPasswordChangeHandler = e => {
         this.setState({
-            password: e.target.value
+            lPassword: e.target.value
         });
         if (!e.target.value) {
-            this.setState({ passwordRequired: true });
+            this.setState({ lPasswordRequired: true });
         } else {
-            this.setState({ passwordRequired: false });
+            this.setState({ lPasswordRequired: false });
         }
     };
     loginClickHandler = () => {
-        this.setState({ loginError: false });
-
-        if (this.state.username !== "" && this.state.password !== "") {
-            if (
-                fetch(
+        if( this.state.lUsername == null || this.state.lUsername == "" ) {
+            this.setState({ lUsernameRequired: true });
+        } else {
+            this.setState({ lUsernameRequired: false });
+        }
+        if( this.state.lPassword == null || this.state.lPassword == "" ) {
+            this.setState({ lPasswordRequired: true });
+        } else {
+            this.setState({ lPasswordRequired: false });
+        }
+        if (this.state.lUsername != "" && this.state.lPassword != "") {
+            this.setState({ loginError: false });
+            if( fetch(  
                     this.props.baseUrl + "customer/login",
                     {
                         method: 'POST',
@@ -74,31 +91,37 @@ class LoginSignupModal extends Component {
                             'Content-Type': 'application/json;charset=utf-8',
                             'Accept': 'application/json;charset=UTF-8',
                             'Access-Control-Allow-Headers': true,
-                            'authorization': 'Basic ' + btoa(this.state.username + ':' + this.state.password),
+                            'authorization': 'Basic ' + btoa(this.state.lUsername + ':' + this.state.lPassword),
                             'credentials': 'true'
                         }
                     }
                 ).then((response) => {
-                    response.json().then((json) => {
-                        console.log(json)
-                        this.setState({
-                            userProfileData: json,
-                        });
-                        sessionStorage.setItem("user-profile", json);
-                    })
-                    response.headers.forEach((val, key) => {
-                        if (key === "access-token") {
-                            this.setState({
-                                key: val
-                            });
-                            sessionStorage.setItem("access-token", val);
-                        }
-                    })
-                }, error => {
+                        response.json().then((json) => {
+                                console.log(json)
+                                this.setState({
+                                    userProfileData: json,
+                                });
+                                sessionStorage.setItem("user-profile", json);
+                        })
+                        response.headers.forEach((val, key) => {
+                            if (key === "access-token") {
+                                this.setState({
+                                    key: val
+                                });
+                                sessionStorage.setItem("access-token", val);
+                            }
+                        })
+                        console.log("login successfully")
+                        this.props.onCloseLoginSignupModal();
+                    }, error => {
                     console.log("Error while login to FoodOrderingApp", error)
-                })) {
-                //this.props.history.push("/home");
-            }
+                    this.setState({ loginError: true });
+                })){
+                    this.setState({ lUsername: "",
+                                lPassword: "" })
+                }
+                
+                
         }
     }
     render() {
@@ -119,14 +142,14 @@ class LoginSignupModal extends Component {
                      {/******************* Login Form *******************/}
                     <Container id="container-login-form"  >
                         <FormControl className="login-signup-form" required>
-                            <InputLabel htmlFor="username">Contact No.</InputLabel>
+                            <InputLabel htmlFor="lUsername">Contact No.</InputLabel>
                             <Input
-                                id="username"
+                                id="lUsername"
                                 type="text"
-                                username={this.state.username}
-                                onChange={this.inputUsernameChangeHandler}
+                                value={this.state.lUsername}
+                                onChange={this.inputlUsernameChangeHandler}
                             />
-                            {this.state.usernameRequired ? (
+                            {this.state.lUsernameRequired ? (
                                 <FormHelperText>
                                     <span className="red">required</span>
                                 </FormHelperText>
@@ -135,14 +158,14 @@ class LoginSignupModal extends Component {
                         <br />
                         <br />
                         <FormControl className="login-signup-form" required>
-                            <InputLabel htmlFor="password">Password</InputLabel>
+                            <InputLabel htmlFor="lPassword">Password</InputLabel>
                             <Input
-                                id="password"
+                                id="lPassword"
                                 type="password"
-                                password={this.state.password}
-                                onChange={this.inputPasswordChangeHandler}
+                                value={this.state.lPassword}
+                                onChange={this.inputlPasswordChangeHandler}
                             />
-                            {this.state.passwordRequired ? (
+                            {this.state.lPasswordRequired ? (
                                 <FormHelperText>
                                     <span className="red">required</span>
                                 </FormHelperText>
@@ -174,14 +197,14 @@ class LoginSignupModal extends Component {
                     {/******************* Signup Form *******************/}
                     <Container id="container-signup-form" >
                         <FormControl className="login-signup-form" required>
-                            <InputLabel htmlFor="firstName">First Name</InputLabel>
+                            <InputLabel htmlFor="sFirstName">First Name</InputLabel>
                             <Input
-                                id="firstName"
+                                id="sFirstName"
                                 type="text"
-                                firstName={this.state.firstName}
-                                onChange={this.inputfirstNameChangeHandler}
+                                value={this.state.sFirstName}
+                                onChange={this.inputsFirstNameChangeHandler}
                             />
-                            {this.state.firstNameRequired ? (
+                            {this.state.sFirstNameRequired ? (
                                 <FormHelperText>
                                     <span className="red">required</span>
                                 </FormHelperText>
@@ -190,25 +213,25 @@ class LoginSignupModal extends Component {
                         <br />
                         <br />
                         <FormControl className="login-signup-form">
-                            <InputLabel htmlFor="lastName">Last Name</InputLabel>
+                            <InputLabel htmlFor="sLastName">Last Name</InputLabel>
                             <Input
-                                id="lastName"
+                                id="sLastName"
                                 type="text"
-                                lastName={this.state.lastName}
-                                onChange={this.inputlastNameChangeHandler}
+                                value={this.state.sLastName}
+                                onChange={this.inputsLastNameChangeHandler}
                             />
                         </FormControl>
                         <br />
                         <br />
                         <FormControl className="login-signup-form" required>
-                            <InputLabel htmlFor="email">Email</InputLabel>
+                            <InputLabel htmlFor="sEmail">Email</InputLabel>
                             <Input
-                                id="email"
+                                id="sEmail"
                                 type="text"
-                                email={this.state.email}
-                                onChange={this.inputemailChangeHandler}
+                                value={this.state.sEmail}
+                                onChange={this.inputsEmailChangeHandler}
                             />
-                            {this.state.emailRequired ? (
+                            {this.state.sEmailRequired ? (
                                 <FormHelperText>
                                     <span className="red">required</span>
                                 </FormHelperText>
@@ -217,14 +240,14 @@ class LoginSignupModal extends Component {
                         <br />
                         <br />
                         <FormControl className="login-signup-form" required>
-                            <InputLabel htmlFor="password">Password</InputLabel>
+                            <InputLabel htmlFor="sPassword">Password</InputLabel>
                             <Input
-                                id="password"
+                                id="sPassword"
                                 type="password"
-                                password={this.state.password}
-                                onChange={this.inputPasswordChangeHandler}
+                                value={this.state.sPassword}
+                                onChange={this.inputsPasswordChangeHandler}
                             />
-                            {this.state.passwordRequired ? (
+                            {this.state.sPasswordRequired ? (
                                 <FormHelperText>
                                     <span className="red">required</span>
                                 </FormHelperText>
@@ -233,14 +256,14 @@ class LoginSignupModal extends Component {
                         <br />
                         <br />
                         <FormControl className="login-signup-form" required>
-                            <InputLabel htmlFor="contactNo">Contact No.</InputLabel>
+                            <InputLabel htmlFor="sContactNo">Contact No.</InputLabel>
                             <Input
-                                id="contactNo"
+                                id="sContactNo"
                                 type="text"
-                                contactNo={this.state.contactNo}
-                                onChange={this.inputcontactNoChangeHandler}
+                                value={this.state.sContactNo}
+                                onChange={this.inputsContactNoChangeHandler}
                             />
-                            {this.state.contactNoRequired ? (
+                            {this.state.sContactNoRequired ? (
                                 <FormHelperText>
                                     <span className="red">required</span>
                                 </FormHelperText>

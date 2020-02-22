@@ -26,7 +26,7 @@ class Home extends Component {
     return (
       <div>
         <Header {...this.props} showSearchBar={true} openLoginSignupModal={this.openLoginSignupModal}/>
-        <LoginSignupModal 
+        <LoginSignupModal {...this.props}
                 openLoginSignupModal={this.state.openLoginSignupModal}
                 onCloseLoginSignupModal={this.onCloseLoginSignupModal}/>
       </div>
