@@ -8,16 +8,27 @@ class Home extends Component {
     super();
     this.state = {
       loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
+      openLoginSignupModal: false
     };
+  }
+
+  openLoginSignupModal = () => {
+    this.setState({
+      openLoginSignupModal: true
+    })
+  }
+  onCloseLoginSignupModal = () => {
+    this.setState({
+      openLoginSignupModal: false
+    })
   }
   render() {
     return (
       <div>
-        <Header {...this.props} showSearchBar={true} />
+        <Header {...this.props} showSearchBar={true} openLoginSignupModal={this.openLoginSignupModal}/>
         <LoginSignupModal 
-                openLoginSignupModalModal={true}
-                onCloseLoginSignupModalModalModal={null}
-                onCloseLoginSignupModalModalModal={null}/>
+                openLoginSignupModal={this.state.openLoginSignupModal}
+                onCloseLoginSignupModal={this.onCloseLoginSignupModal}/>
       </div>
     );
   }

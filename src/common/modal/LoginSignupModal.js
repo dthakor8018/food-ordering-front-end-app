@@ -106,9 +106,9 @@ class LoginSignupModal extends Component {
             <Modal disableEnforceFocus
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
-                open={this.props.openLoginSignupModalModal}
-                onClose={this.props.onCloseLoginSignupModalModalModal}
-                onBackdropClick={this.props.onCloseLoginSignupModalModalModal}
+                open={this.props.openLoginSignupModal}
+                onClose={this.props.onCloseLoginSignupModal}
+                onBackdropClick={this.props.onCloseLoginSignupModal}
             >
                 <div class="modal-div">
                     <Tabs value={this.state.tab} indicatorColor="primary" textColor="primary"

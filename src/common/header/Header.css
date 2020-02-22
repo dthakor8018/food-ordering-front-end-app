@@ -48,3 +48,8 @@
     width: 2rem;
     height: 2rem;
 }
+
+#header-login-button {
+    margin: 9px;
+    padding: 7px;
+}
