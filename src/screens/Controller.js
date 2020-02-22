@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Login from './login/Login';
+import Home from './home/Home';
 
 class Controller extends Component {
   constructor() {
@@ -11,7 +11,7 @@ class Controller extends Component {
     return (
       <Router>
         <div className="main-container">
-          <Route exact path='/' render={(props) => <Login {...props} baseUrl={this.baseUrl} />} />
+          <Route exact path='/' render={(props) => <Home {...props} baseUrl={this.baseUrl} />} />
         </div>
       </Router>
     )
