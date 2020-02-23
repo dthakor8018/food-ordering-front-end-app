@@ -33,10 +33,35 @@ class LoginSignupModal extends Component {
             sEmail: "",
             sContactNoRequired: false,
             sContactNo: "",
+            signupError: false,
+            signupErrorCode: null,
+            signupErrorMsg: null,
             loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
-            accessToken: null,
-            userProfileData: null
         }
+    }
+    clearAll(){
+        this.setState({
+                tab: 'login',
+                lUsernameRequired: false,
+                lUsername: "",
+                lPasswordRequired: false,
+                lPassword: "",
+                loginError: false,
+                loginErrorCode: null,
+                loginErrorMsg: null,
+                sFirstNameRequired: false,
+                sFirstName: "",
+                sLastName: "",
+                sPasswordRequired: false,
+                sPassword: "",
+                sEmailRequired: false,
+                sEmail: "",
+                sContactNoRequired: false,
+                sContactNo: "",
+                signupError: false,
+                signupErrorCode: null,
+                signupErrorMsg: null,
+        })
     }
     tabChange = (event, newValue) => {
         console.log(newValue)
@@ -46,26 +71,20 @@ class LoginSignupModal extends Component {
 
 
     }
-    inputlUsernameChangeHandler = e => {
-        this.setState({
-            lUsername: e.target.value
-        });
+    commonInputChangeHandler = e => {
+        var stateName = e.target.id;
+        var requiredflag =  e.target.id + 'Required';
+        var requiredflagVal = false;
         if (!e.target.value) {
-            this.setState({ lUsernameRequired: true });
+            requiredflagVal =  true;
         } else {
-            this.setState({ lUsernameRequired: false });
+            requiredflagVal =  false;
         }
-    };
-    inputlPasswordChangeHandler = e => {
         this.setState({
-            lPassword: e.target.value
+            [stateName]: e.target.value,
+            [requiredflag]: requiredflagVal
         });
-        if (!e.target.value) {
-            this.setState({ lPasswordRequired: true });
-        } else {
-            this.setState({ lPasswordRequired: false });
-        }
-    };
+    }
     loginClickHandler = () => {
         if( this.state.lUsername === null || this.state.lUsername === "" ) {
             this.setState({ lUsernameRequired: true });
@@ -112,8 +131,7 @@ class LoginSignupModal extends Component {
                                 }
                             })
                             console.log("login successfully")
-                            this.setState({ lUsername: "",
-                                            lPassword: "" })    
+                            this.clearAll();  
                             this.props.onCloseLoginSignupModal();
 
                         } else {
@@ -126,10 +144,82 @@ class LoginSignupModal extends Component {
                             })
                         }
                     }, error => {
-                    console.log("Error while making POST request to FoodOrderingApp Backend",error)
+                    console.log("Error while making request to FoodOrderingApp Backend",error)
                     this.setState({loginError: true,
                         loginErrorCode: error,
-                        loginErrorMsg: "Error while making POST request to FoodOrderingApp Backend"});
+                        loginErrorMsg: "Error while making request to FoodOrderingApp Backend"});
+            })
+        }
+    }
+    signupClickHandler = () => {
+        if( this.state.sFirstName === null || this.state.sFirstName === "" ) {
+            this.setState({ sFirstNameRequired: true });
+        } else {
+            this.setState({ sFirstNameRequired: false });
+        }
+        if( this.state.sEmail === null || this.state.sEmail === "" ) {
+            this.setState({ sEmailRequired: true });
+        } else {
+            this.setState({ sEmailRequired: false });
+        }
+        if( this.state.sPassword === null || this.state.sPassword === "" ) {
+            this.setState({ sPasswordRequired: true });
+        } else {
+            this.setState({ sPasswordRequired: false });
+        }
+        if( this.state.sContactNo === null || this.state.sContactNo === "" ) {
+            this.setState({ sContactNoRequired: true });
+        } else {
+            this.setState({ sContactNoRequired: false });
+        }
+        if (this.state.sFirstName !== "" && this.state.sEmailRequired !== "" && this.state.sPassword !== "" && this.state.sContactNo !== "" ) {
+            this.setState({ signupError: false,
+                            signupErrorCode: null,
+                            signupErrorMsg: null});
+            fetch(  
+                    this.props.baseUrl + "customer/signup",
+                    {
+                        method: 'POST',
+                        mode: 'cors',
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8',
+                            'Accept': 'application/json;charset=UTF-8',
+                            'Access-Control-Allow-Headers': true
+                        },
+                        body: JSON.stringify({
+                            'contact_number': this.state.sContactNo,
+                            'email_address': this.state.sEmail,
+                            'first_name': this.state.sFirstName,
+                            'last_name': this.state.sLastName,
+                            'password': this.state.sPassword
+                        })
+                    }
+                ).then((response) => {
+                        if(response.status === 201) {
+                            response.json().then((json) => {
+                                    this.setState({
+                                        userProfileData: json,
+                                    });
+                                    sessionStorage.setItem("user-profile", json);
+                            })
+                            console.log("Signup successfully")
+                            this.clearAll();
+                            document.getElementById("container-signup-form").style.display = 'none';
+                            document.getElementById("container-login-form").style.display = 'block';
+                        } else {
+                            console.log("login Error "+response.status);
+                            response.json().then((json) => {
+                                this.setState({signupError: true,
+                                               signupErrorCode: json.code,
+                                               signupErrorMsg: json.message});
+                                
+                            })
+                        }
+                    }, error => {
+                    console.log("Error while making request to FoodOrderingApp Backend",error)
+                    this.setState({loginError: true,
+                        loginErrorCode: error,
+                        loginErrorMsg: "Error while making request to FoodOrderingApp Backend"});
             })
         }
     }
@@ -156,7 +246,7 @@ class LoginSignupModal extends Component {
                                 id="lUsername"
                                 type="text"
                                 value={this.state.lUsername}
-                                onChange={this.inputlUsernameChangeHandler}
+                                onChange={this.commonInputChangeHandler}
                             />
                             {this.state.lUsernameRequired ? (
                                 <FormHelperText>
@@ -172,7 +262,7 @@ class LoginSignupModal extends Component {
                                 id="lPassword"
                                 type="password"
                                 value={this.state.lPassword}
-                                onChange={this.inputlPasswordChangeHandler}
+                                onChange={this.commonInputChangeHandler}
                             />
                             {this.state.lPasswordRequired ? (
                                 <FormHelperText>
@@ -185,7 +275,7 @@ class LoginSignupModal extends Component {
                         {this.state.loginError ? (
                             <FormHelperText>
                                 <span className="red">
-                                    Incorrect username and/or password
+                                    {this.state.loginErrorMsg}
                                 </span>
                             </FormHelperText>
                         ) : null}
@@ -211,7 +301,7 @@ class LoginSignupModal extends Component {
                                 id="sFirstName"
                                 type="text"
                                 value={this.state.sFirstName}
-                                onChange={this.inputsFirstNameChangeHandler}
+                                onChange={this.commonInputChangeHandler}
                             />
                             {this.state.sFirstNameRequired ? (
                                 <FormHelperText>
@@ -227,7 +317,7 @@ class LoginSignupModal extends Component {
                                 id="sLastName"
                                 type="text"
                                 value={this.state.sLastName}
-                                onChange={this.inputsLastNameChangeHandler}
+                                onChange={this.commonInputChangeHandler}
                             />
                         </FormControl>
                         <br />
@@ -238,7 +328,7 @@ class LoginSignupModal extends Component {
                                 id="sEmail"
                                 type="text"
                                 value={this.state.sEmail}
-                                onChange={this.inputsEmailChangeHandler}
+                                onChange={this.commonInputChangeHandler}
                             />
                             {this.state.sEmailRequired ? (
                                 <FormHelperText>
@@ -254,7 +344,7 @@ class LoginSignupModal extends Component {
                                 id="sPassword"
                                 type="password"
                                 value={this.state.sPassword}
-                                onChange={this.inputsPasswordChangeHandler}
+                                onChange={this.commonInputChangeHandler}
                             />
                             {this.state.sPasswordRequired ? (
                                 <FormHelperText>
@@ -270,7 +360,7 @@ class LoginSignupModal extends Component {
                                 id="sContactNo"
                                 type="text"
                                 value={this.state.sContactNo}
-                                onChange={this.inputsContactNoChangeHandler}
+                                onChange={this.commonInputChangeHandler}
                             />
                             {this.state.sContactNoRequired ? (
                                 <FormHelperText>
@@ -283,7 +373,7 @@ class LoginSignupModal extends Component {
                         {this.state.signupError ? (
                             <FormHelperText>
                                 <span className="red">
-                                    Incorrect username and/or password
+                                    {this.state.signupErrorMsg}
                                 </span>
                             </FormHelperText>
                         ) : null}

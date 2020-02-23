@@ -107,7 +107,7 @@ export default function Header(props) {
             <Grid item xs={12} sm={3} style={{ gridColumnStart: "revert" }}>
               <div className={classes.grow} />
               <div className={classes.sectionDesktop}>
-                <Button variant="contained" onClick={props.openLoginSignupModal}  ><AccountCircleIcon/>Login</Button>
+                <Button variant="contained" onClick={props.openLoginSignupModal}><AccountCircleIcon/>Login</Button>
               </div>
             </Grid>
           </Grid>
