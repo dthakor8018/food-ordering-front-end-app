@@ -33,12 +33,8 @@ class Home extends Component {
   render() {
     return (
       <div>
-<<<<<<< HEAD
         <Header {...this.props} showSearchBar={true} loggedIn={this.state.loggedIn} logoutHandler={this.logoutHandler} openLoginSignupModal={this.openLoginSignupModal}/>
-=======
-        <Header {...this.props} showSearchBar={true} openLoginSignupModal={this.openLoginSignupModal}/>
         <RestaurantCard/>
->>>>>>> fb7b486942689e5a0b3efadad91444f28c7ce365
         <LoginSignupModal {...this.props}
                 openLoginSignupModal={this.state.openLoginSignupModal}
                 onCloseLoginSignupModal={this.onCloseLoginSignupModal}/>
