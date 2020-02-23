@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Home.css";
 import Header from "../../common/header/Header";
 import LoginSignupModal from "../../common/modal/LoginSignupModal";
+import RestaurantCard from "./restaurantCard";
 
 class Home extends Component {
   constructor() {
@@ -26,6 +27,7 @@ class Home extends Component {
     return (
       <div>
         <Header {...this.props} showSearchBar={true} openLoginSignupModal={this.openLoginSignupModal}/>
+        <RestaurantCard/>
         <LoginSignupModal {...this.props}
                 openLoginSignupModal={this.state.openLoginSignupModal}
                 onCloseLoginSignupModal={this.onCloseLoginSignupModal}/>

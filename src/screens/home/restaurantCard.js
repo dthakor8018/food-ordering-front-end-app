@@ -9,7 +9,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 const useStyles = makeStyles({
     root: {
@@ -47,7 +46,7 @@ export default function RestaurantCard() {
                         <IconButton
                             aria-label="add to favorites"
                         >
-                            <FontAwesomeIcon icon="star" />
+                            <i className="fa fa-star-o" aria-hidden="true"/>
                         </IconButton>
                     </Grid>
                     <Grid item xs={6} sm={6}>
