@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 import Modal from '@material-ui/core/Modal';
 import './LoginSignupModal.css';
-import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import { red } from "@material-ui/core/colors";
-import Box from "@material-ui/core/Box"
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
-import AppBar from '@material-ui/core/AppBar';
 import FormControl from "@material-ui/core/FormControl";
-import Typography from "@material-ui/core/Typography";
+//import Typography from "@material-ui/core/Typography";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -27,6 +22,8 @@ class LoginSignupModal extends Component {
             lPasswordRequired: false,
             lPassword: "",
             loginError: false,
+            loginErrorCode: null,
+            loginErrorMsg: null,
             sFirstNameRequired: false,
             sFirstName: "",
             sLastName: "",
@@ -70,19 +67,21 @@ class LoginSignupModal extends Component {
         }
     };
     loginClickHandler = () => {
-        if( this.state.lUsername == null || this.state.lUsername == "" ) {
+        if( this.state.lUsername === null || this.state.lUsername === "" ) {
             this.setState({ lUsernameRequired: true });
         } else {
             this.setState({ lUsernameRequired: false });
         }
-        if( this.state.lPassword == null || this.state.lPassword == "" ) {
+        if( this.state.lPassword === null || this.state.lPassword === "" ) {
             this.setState({ lPasswordRequired: true });
         } else {
             this.setState({ lPasswordRequired: false });
         }
-        if (this.state.lUsername != "" && this.state.lPassword != "") {
-            this.setState({ loginError: false });
-            if( fetch(  
+        if (this.state.lUsername !== "" && this.state.lPassword !== "") {
+            this.setState({ loginError: false,
+                            loginErrorCode: null,
+                            loginErrorMsg: null});
+            fetch(  
                     this.props.baseUrl + "customer/login",
                     {
                         method: 'POST',
@@ -96,32 +95,42 @@ class LoginSignupModal extends Component {
                         }
                     }
                 ).then((response) => {
-                        response.json().then((json) => {
-                                console.log(json)
-                                this.setState({
-                                    userProfileData: json,
-                                });
-                                sessionStorage.setItem("user-profile", json);
-                        })
-                        response.headers.forEach((val, key) => {
-                            if (key === "access-token") {
-                                this.setState({
-                                    key: val
-                                });
-                                sessionStorage.setItem("access-token", val);
-                            }
-                        })
-                        console.log("login successfully")
-                        this.props.onCloseLoginSignupModal();
+                        if(response.status === 200) {
+                            response.json().then((json) => {
+                                    this.setState({
+                                        userProfileData: json,
+                                    });
+                                    sessionStorage.setItem("user-profile", json);
+                            })
+                            response.headers.forEach((val, key) => {
+                                //console.log(key + "=" + val);
+                                if (key === "access-token") {
+                                    this.setState({
+                                        key: val
+                                    });
+                                    sessionStorage.setItem("access-token", val);
+                                }
+                            })
+                            console.log("login successfully")
+                            this.setState({ lUsername: "",
+                                            lPassword: "" })    
+                            this.props.onCloseLoginSignupModal();
+
+                        } else {
+                            console.log("login Error "+response.status);
+                            response.json().then((json) => {
+                                this.setState({loginError: true,
+                                                loginErrorCode: json.code,
+                                                loginErrorMsg: json.message});
+                                
+                            })
+                        }
                     }, error => {
-                    console.log("Error while login to FoodOrderingApp", error)
-                    this.setState({ loginError: true });
-                })){
-                    this.setState({ lUsername: "",
-                                lPassword: "" })
-                }
-                
-                
+                    console.log("Error while making POST request to FoodOrderingApp Backend",error)
+                    this.setState({loginError: true,
+                        loginErrorCode: error,
+                        loginErrorMsg: "Error while making POST request to FoodOrderingApp Backend"});
+            })
         }
     }
     render() {
