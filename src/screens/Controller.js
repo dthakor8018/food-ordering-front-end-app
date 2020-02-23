@@ -9,11 +9,11 @@ class Controller extends Component {
   }
   render() {
     return (
-      <Router>
-        <div className="main-container">
-          <Route exact path='/' render={(props) => <Home {...props} baseUrl={this.baseUrl} />} />
-        </div>
-      </Router>
+        <Router>
+          <div className="main-container">
+            <Route exact path='/' render={(props) => <Home {...props} baseUrl={this.baseUrl} />} />
+          </div>
+        </Router>
     )
   }
 }
