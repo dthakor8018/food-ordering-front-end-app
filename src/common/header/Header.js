@@ -9,6 +9,9 @@ import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -71,6 +74,22 @@ const useStyles = makeStyles(theme => ({
 
 export default function Header(props) {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  function handleClick(event) {
+    setAnchorEl(event.currentTarget);
+  }
+  function menuCloseHandler(){
+    setAnchorEl(null);
+  }
+  function menuMyAccountHandler(){
+    menuCloseHandler();
+  }
+  
+  function logoutHandler(){
+    sessionStorage.removeItem("access-token");
+    menuCloseHandler();
+    props.logoutHandler();
+  }
   return (
     <div className={classes.grow}>
       <AppBar position="static" style={{ backgroundColor: "#263238" }}>
@@ -105,14 +124,31 @@ export default function Header(props) {
               </div>
             </Grid>
             <Grid item xs={12} sm={3} style={{ gridColumnStart: "revert" }}>
-              <div className={classes.grow} />
+            <div className={classes.grow} />
               <div className={classes.sectionDesktop}>
-                <Button variant="contained" onClick={props.openLoginSignupModal}><AccountCircleIcon/>Login</Button>
-              </div>
+                { props.loggedIn ?
+                    <IconButton id="profile-icon" edge="start" color="inherit" aria-label="menu" onClick={handleClick}>
+                        <AccountCircleIcon/>
+                        <Typography>{sessionStorage.getItem("first_name")}</Typography>
+                    </IconButton>
+                  :               
+                    <Button variant="contained" onClick={props.openLoginSignupModal}><AccountCircleIcon/>Login</Button>
+                }
+            </div>
             </Grid>
           </Grid>
         </Toolbar>
       </AppBar>
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={menuCloseHandler}
+      >
+        <MenuItem onClick={menuMyAccountHandler}>My account</MenuItem>
+        <MenuItem onClick={logoutHandler}>Logout</MenuItem>
+      </Menu>
     </div>
   );
 }

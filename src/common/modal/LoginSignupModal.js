@@ -123,17 +123,13 @@ class LoginSignupModal extends Component {
                 ).then((response) => {
                         if(response.status === 200) {
                             response.json().then((json) => {
-                                    this.setState({
-                                        userProfileData: json,
-                                    });
-                                    sessionStorage.setItem("user-profile", json);
+                                Object.keys(json).forEach(function(key) {
+                                    sessionStorage.setItem(key, json[key]);
+                                })
                             })
                             response.headers.forEach((val, key) => {
                                 //console.log(key + "=" + val);
                                 if (key === "access-token") {
-                                    this.setState({
-                                        key: val
-                                    });
                                     sessionStorage.setItem("access-token", val);
                                 }
                             })
@@ -203,12 +199,6 @@ class LoginSignupModal extends Component {
                     }
                 ).then((response) => {
                         if(response.status === 201) {
-                            response.json().then((json) => {
-                                    this.setState({
-                                        userProfileData: json,
-                                    });
-                                    sessionStorage.setItem("user-profile", json);
-                            })
                             console.log("Signup successfully")
                             this.clearAll();
                             document.getElementById("container-signup-form").style.display = 'none';
