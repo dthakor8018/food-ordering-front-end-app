@@ -10,7 +10,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import Container from "@material-ui/core/Container";
-
+import Snackbar from '@material-ui/core/Snackbar';
 
 class LoginSignupModal extends Component {
     constructor() {
@@ -36,6 +36,8 @@ class LoginSignupModal extends Component {
             signupError: false,
             signupErrorCode: null,
             signupErrorMsg: null,
+            floatingAlert: false,
+            floatingAlertMsg: "Registered successfully! Please login now!",
             loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
         }
     }
@@ -61,6 +63,7 @@ class LoginSignupModal extends Component {
                 signupError: false,
                 signupErrorCode: null,
                 signupErrorMsg: null,
+                floatingAlert: false
         })
     }
     tabChange = (event, newValue) => {
@@ -71,6 +74,10 @@ class LoginSignupModal extends Component {
 
 
     }
+    closeFloatingAlert = () =>{
+        this.setState({ floatingAlert: false });
+    }
+        
     commonInputChangeHandler = e => {
         var stateName = e.target.id;
         var requiredflag =  e.target.id + 'Required';
@@ -206,6 +213,7 @@ class LoginSignupModal extends Component {
                             this.clearAll();
                             document.getElementById("container-signup-form").style.display = 'none';
                             document.getElementById("container-login-form").style.display = 'block';
+                            this.setState({ floatingAlert: true });
                         } else {
                             console.log("login Error "+response.status);
                             response.json().then((json) => {
@@ -225,173 +233,183 @@ class LoginSignupModal extends Component {
     }
     render() {
         return (
-            <Modal disableEnforceFocus
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-                open={this.props.openLoginSignupModal}
-                onClose={this.props.onCloseLoginSignupModal}
-                onBackdropClick={this.props.onCloseLoginSignupModal}
-            >
-                <div class="modal-div">
-                    <Tabs value={this.state.tab} indicatorColor="primary" textColor="primary"
-                        aria-label="disabled tabs example" defaultActiveKey='Login' onChange={(evt, value) => this.tabChange(evt, value)} >
-                        <Tab label="Login" value={'login'} eventKey="login" />
-                        <Tab label="Signup" value={'signup'} eventKey="Signup" />
-                    </Tabs>
-                     {/******************* Login Form *******************/}
-                    <Container id="container-login-form"  >
-                        <FormControl className="login-signup-form" required>
-                            <InputLabel htmlFor="lUsername">Contact No.</InputLabel>
-                            <Input
-                                id="lUsername"
-                                type="text"
-                                value={this.state.lUsername}
-                                onChange={this.commonInputChangeHandler}
-                            />
-                            {this.state.lUsernameRequired ? (
+            <div>
+                <Modal disableEnforceFocus
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.props.openLoginSignupModal}
+                    onClose={this.props.onCloseLoginSignupModal}
+                    onBackdropClick={this.props.onCloseLoginSignupModal}
+                >
+                    <div class="modal-div">
+                        <Tabs value={this.state.tab} indicatorColor="primary" textColor="primary"
+                            aria-label="disabled tabs example" defaultActiveKey='Login' onChange={(evt, value) => this.tabChange(evt, value)} >
+                            <Tab label="Login" value={'login'} eventKey="login" />
+                            <Tab label="Signup" value={'signup'} eventKey="Signup" />
+                        </Tabs>
+                        {/******************* Login Form *******************/}
+                        <Container id="container-login-form"  >
+                            <FormControl className="login-signup-form" required>
+                                <InputLabel htmlFor="lUsername">Contact No.</InputLabel>
+                                <Input
+                                    id="lUsername"
+                                    type="text"
+                                    value={this.state.lUsername}
+                                    onChange={this.commonInputChangeHandler}
+                                />
+                                {this.state.lUsernameRequired ? (
+                                    <FormHelperText>
+                                        <span className="red">required</span>
+                                    </FormHelperText>
+                                ) : null}
+                            </FormControl>
+                            <br />
+                            <br />
+                            <FormControl className="login-signup-form" required>
+                                <InputLabel htmlFor="lPassword">Password</InputLabel>
+                                <Input
+                                    id="lPassword"
+                                    type="password"
+                                    value={this.state.lPassword}
+                                    onChange={this.commonInputChangeHandler}
+                                />
+                                {this.state.lPasswordRequired ? (
+                                    <FormHelperText>
+                                        <span className="red">required</span>
+                                    </FormHelperText>
+                                ) : null}
+                            </FormControl>
+                            <br />
+                            <br />
+                            {this.state.loginError ? (
                                 <FormHelperText>
-                                    <span className="red">required</span>
+                                    <span className="red">
+                                        {this.state.loginErrorMsg}
+                                    </span>
                                 </FormHelperText>
                             ) : null}
-                        </FormControl>
-                        <br />
-                        <br />
-                        <FormControl className="login-signup-form" required>
-                            <InputLabel htmlFor="lPassword">Password</InputLabel>
-                            <Input
-                                id="lPassword"
-                                type="password"
-                                value={this.state.lPassword}
-                                onChange={this.commonInputChangeHandler}
-                            />
-                            {this.state.lPasswordRequired ? (
-                                <FormHelperText>
-                                    <span className="red">required</span>
-                                </FormHelperText>
-                            ) : null}
-                        </FormControl>
-                        <br />
-                        <br />
-                        {this.state.loginError ? (
-                            <FormHelperText>
-                                <span className="red">
-                                    {this.state.loginErrorMsg}
-                                </span>
-                            </FormHelperText>
-                        ) : null}
-                        <br />
-                        <Container className="login-button-container">
-                        <Button
-                            className="login-button"
-                            variant="contained"
-                            color="primary"
-                            onClick={this.loginClickHandler}
-                        >
-                            LOGIN
-                        </Button>
-                        </Container>
-                        <br />
-                    </Container>
-
-                    {/******************* Signup Form *******************/}
-                    <Container id="container-signup-form" >
-                        <FormControl className="login-signup-form" required>
-                            <InputLabel htmlFor="sFirstName">First Name</InputLabel>
-                            <Input
-                                id="sFirstName"
-                                type="text"
-                                value={this.state.sFirstName}
-                                onChange={this.commonInputChangeHandler}
-                            />
-                            {this.state.sFirstNameRequired ? (
-                                <FormHelperText>
-                                    <span className="red">required</span>
-                                </FormHelperText>
-                            ) : null}
-                        </FormControl>
-                        <br />
-                        <br />
-                        <FormControl className="login-signup-form">
-                            <InputLabel htmlFor="sLastName">Last Name</InputLabel>
-                            <Input
-                                id="sLastName"
-                                type="text"
-                                value={this.state.sLastName}
-                                onChange={this.commonInputChangeHandler}
-                            />
-                        </FormControl>
-                        <br />
-                        <br />
-                        <FormControl className="login-signup-form" required>
-                            <InputLabel htmlFor="sEmail">Email</InputLabel>
-                            <Input
-                                id="sEmail"
-                                type="text"
-                                value={this.state.sEmail}
-                                onChange={this.commonInputChangeHandler}
-                            />
-                            {this.state.sEmailRequired ? (
-                                <FormHelperText>
-                                    <span className="red">required</span>
-                                </FormHelperText>
-                            ) : null}
-                        </FormControl>
-                        <br />
-                        <br />
-                        <FormControl className="login-signup-form" required>
-                            <InputLabel htmlFor="sPassword">Password</InputLabel>
-                            <Input
-                                id="sPassword"
-                                type="password"
-                                value={this.state.sPassword}
-                                onChange={this.commonInputChangeHandler}
-                            />
-                            {this.state.sPasswordRequired ? (
-                                <FormHelperText>
-                                    <span className="red">required</span>
-                                </FormHelperText>
-                            ) : null}
-                        </FormControl>
-                        <br />
-                        <br />
-                        <FormControl className="login-signup-form" required>
-                            <InputLabel htmlFor="sContactNo">Contact No.</InputLabel>
-                            <Input
-                                id="sContactNo"
-                                type="text"
-                                value={this.state.sContactNo}
-                                onChange={this.commonInputChangeHandler}
-                            />
-                            {this.state.sContactNoRequired ? (
-                                <FormHelperText>
-                                    <span className="red">required</span>
-                                </FormHelperText>
-                            ) : null}
-                        </FormControl>
-                        <br />
-                        <br />
-                        {this.state.signupError ? (
-                            <FormHelperText>
-                                <span className="red">
-                                    {this.state.signupErrorMsg}
-                                </span>
-                            </FormHelperText>
-                        ) : null}
-                        <br />
-                        <Container className="signup-button-container">
+                            <br />
+                            <Container className="login-button-container">
                             <Button
-                                className="signup-button"
+                                className="login-button"
                                 variant="contained"
                                 color="primary"
-                                onClick={this.signupClickHandler}
+                                onClick={this.loginClickHandler}
                             >
-                                SIGNUP
+                                LOGIN
                             </Button>
+                            </Container>
+                            <br />
                         </Container>
-                        <br />
-                    </Container>
-                </div>
-            </Modal>
+
+                        {/******************* Signup Form *******************/}
+                        <Container id="container-signup-form" >
+                            <FormControl className="login-signup-form" required>
+                                <InputLabel htmlFor="sFirstName">First Name</InputLabel>
+                                <Input
+                                    id="sFirstName"
+                                    type="text"
+                                    value={this.state.sFirstName}
+                                    onChange={this.commonInputChangeHandler}
+                                />
+                                {this.state.sFirstNameRequired ? (
+                                    <FormHelperText>
+                                        <span className="red">required</span>
+                                    </FormHelperText>
+                                ) : null}
+                            </FormControl>
+                            <br />
+                            <br />
+                            <FormControl className="login-signup-form">
+                                <InputLabel htmlFor="sLastName">Last Name</InputLabel>
+                                <Input
+                                    id="sLastName"
+                                    type="text"
+                                    value={this.state.sLastName}
+                                    onChange={this.commonInputChangeHandler}
+                                />
+                            </FormControl>
+                            <br />
+                            <br />
+                            <FormControl className="login-signup-form" required>
+                                <InputLabel htmlFor="sEmail">Email</InputLabel>
+                                <Input
+                                    id="sEmail"
+                                    type="text"
+                                    value={this.state.sEmail}
+                                    onChange={this.commonInputChangeHandler}
+                                />
+                                {this.state.sEmailRequired ? (
+                                    <FormHelperText>
+                                        <span className="red">required</span>
+                                    </FormHelperText>
+                                ) : null}
+                            </FormControl>
+                            <br />
+                            <br />
+                            <FormControl className="login-signup-form" required>
+                                <InputLabel htmlFor="sPassword">Password</InputLabel>
+                                <Input
+                                    id="sPassword"
+                                    type="password"
+                                    value={this.state.sPassword}
+                                    onChange={this.commonInputChangeHandler}
+                                />
+                                {this.state.sPasswordRequired ? (
+                                    <FormHelperText>
+                                        <span className="red">required</span>
+                                    </FormHelperText>
+                                ) : null}
+                            </FormControl>
+                            <br />
+                            <br />
+                            <FormControl className="login-signup-form" required>
+                                <InputLabel htmlFor="sContactNo">Contact No.</InputLabel>
+                                <Input
+                                    id="sContactNo"
+                                    type="text"
+                                    value={this.state.sContactNo}
+                                    onChange={this.commonInputChangeHandler}
+                                />
+                                {this.state.sContactNoRequired ? (
+                                    <FormHelperText>
+                                        <span className="red">required</span>
+                                    </FormHelperText>
+                                ) : null}
+                            </FormControl>
+                            <br />
+                            <br />
+                            {this.state.signupError ? (
+                                <FormHelperText>
+                                    <span className="red">
+                                        {this.state.signupErrorMsg}
+                                    </span>
+                                </FormHelperText>
+                            ) : null}
+                            <br />
+                            <Container className="signup-button-container">
+                                <Button
+                                    className="signup-button"
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={this.signupClickHandler}
+                                >
+                                    SIGNUP
+                                </Button>
+                            </Container>
+                            <br />
+                        </Container>
+                    </div>
+                </Modal>
+                <Snackbar open={this.state.floatingAlert}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        autoHideDuration={6000}
+                        onClose={this.closeFloatingAlert}
+                        message={this.state.floatingAlertMsg} />
+            </div>
         );
     }
 }
