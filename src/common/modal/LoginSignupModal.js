@@ -115,9 +115,7 @@ class LoginSignupModal extends Component {
                         headers: {
                             'Content-Type': 'application/json;charset=utf-8',
                             'Accept': 'application/json;charset=UTF-8',
-                            'Access-Control-Allow-Headers': true,
                             'authorization': 'Basic ' + btoa(this.state.lUsername + ':' + this.state.lPassword),
-                            'credentials': 'true'
                         }
                     }
                 ).then((response) => {
@@ -187,7 +185,6 @@ class LoginSignupModal extends Component {
                         headers: {
                             'Content-Type': 'application/json;charset=utf-8',
                             'Accept': 'application/json;charset=UTF-8',
-                            'Access-Control-Allow-Headers': true
                         },
                         body: JSON.stringify({
                             'contact_number': this.state.sContactNo,

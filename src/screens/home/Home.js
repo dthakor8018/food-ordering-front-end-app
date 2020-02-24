@@ -24,7 +24,6 @@ class Home extends Component {
         mode: 'cors',
         headers: {
           'Accept': 'application/json;charset=UTF-8',
-          'Access-Control-Allow-Headers': true,
         }
       }
     ).then((response) => {
