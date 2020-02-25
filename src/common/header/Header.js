@@ -117,6 +117,7 @@ export default function Header(props) {
               </IconButton>
             </Grid>
             <Grid item xs={12} sm={4}>
+              { props.showSearchBar ? 
               <div
                 className={classes.search}
                 style={{ borderBottom: "solid black 0.1rem" }}
@@ -133,7 +134,7 @@ export default function Header(props) {
                   inputProps={{ "aria-label": "search" }}
                   onChange={onSearchTextChange}
                 />
-              </div>
+              </div> : "" }
             </Grid>
             <Grid item xs={12} sm={4} style={{ gridColumnStart: "revert" }}>
             <div className={classes.loginbuttonArea} >

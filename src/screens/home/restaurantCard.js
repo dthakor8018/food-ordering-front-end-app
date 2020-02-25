@@ -12,6 +12,8 @@ import Grid from "@material-ui/core/Grid";
 //import { Container } from '@material-ui/core';
 import StarIcon from '@material-ui/icons/Star';
 //import { EditorFormatAlignCenter } from 'material-ui/svg-icons';
+import ButtonBase from "@material-ui/core/ButtonBase";
+
 
 const useStyles = makeStyles({
     root: {
@@ -41,6 +43,10 @@ const useStyles = makeStyles({
 export default function RestaurantCard(props) {
     const classes = useStyles();
     console.log(props.restaurantData);
+    function handleClickCardEvent(e){
+        console.log(e.currentTarget.id);
+        props.history.push('/restaurant/'+e.currentTarget.id);
+    }
     return (
         <Grid
             container
@@ -51,7 +57,8 @@ export default function RestaurantCard(props) {
             {   props.restaurantData && props.restaurantData.length > 0 ?
                 props.restaurantData.map((restObj, index) => (
                     <Grid>
-                        <Card className={classes.root}>
+                        <ButtonBase id={restObj.id} onClick={handleClickCardEvent}>
+                        <Card className={classes.root} >
                             <CardActionArea>
                                 <CardMedia
                                     className={classes.media}
@@ -94,6 +101,7 @@ export default function RestaurantCard(props) {
                         </Grid>
                     </CardActions> */}
                         </Card>
+                        </ButtonBase>
                     </Grid>
                 )) : <p>No restaurant with given named</p> }
             {/* </Container> */}
