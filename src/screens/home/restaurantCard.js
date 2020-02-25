@@ -66,12 +66,15 @@ export default function RestaurantCard(props) {
                                         {restObj.categories}
                                     </Typography>
                                     <br />
+                                    <br />
                                     <Typography variant="button" className={classes.ratingText} component="span">
                                         <StarIcon /> {Math.round(restObj.customer_rating * 10) / 10}({restObj.number_customers_rated})
                             </Typography>
                                     <Typography variant="caption" color="black" className={classes.averagePriceText} component="span">
                                         &#8377;{restObj.average_price} for two
                             </Typography>
+                                    <br />
+                                    <br />
                                 </CardContent>
                             </CardActionArea>
                             {/* <CardActions>
