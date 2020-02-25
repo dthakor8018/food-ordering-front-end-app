@@ -90,6 +90,7 @@ export default function Header(props) {
   }
   function menuMyAccountHandler(){
     menuCloseHandler();
+    props.history.push('/profile');
   }
   
   function logoutHandler(){
