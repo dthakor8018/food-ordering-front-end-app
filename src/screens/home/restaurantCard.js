@@ -13,7 +13,10 @@ import { Container } from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
-        maxWidth: 345,
+        maxWidth: 300,
+        margin: 5,
+        borderRadius: 5
+        
     },
     media: {
         height: 140,
@@ -24,9 +27,15 @@ export default function RestaurantCard(props) {
     const classes = useStyles();
     console.log(props.restaurantData);
     return (
-        <Container>
+            <Grid
+            container spacing={1}
+            // justify="center"
+            // alignItems="center"
+            >
+        {/* <Container direction="row"> */}
             { props.restaurantData &&
               props.restaurantData.map((restObj, index) => (
+                <Grid container item xs={2}>
                 <Card className={classes.root}>
                 <CardActionArea>
                     <CardMedia
@@ -66,7 +75,9 @@ export default function RestaurantCard(props) {
                     </Grid>
                 </CardActions> */}
             </Card>
+              </Grid>
             ))}
-        </Container>
+        {/* </Container> */}
+        </Grid>
     );
 }
