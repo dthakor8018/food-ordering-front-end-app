@@ -22,27 +22,27 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 'min-content',
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    // marginRight: theme.spacing(2),
     float: 'left'
   },
   title: {
     display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block"
-    }
+    // [theme.breakpoints.up("sm")]: {
+    //   display: "block"
+    // }
   },
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: "#263238",
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
+    // marginRight: theme.spacing(2),
+    // marginLeft: 0,
     width: "100%",
-    float: 'right',
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto"
-    }
+    //float: 'center',
+    // [theme.breakpoints.up("sm")]: {
+    //   marginLeft: theme.spacing(3),
+    //   width: "auto"
+    // }
   },
   searchIcon: {
     width: theme.spacing(7),
@@ -101,7 +101,7 @@ export default function Header(props) {
       <AppBar position="static" style={{ backgroundColor: "#263238" }}>
         <Toolbar>
           <Grid container>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={4}>
               <IconButton
                 edge="start"
                 className={classes.menuButton}
@@ -111,7 +111,7 @@ export default function Header(props) {
                 <FastfoodIcon />
               </IconButton>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={4}>
               <div
                 className={classes.search}
                 style={{ borderBottom: "solid black 0.1rem" }}
@@ -129,7 +129,7 @@ export default function Header(props) {
                 />
               </div>
             </Grid>
-            <Grid item xs={12} sm={3} style={{ gridColumnStart: "revert" }}>
+            <Grid item xs={12} sm={4} style={{ gridColumnStart: "revert" }}>
             <div className={classes.loginbuttonArea} >
                 { props.loggedIn ?
                     <IconButton id="profile-icon" edge="start" color="inherit" aria-label="menu" onClick={handleClick}>
