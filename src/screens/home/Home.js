@@ -17,8 +17,35 @@ class Home extends Component {
     };
   }
   componentWillMount() {
+    this.getRestaurantData("");
+  }
+
+  openLoginSignupModal = () => {
+    this.setState({
+      openLoginSignupModal: true
+    })
+  }
+  onCloseLoginSignupModal = () => {
+    this.setState({
+      openLoginSignupModal: false,
+      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
+    })
+  }
+  logoutHandler = () => {
+    this.setState({
+      openLoginSignupModal: false,
+      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
+    })
+  }
+  getRestaurantData = (searchText) => {
+    //console.log(searchText);
+    var url = this.props.baseUrl + "restaurant";
+
+    if (searchText !== null && searchText.trim() !== "") {
+      url += "/name/" + searchText;
+    }
     fetch(
-      this.props.baseUrl + "restaurant",
+      url,
       {
         method: 'GET',
         mode: 'cors',
@@ -29,7 +56,7 @@ class Home extends Component {
     ).then((response) => {
       if (response.status === 200) {
         response.json().then((json) => {
-          console.log(json);
+          //console.log(json);
           this.setState({ restaurantData: json.restaurants });
         })
       } else {
@@ -51,28 +78,14 @@ class Home extends Component {
       });
     })
   }
-
-  openLoginSignupModal = () => {
-    this.setState({
-      openLoginSignupModal: true
-    })
-  }
-  onCloseLoginSignupModal = () => {
-    this.setState({
-      openLoginSignupModal: false,
-      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
-    })
-  }
-  logoutHandler = () => {
-    this.setState({
-      openLoginSignupModal: false,
-      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
-    })
-  }
   render() {
     return (
       <div>
-        <Header {...this.props} showSearchBar={true} loggedIn={this.state.loggedIn} logoutHandler={this.logoutHandler} openLoginSignupModal={this.openLoginSignupModal} />
+        <Header {...this.props} showSearchBar={true}
+          loggedIn={this.state.loggedIn}
+          logoutHandler={this.logoutHandler}
+          openLoginSignupModal={this.openLoginSignupModal}
+          getRestaurantData={this.getRestaurantData} />
         <RestaurantCard {...this.props} restaurantData={this.state.restaurantData} />
         <LoginSignupModal {...this.props}
           openLoginSignupModal={this.state.openLoginSignupModal}

@@ -81,6 +81,7 @@ const useStyles = makeStyles(theme => ({
 export default function Header(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  let getRestaurantData = props.getRestaurantData;
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
   }
@@ -95,6 +96,9 @@ export default function Header(props) {
     sessionStorage.removeItem("access-token");
     menuCloseHandler();
     props.logoutHandler();
+  }
+  function onSearchTextChange(e) {
+    getRestaurantData(e.currentTarget.value);
   }
   return (
     <div className={classes.grow}>
@@ -126,6 +130,7 @@ export default function Header(props) {
                     input: classes.inputInput
                   }}
                   inputProps={{ "aria-label": "search" }}
+                  onChange={onSearchTextChange}
                 />
               </div>
             </Grid>
