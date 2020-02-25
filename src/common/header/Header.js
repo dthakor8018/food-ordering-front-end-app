@@ -17,8 +17,13 @@ const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1
   },
+  loginbuttonArea:{
+    float: 'right',
+    maxWidth: 'min-content',
+  },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
+    float: 'left'
   },
   title: {
     display: "none",
@@ -33,6 +38,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: "100%",
+    float: 'right',
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
       width: "auto"
@@ -124,8 +130,7 @@ export default function Header(props) {
               </div>
             </Grid>
             <Grid item xs={12} sm={3} style={{ gridColumnStart: "revert" }}>
-            <div className={classes.grow} />
-              <div className={classes.sectionDesktop}>
+            <div className={classes.loginbuttonArea} >
                 { props.loggedIn ?
                     <IconButton id="profile-icon" edge="start" color="inherit" aria-label="menu" onClick={handleClick}>
                         <AccountCircleIcon/>
