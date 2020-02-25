@@ -3,6 +3,7 @@ import "./Home.css";
 import Header from "../../common/header/Header";
 import LoginSignupModal from "../../common/modal/LoginSignupModal";
 import RestaurantCard from "./restaurantCard";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class Home extends Component {
   constructor() {
@@ -86,10 +87,17 @@ class Home extends Component {
           logoutHandler={this.logoutHandler}
           openLoginSignupModal={this.openLoginSignupModal}
           getRestaurantData={this.getRestaurantData} />
-        <RestaurantCard {...this.props} restaurantData={this.state.restaurantData} />
+        {!this.state.restaurantData ?
+          <div class='progress-bar'>
+            <CircularProgress />
+          </div>
+          :
+          <RestaurantCard {...this.props} restaurantData={this.state.restaurantData} />
+        }
         <LoginSignupModal {...this.props}
           openLoginSignupModal={this.state.openLoginSignupModal}
           onCloseLoginSignupModal={this.onCloseLoginSignupModal} />
+
       </div>
     );
   }

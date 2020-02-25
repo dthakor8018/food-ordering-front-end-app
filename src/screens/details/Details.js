@@ -47,6 +47,7 @@ export default function Details(props) {
     return (
         <div>
             <Header showSearchBar={false} />
+            
         </div>
     )
 }
