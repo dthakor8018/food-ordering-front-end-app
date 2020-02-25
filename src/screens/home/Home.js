@@ -30,7 +30,7 @@ class Home extends Component {
       if (response.status === 200) {
         response.json().then((json) => {
           console.log(json);
-          this.setState({ restaurantData: json });
+          this.setState({ restaurantData: json.restaurants });
         })
       } else {
         console.log("login Error " + response.status);
@@ -73,7 +73,7 @@ class Home extends Component {
     return (
       <div>
         <Header {...this.props} showSearchBar={true} loggedIn={this.state.loggedIn} logoutHandler={this.logoutHandler} openLoginSignupModal={this.openLoginSignupModal} />
-        <RestaurantCard />
+        <RestaurantCard {...this.props} restaurantData={this.state.restaurantData} />
         <LoginSignupModal {...this.props}
           openLoginSignupModal={this.state.openLoginSignupModal}
           onCloseLoginSignupModal={this.onCloseLoginSignupModal} />
