@@ -48,7 +48,7 @@ export default function RestaurantCard(props) {
             justify="flex-start"
             alignItems="center"
         >
-            {props.restaurantData &&
+            {   props.restaurantData && props.restaurantData.length > 0 ?
                 props.restaurantData.map((restObj, index) => (
                     <Grid>
                         <Card className={classes.root}>
@@ -95,7 +95,7 @@ export default function RestaurantCard(props) {
                     </CardActions> */}
                         </Card>
                     </Grid>
-                ))}
+                )) : <p>No restaurant with given named</p> }
             {/* </Container> */}
         </Grid>
     );
