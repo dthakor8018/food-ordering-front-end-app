@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import { Container } from '@material-ui/core';
+import StarIcon from '@material-ui/icons/Star';
+import { EditorFormatAlignCenter } from 'material-ui/svg-icons';
 
 const useStyles = makeStyles({
     root: {
@@ -21,6 +23,19 @@ const useStyles = makeStyles({
     media: {
         height: 140,
     },
+    ratingText: {
+        backgroundColor: "gold",
+        color: 'white',
+        width: '40%',
+        float: 'left',
+        textAlign: 'center'
+    },
+    averagePriceText: {
+        color: 'black',
+        width: '40%',
+        float: 'right',
+        paddingTop: 'inherit'
+    }
 });
 
 export default function RestaurantCard(props) {
@@ -50,10 +65,11 @@ export default function RestaurantCard(props) {
                         <Typography variant="body2" color="textSecondary" component="p">
                             {restObj.categories}
                         </Typography>
-                        <Typography variant="button" color="blue" component="p">
-                            {Math.round(restObj.customer_rating*10)/10} ({restObj.number_customers_rated})
+                        <br />
+                        <Typography variant="button" className={classes.ratingText} component="span">
+                            <StarIcon /> {Math.round(restObj.customer_rating*10)/10}({restObj.number_customers_rated})
                         </Typography>
-                        <Typography variant="caption" color="primary" component="p">
+                        <Typography variant="caption" color="black" className={classes.averagePriceText} component="span">
                            &#8377;{restObj.average_price} for two
                         </Typography>
                     </CardContent>
