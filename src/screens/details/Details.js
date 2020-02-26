@@ -3,13 +3,13 @@ import "./Details.css";
 import Header from "../../common/header/Header";
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
-import StarIcon from '@material-ui/icons/Star';
 import Paper from "@material-ui/core/Paper";
-import { Container } from "@material-ui/core";
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRupeeSign, faCircle, faPlus, faStar } from '@fortawesome/free-solid-svg-icons'
 
 class Details extends Component {
   constructor() {
@@ -97,7 +97,7 @@ class Details extends Component {
                     <Grid item xs container direction="row" >
                       <Grid item xs container direction="column" spacing={2}>
                         <Typography variant="body1" color="textPrimary" component="p">
-                          <StarIcon /> {Math.round(restDetails.customer_rating * 10) / 10}
+                          <FontAwesomeIcon icon={faStar}/> {Math.round(restDetails.customer_rating * 10) / 10}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
                           {"AVERAGE RATING BY"}<br />{restDetails.number_customers_rated + " CUSTOMERS"}
@@ -105,7 +105,7 @@ class Details extends Component {
                       </Grid>
                       <Grid item xs container direction="column" spacing={2}>
                         <Typography variant="body1" color="textPrimary" component="p">
-                          &#8377;{restDetails.average_price}
+                          <FontAwesomeIcon icon={faRupeeSign}/>{restDetails.average_price}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
                           {"AVERAGE COST FOR"}<br />{"TWO PEOPLE"}
@@ -120,12 +120,16 @@ class Details extends Component {
               {restDetails.categories.map((cat, index) => (
                 <List component="nav" class='list-items'>
                   <Typography variant="body2" color="textSecondary" component="p">
-                    {cat.category_name}
+                    {cat.category_name.toUpperCase()}
                   </Typography>
                   <Divider />
                   {cat.item_list.map((item, i) => (
                     <ListItem  >
-                      <ListItemText primary={item.item_type + " " + item.item_name + " " + item.price} />
+                      { item.item_type === "VEG" ? <FontAwesomeIcon icon={faCircle} color="green" /> : <FontAwesomeIcon icon={faCircle} color="red" /> }
+                      <ListItemText primary={item.item_name} />
+                      <FontAwesomeIcon icon={faRupeeSign} />
+                      <ListItemText primary={item.price} />
+                      <FontAwesomeIcon icon={faPlus} color="gray" />
                     </ListItem>
                   ))}
                 </List>
