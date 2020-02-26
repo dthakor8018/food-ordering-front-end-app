@@ -10,7 +10,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRupeeSign, faCircle, faPlus, faStar } from '@fortawesome/free-solid-svg-icons'
-
+import GridList from '@material-ui/core/GridList';
+import { ListItemAvatar, ListItemSecondaryAction } from '@material-ui/core';
 class Details extends Component {
   constructor() {
     super();
@@ -97,7 +98,7 @@ class Details extends Component {
                     <Grid item xs container direction="row" >
                       <Grid item xs container direction="column" spacing={2}>
                         <Typography variant="body1" color="textPrimary" component="p">
-                          <FontAwesomeIcon icon={faStar}/> {Math.round(restDetails.customer_rating * 10) / 10}
+                          <FontAwesomeIcon icon={faStar} /> {Math.round(restDetails.customer_rating * 10) / 10}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
                           {"AVERAGE RATING BY"}<br />{restDetails.number_customers_rated + " CUSTOMERS"}
@@ -105,7 +106,7 @@ class Details extends Component {
                       </Grid>
                       <Grid item xs container direction="column" spacing={2}>
                         <Typography variant="body1" color="textPrimary" component="p">
-                          <FontAwesomeIcon icon={faRupeeSign}/>{restDetails.average_price}
+                          <FontAwesomeIcon icon={faRupeeSign} />{restDetails.average_price}
                         </Typography>
                         <Typography variant="body2" color="textSecondary" component="p">
                           {"AVERAGE COST FOR"}<br />{"TWO PEOPLE"}
@@ -118,21 +119,29 @@ class Details extends Component {
             </Paper>
             <Grid class='menu-item' container item xs={6} >
               {restDetails.categories.map((cat, index) => (
-                <List component="nav" class='list-items'>
+                <div>
                   <Typography variant="body2" color="textSecondary" component="p">
                     {cat.category_name.toUpperCase()}
                   </Typography>
                   <Divider />
-                  {cat.item_list.map((item, i) => (
-                    <ListItem  >
-                      { item.item_type === "VEG" ? <FontAwesomeIcon icon={faCircle} color="green" /> : <FontAwesomeIcon icon={faCircle} color="red" /> }
-                      <ListItemText primary={item.item_name} />
-                      <FontAwesomeIcon icon={faRupeeSign} />
-                      <ListItemText primary={item.price} />
-                      <FontAwesomeIcon icon={faPlus} color="gray" />
-                    </ListItem>
-                  ))}
-                </List>
+                    <List>
+                      {cat.item_list.map( item => {
+                        return (
+                        <ListItem>
+                          <ListItemAvatar>
+                            {item.item_type === "VEG" ? <FontAwesomeIcon icon={faCircle} color="green" /> : <FontAwesomeIcon icon={faCircle} color="red" />}
+                          </ListItemAvatar>
+                          <ListItemText  primary={item.item_name[0].toUpperCase() + item.item_name.slice(1)} />
+                          <ListItemText>
+                            <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign} />{item.price}</Typography>
+                          </ListItemText>
+                          <ListItemSecondaryAction>
+                            <FontAwesomeIcon icon={faPlus} color="gray" />
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                      )})}
+                    </List>
+                </div>
               ))}
             </Grid>
           </div> : ""}
