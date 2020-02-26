@@ -5,7 +5,11 @@ import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
 import StarIcon from '@material-ui/icons/Star';
 import Paper from "@material-ui/core/Paper";
-
+import { Container } from "@material-ui/core";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Divider from '@material-ui/core/Divider';
 
 class Details extends Component {
   constructor() {
@@ -112,6 +116,21 @@ class Details extends Component {
                 </Grid>
               </Grid>
             </Paper>
+            <Grid class='menu-item' container item xs={6} >
+              {restDetails.categories.map((cat, index) => (
+                <List component="nav" class='list-items'>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    {cat.category_name}
+                  </Typography>
+                  <Divider />
+                  {cat.item_list.map((item, i) => (
+                    <ListItem  >
+                      <ListItemText primary={item.item_type + " " + item.item_name + " " + item.price} />
+                    </ListItem>
+                  ))}
+                </List>
+              ))}
+            </Grid>
           </div> : ""}
       </div>
     )
