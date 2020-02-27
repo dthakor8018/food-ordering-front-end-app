@@ -131,7 +131,7 @@ class Details extends Component {
                           <ListItemAvatar>
                             {item.item_type === "VEG" ? <FontAwesomeIcon icon={faCircle} color="green" /> : <FontAwesomeIcon icon={faCircle} color="red" />}
                           </ListItemAvatar>
-                          <ListItemText  primary={item.item_name[0].toUpperCase() + item.item_name.slice(1)} />
+                          <ListItemText  style={{width:'30%'}} primary={item.item_name[0].toUpperCase() + item.item_name.slice(1)} />
                           <ListItemText>
                             <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign} />{item.price}</Typography>
                           </ListItemText>
