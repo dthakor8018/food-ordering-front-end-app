@@ -69,11 +69,12 @@ export default function RestaurantCard(props) {
                                     <Typography gutterBottom variant="h5" component="h2" style={{textAlign: "left"}}>
                                         {restObj.restaurant_name}
                                     </Typography>
+                                    <div style={{height:'1rem'}}/>
                                     <Typography variant="body2" color="textSecondary" component="p" style={{textAlign: "left"}}>
                                         {restObj.categories}
                                     </Typography>
-                                    <br />
-                                    <br />
+                                    <div style={{height:'1rem'}}/>
+
                                     <Typography variant="display1" className={classes.ratingText} component="span" >
                                          <StarIcon /> &nbsp;{Math.round(restObj.customer_rating * 10) / 10}({restObj.number_customers_rated})
                                     </Typography>
