@@ -10,7 +10,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRupeeSign, faCircle, faPlus, faStar } from '@fortawesome/free-solid-svg-icons'
-import GridList from '@material-ui/core/GridList';
 import { ListItemAvatar, ListItemSecondaryAction } from '@material-ui/core';
 class Details extends Component {
   constructor() {
