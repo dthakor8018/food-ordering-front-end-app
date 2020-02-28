@@ -7,6 +7,8 @@ import StepContent from "@material-ui/core/StepContent";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import SelectAddress from "./SelectAddress";
+import Payment from "./Payment";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,9 +33,9 @@ function getSteps() {
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return `Select address`;
+      return <SelectAddress/>;
     case 1:
-      return "Proceed for payment";
+      return <Payment/>;
     default:
       return "Unknown step";
   }
@@ -57,7 +59,9 @@ export default function Checkout() {
   };
 
   return (
+      <div>
     <div className={classes.root}>
+
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((label, index) => (
           <Step key={label}>
@@ -95,6 +99,6 @@ export default function Checkout() {
           </Button>
         </Paper>
       )}
-    </div>
+    </div></div>
   );
 }
