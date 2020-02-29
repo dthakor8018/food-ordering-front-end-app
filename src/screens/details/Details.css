@@ -25,4 +25,7 @@
     margin: 20px;
     width: 50%;
 }
+.details-content{
+    display: flex;
+        flex-Flow: row }
 

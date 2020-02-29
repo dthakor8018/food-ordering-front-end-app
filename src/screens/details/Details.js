@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Details.css";
 import Header from "../../common/header/Header";
+import MyCart from "./MyCart"
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -78,7 +79,7 @@ class Details extends Component {
                   <img id='img-detail-page' alt="complex" src={restDetails.photo_URL} />
                 </Grid>
                 <Grid item xs={10} sm container>
-                  <Grid item xs container direction="column" spacing={2}>
+                  <Grid item xs container direction="column" spacing={2}  >
                     <Grid item xs>
                       <Typography gutterBottom variant="h4" component="h4">
                         {restDetails.restaurant_name}
@@ -116,21 +117,22 @@ class Details extends Component {
                 </Grid>
               </Grid>
             </Paper>
-            <Grid class='menu-item' container item xs={6} >
+            <Grid class="details-content" container>
+            <Grid class='menu-item' container item xs={6} direction="column" component="span">
               {restDetails.categories.map((cat, index) => (
                 <div>
                   <Typography variant="body2" color="textSecondary" component="p">
                     {cat.category_name.toUpperCase()}
                   </Typography>
                   <Divider />
-                    <List>
-                      {cat.item_list.map( item => {
-                        return (
+                  <List>
+                    {cat.item_list.map(item => {
+                      return (
                         <ListItem>
                           <ListItemAvatar>
                             {item.item_type === "VEG" ? <FontAwesomeIcon icon={faCircle} color="green" /> : <FontAwesomeIcon icon={faCircle} color="red" />}
                           </ListItemAvatar>
-                          <ListItemText  style={{width:'30%'}} primary={item.item_name[0].toUpperCase() + item.item_name.slice(1)} />
+                          <ListItemText style={{ width: '30%' }} primary={item.item_name[0].toUpperCase() + item.item_name.slice(1)} />
                           <ListItemText>
                             <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign} />{item.price}</Typography>
                           </ListItemText>
@@ -138,10 +140,15 @@ class Details extends Component {
                             <FontAwesomeIcon icon={faPlus} color="gray" />
                           </ListItemSecondaryAction>
                         </ListItem>
-                      )})}
-                    </List>
+                      )
+                    })}
+                  </List>
                 </div>
               ))}
+            </Grid>
+            <Grid container item xs={6} direction="column" component="span">
+              <MyCart />
+              </Grid>
             </Grid>
           </div> : ""}
       </div>
