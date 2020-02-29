@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCheck} from "@fortawesome/free-solid-svg-icons/faCheck";
 
 const useStyles = makeStyles({
     root: {
@@ -25,28 +27,33 @@ const useStyles = makeStyles({
 
 export default function ExistingAddress() {
     const classes = useStyles();
-    const bull = <span className={classes.bullet}>•</span>;
+    const [selected, setSelected] = useState(false);
+
+    function selectTheAddress() {
+        setSelected(!selected);
+    }
 
     return (
         <Card className={classes.root}>
             <CardContent>
-                <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    Word of the Day
+                <Typography className={classes.pos} color="textPrimary">
+                    303, manar mansion,
                 </Typography>
-                <Typography variant="h5" component="h2">
-                    be{bull}nev{bull}o{bull}lent
+                <Typography className={classes.pos} color="textPrimary">
+                    near fairway super market, j.p nagar 5th phase
                 </Typography>
-                <Typography className={classes.pos} color="textSecondary">
-                    adjective
+                <Typography className={classes.pos} color="textPrimary">
+                    mumbai
                 </Typography>
-                <Typography variant="body2" component="p">
-                    well meaning and kindly.
-                    <br />
-                    {'"a benevolent smile"'}
+                <Typography className={classes.pos} color="textPrimary">
+                    maharashtra
+                </Typography>
+                <Typography className={classes.pos} color="textPrimary">
+                    40018
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Learn More</Button>
+                <Button size="large" onClick={selectTheAddress}>{selected?<FontAwesomeIcon icon={faCheck} color="green" />:<FontAwesomeIcon icon={faCheck} color="grey" />}</Button>
             </CardActions>
         </Card>
     );
