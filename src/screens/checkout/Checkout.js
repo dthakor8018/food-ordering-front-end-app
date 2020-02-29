@@ -2,11 +2,13 @@ import React, {Component} from 'react';
 import CheckoutSteps from "./CheckoutSteps";
 import Grid from "@material-ui/core/Grid";
 import OrderSummary from "./OrderSummary";
+import Header from "../../common/header/Header";
 
 class Checkout extends Component {
     render() {
         return (
             <div>
+                <Header showSearchBar={false} />
                 <Grid container spacing={3}>
                     <Grid item xs={9}>
                         <CheckoutSteps/>
