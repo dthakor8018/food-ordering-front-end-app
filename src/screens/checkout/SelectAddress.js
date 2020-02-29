@@ -6,6 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import ExistingAddress from "./ExistingAddress";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -44,6 +45,8 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+export const ExistingAddressNotFound = () => <span>There are no saved addresses! You can save an address using the 'New Address' tab or using your ‘Profile’ menu option.</span>;
+
 export default function SelectAddress() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
@@ -61,10 +64,11 @@ export default function SelectAddress() {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                There are no saved addresses! You can save an address using the 'New Address' tab or using your ‘Profile’ menu option.
+                <ExistingAddressNotFound/>
+                <ExistingAddress/>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                New Address
+           New Address
             </TabPanel>
         </div>
     );
