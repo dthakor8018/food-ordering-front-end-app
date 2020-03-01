@@ -20,7 +20,7 @@ class Details extends Component {
       loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
       restaurantDetails: null,
       //allItems: null,
-      cartItemQty: [],
+      cart: [],
       error: false,
       erorCode: null,
       errorMsg: null
@@ -81,18 +81,18 @@ class Details extends Component {
   addItemHandler = (item) => {
     console.log(item);
     var update = false;
-    let cartItemQty = this.state.cartItemQty;
-    for (var i = 0; i < cartItemQty.length; i++) {
-      if (cartItemQty[i].item.id === item.id) {
-        cartItemQty[i].qty++;
+    let cart = this.state.cart;
+    for (var i = 0; i < cart.length; i++) {
+      if (cart[i].item.id === item.id) {
+        cart[i].qty++;
         update = true;
       }
     }
     if(!update) {
-      cartItemQty.push({'item': item, 'qty': 1 });
+      cart.push({'item': item, 'qty': 1 });
     }
 
-    this.setState({cartItemQty: cartItemQty});
+    this.setState({cart: cart});
   }
   render() {
     let restDetails = this.state.restaurantDetails
@@ -176,7 +176,7 @@ class Details extends Component {
             </Grid>
             <Grid container item xs={6} direction="column" component="span">
               <MyCart {...this.props}
-                    cartItemQty={this.state.cartItemQty} />
+                    cart={this.state.cart} />
               </Grid>
             </Grid>
           </div> : ""}

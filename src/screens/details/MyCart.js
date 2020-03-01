@@ -32,19 +32,28 @@ const useStyles = makeStyles({
 
 export default function MyCart(props) {
   const classes = useStyles();
-  let cartItemQty = props.cartItemQty;
+  let cart = props.cart;
+  function checkoutHandler(e){
+    if( props.cart.length > 0 ) {
+      // this.props.history.push("/checkout", )
+      props.history.push({
+        pathname: '/checkout',
+        state: { cart: cart }
+      })
+    }
+  }
   return (
     <div>
       <Card className={classes.root} variant="outlined">
         <CardContent>
-          <Badge badgeContent={cartItemQty.length} color="primary">
+          <Badge badgeContent={cart.length} color="primary">
             <ShoppingCartIcon />
           </Badge>
           <Typography variant="h5" component="div">
             My Cart
           </Typography>
           <List>
-            {cartItemQty && cartItemQty.length > 0  ? cartItemQty.map((cartItem, index) => (
+            {cart && cart.length > 0  ? cart.map((cartItem, index) => (
               <ListItem>
                 <ListItemAvatar>
                   <FontAwesomeIcon icon={faStopCircle} color={cartItem.item.item_type === "VEG" ? "green": "red"} />
@@ -64,14 +73,14 @@ export default function MyCart(props) {
               </ListItemText>
               <ListItemText>
                 <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign} />
-                  { cartItemQty && cartItemQty.length > 0 ? cartItemQty.reduce((prev,next) => (prev + (next.item.price * next.qty)), 0) : "0" }
+                  { cart && cart.length > 0 ? cart.reduce((prev,next) => (prev + (next.item.price * next.qty)), 0) : "0" }
                 </Typography>
               </ListItemText>
             </ListItem>
           </List>
         </CardContent>
         <CardActions>
-          <Button variant="contained" fullWidth={true} color="primary">CHECKOUT</Button>
+          <Button variant="contained" fullWidth={true} color="primary" onClick={checkoutHandler} >CHECKOUT</Button>
         </CardActions>
       </Card>
     </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,9 +9,10 @@ import Typography from '@material-ui/core/Typography';
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import {ListItemAvatar} from "@material-ui/core";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircle, faRupeeSign} from "@fortawesome/free-solid-svg-icons";
+import { ListItemAvatar } from "@material-ui/core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRupeeSign } from "@fortawesome/free-solid-svg-icons";
+import { faStopCircle } from "@fortawesome/free-regular-svg-icons";
 import ListItemText from "@material-ui/core/ListItemText";
 
 
@@ -32,8 +33,10 @@ const useStyles = makeStyles({
     },
 });
 
-export default function OrderSummary() {
+export default function OrderSummary(props) {
     const classes = useStyles();
+    let cart = props.cart;
+    console.log(props.cart);
     return (
         <div>
             <Card className={classes.root} variant="outlined">
@@ -44,31 +47,42 @@ export default function OrderSummary() {
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
                         Restaurant Name
                     </Typography>
-                    <Divider/>
+                    <Divider />
                     <List>
-
+                        {cart && cart.length > 0 ? cart.map((cartItem, index) => (
+                            <ListItem>
+                                <ListItemAvatar>
+                                    <FontAwesomeIcon icon={faStopCircle} color={cartItem.item.item_type === "VEG" ? "green" : "red"} />
+                                </ListItemAvatar>
+                                <ListItemText style={{ width: '30%' }} color="textSecondary" >{cartItem.item.item_name[0].toUpperCase() + cartItem.item.item_name.slice(1)}</ListItemText>
+                                <ListItemText>
+                                    <Typography variant="body1" color="textPrimary">{cartItem.qty}</Typography>
+                                </ListItemText>
+                                <ListItemText>
+                                    <Typography variant="body1" color="textSecondary"><FontAwesomeIcon icon={faRupeeSign} />{cartItem.item.price * cartItem.qty}</Typography>
+                                </ListItemText>
+                            </ListItem>)) : " "
+                        }
+                    </List>
+                    <Divider />
+                    <List>
                         <ListItem>
-                            <ListItemAvatar>
-                                <FontAwesomeIcon icon={faCircle} color="green"/>
-                            </ListItemAvatar>
-                            <ListItemText style={{width: '30%'}} primary="test"/>
-                            <ListItemText>
-                                <Typography variant="body1" color="textPrimary">1</Typography>
+                            <ListItemText style={{ width: '60%' }}>
+                                <Typography variant="body1" color="textPrimary">Net Amount</Typography>
                             </ListItemText>
                             <ListItemText>
-                                <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign}/>140</Typography>
+                                <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign} />
+                                    {cart && cart.length > 0 ? cart.reduce((prev, next) => (prev + (next.item.price * next.qty)), 0) : "0"}
+                                </Typography>
                             </ListItemText>
                         </ListItem>
                     </List>
-                    <Divider/>
-                    <Typography className={classes.pos} color="textSecondary">
-                        Net Amount
-                    </Typography>
+
                 </CardContent>
                 <CardActions>
                     <Button variant="contained" fullWidth={true} color="primary">Place Order</Button>
                 </CardActions>
             </Card>
-        </div>
+        </div >
     );
 }
