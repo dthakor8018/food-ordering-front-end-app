@@ -35,10 +35,11 @@ export default function MyCart(props) {
   let cart = props.cart;
   function checkoutHandler(e){
     if( props.cart.length > 0 ) {
-      // this.props.history.push("/checkout", )
       props.history.push({
         pathname: '/checkout',
-        state: { cart: cart }
+        state: { cart: props.cart, 
+                 restaurantId: props.restaurantDetails.id,
+                 restaurantName: props.restaurantDetails.restaurant_name }
       })
     }
   }

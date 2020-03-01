@@ -176,7 +176,7 @@ class Details extends Component {
             </Grid>
             <Grid container item xs={6} direction="column" component="span">
               <MyCart {...this.props}
-                    cart={this.state.cart} />
+                    cart={this.state.cart} restaurantDetails={this.state.restaurantDetails}/>
               </Grid>
             </Grid>
           </div> : ""}

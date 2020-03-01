@@ -7,7 +7,7 @@ import Header from "../../common/header/Header";
 class Checkout extends Component {
 
     render() {
-        const { cart } = this.props.history.location.state;
+        const { cart, restaurantId, restaurantName } = this.props.history.location.state;
         return (
             <div>
                 <Header showSearchBar={false} />
@@ -16,7 +16,7 @@ class Checkout extends Component {
                         <CheckoutSteps/>
                     </Grid>
                     <Grid item xs={3} style={{padding: '36px'}}>
-                       <OrderSummary {...this.props} cart={cart} />
+                       <OrderSummary {...this.props} cart={cart} restaurantId={restaurantId} restaurantName={restaurantName}/>
                     </Grid>
                 </Grid>
 

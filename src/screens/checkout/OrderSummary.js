@@ -45,7 +45,7 @@ export default function OrderSummary(props) {
                         Summary
                     </Typography>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        Restaurant Name
+                            {props.restaurantName}
                     </Typography>
                     <Divider />
                     <List>
