@@ -9,8 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import { List, ListItem, ListItemText, ListItemAvatar, Badge } from '@material-ui/core';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRupeeSign, faCircle, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
-// import { faRupeeSign, faCircle, faPlus, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faRupeeSign, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faStopCircle } from '@fortawesome/free-regular-svg-icons'
 
 
 const useStyles = makeStyles({
@@ -30,37 +30,42 @@ const useStyles = makeStyles({
   },
 });
 
-export default function MyCart() {
+export default function MyCart(props) {
   const classes = useStyles();
+  let cartItemQty = props.cartItemQty;
   return (
     <div>
       <Card className={classes.root} variant="outlined">
         <CardContent>
-        <Badge badgeContent={4} color="primary">
-          <ShoppingCartIcon />
-        </Badge>
+          <Badge badgeContent={cartItemQty.length} color="primary">
+            <ShoppingCartIcon />
+          </Badge>
           <Typography variant="h5" component="div">
             My Cart
           </Typography>
           <List>
+            {cartItemQty && cartItemQty.length > 0  ? cartItemQty.map((cartItem, index) => (
+              <ListItem>
+                <ListItemAvatar>
+                  <FontAwesomeIcon icon={faStopCircle} color={cartItem.item.item_type === "VEG" ? "green": "red"} />
+                </ListItemAvatar>
+                <ListItemText style={{ width: '30%' }} color="textSecondary" >{cartItem.item.item_name[0].toUpperCase() + cartItem.item.item_name.slice(1)}</ListItemText>
+                <ListItemText>
+                  <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faMinus} />{" " + cartItem.qty + " "}<FontAwesomeIcon icon={faPlus} /></Typography>
+                </ListItemText>
+                <ListItemText>
+                  <Typography variant="body1" color="textSecondary"><FontAwesomeIcon icon={faRupeeSign} />{cartItem.item.price * cartItem.qty}</Typography>
+                </ListItemText>
+              </ListItem>)) : " "
+            }
             <ListItem>
-              <ListItemAvatar>
-                <FontAwesomeIcon icon={faCircle} color="green" />
-              </ListItemAvatar>
-              <ListItemText style={{ width: '30%' }} color="textSecondary"  >{"Test Item"}</ListItemText>
-              <ListItemText>
-                <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faMinus} />{" "+1+" "}<FontAwesomeIcon icon={faPlus} /></Typography>
-              </ListItemText>
-              <ListItemText>
-                <Typography variant="body1" color="textSecondary"><FontAwesomeIcon icon={faRupeeSign} />140</Typography>
-              </ListItemText>
-            </ListItem>
-            <ListItem>
-            <ListItemText style={{ width: '60%' }}>
+              <ListItemText style={{ width: '60%' }}>
                 <Typography variant="body1" color="textPrimary">TOTAL AMOUNT</Typography>
               </ListItemText>
               <ListItemText>
-                <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign} />140</Typography>
+                <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign} />
+                  { cartItemQty && cartItemQty.length > 0 ? cartItemQty.reduce((prev,next) => (prev + (next.item.price * next.qty)), 0) : "0" }
+                </Typography>
               </ListItemText>
             </ListItem>
           </List>

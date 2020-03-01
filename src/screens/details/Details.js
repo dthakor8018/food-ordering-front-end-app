@@ -11,13 +11,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRupeeSign, faCircle, faPlus, faStar } from '@fortawesome/free-solid-svg-icons'
-import { ListItemAvatar, ListItemSecondaryAction } from '@material-ui/core';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+
 class Details extends Component {
   constructor() {
     super();
     this.state = {
       loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
       restaurantDetails: null,
+      //allItems: null,
+      cartItemQty: [],
       error: false,
       erorCode: null,
       errorMsg: null
@@ -46,6 +49,15 @@ class Details extends Component {
           this.setState({
             restaurantDetails: json
           });
+          // var items = {};
+          // json.categories.forEach(cat => {
+          //   cat.item_list.forEach(item => {
+          //     items[item.id] = item;
+          //   })
+          // });
+          // this.setState({
+          //   allItems: items
+          // });
         })
       } else {
         console.log("Error " + response.status);
@@ -65,6 +77,22 @@ class Details extends Component {
         errorMsg: "Error while making request to FoodOrderingApp Backend"
       });
     })
+  }
+  addItemHandler = (item) => {
+    console.log(item);
+    var update = false;
+    let cartItemQty = this.state.cartItemQty;
+    for (var i = 0; i < cartItemQty.length; i++) {
+      if (cartItemQty[i].item.id === item.id) {
+        cartItemQty[i].qty++;
+        update = true;
+      }
+    }
+    if(!update) {
+      cartItemQty.push({'item': item, 'qty': 1 });
+    }
+
+    this.setState({cartItemQty: cartItemQty});
   }
   render() {
     let restDetails = this.state.restaurantDetails
@@ -136,9 +164,9 @@ class Details extends Component {
                           <ListItemText>
                             <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign} />{item.price}</Typography>
                           </ListItemText>
-                          <ListItemSecondaryAction>
-                            <FontAwesomeIcon icon={faPlus} color="gray" />
-                          </ListItemSecondaryAction>
+                          <ListItemText>
+                            <FontAwesomeIcon icon={faPlus} color="gray" onClick={ () => this.addItemHandler(item)}/>
+                          </ListItemText>
                         </ListItem>
                       )
                     })}
@@ -147,7 +175,8 @@ class Details extends Component {
               ))}
             </Grid>
             <Grid container item xs={6} direction="column" component="span">
-              <MyCart />
+              <MyCart {...this.props}
+                    cartItemQty={this.state.cartItemQty} />
               </Grid>
             </Grid>
           </div> : ""}
