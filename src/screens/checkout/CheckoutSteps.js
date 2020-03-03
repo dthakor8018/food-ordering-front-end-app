@@ -30,10 +30,10 @@ function getSteps() {
   return ["Delivery", "Payment"];
 }
 
-function getStepContent(step) {
+function getStepContent(step, props) {
   switch (step) {
     case 0:
-      return <SelectAddress />;
+      return <SelectAddress {...props} />;
     case 1:
       return <Payment/>;
     default:
@@ -67,7 +67,7 @@ export default function CheckoutSteps(props) {
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
             <StepContent>
-              <Typography>{getStepContent(index)}</Typography>
+              <Typography>{getStepContent(index, props)}</Typography>
               <div className={classes.actionsContainer}>
                 <div>
                   <Button

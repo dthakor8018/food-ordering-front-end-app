@@ -26,13 +26,7 @@ class Header extends Component {
       errorMsg: null
     };
   }
-  componentWillMount() {
-  }
-  // const classes = useStyles();
-  // const[anchorEl, setAnchorEl] = React.useState(null);
-  // let getRestaurantData = props.getRestaurantData;
-
-
+  
   handleClick = (event) => {
     this.setState({
       anchorEl: event.currentTarget
