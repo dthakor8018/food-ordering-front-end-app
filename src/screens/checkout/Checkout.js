@@ -13,7 +13,7 @@ class Checkout extends Component {
                 <Header showSearchBar={false} />
                 <Grid container spacing={3}>
                     <Grid item xs={9}>
-                        <CheckoutSteps/>
+                        <CheckoutSteps {...this.props}/>
                     </Grid>
                     <Grid item xs={3} style={{padding: '36px'}}>
                        <OrderSummary {...this.props} cart={cart} restaurantId={restaurantId} restaurantName={restaurantName}/>

@@ -12,6 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRupeeSign, faCircle, faPlus, faStar } from '@fortawesome/free-solid-svg-icons'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Snackbar from '@material-ui/core/Snackbar';
 
 class Details extends Component {
   constructor() {
@@ -23,7 +24,9 @@ class Details extends Component {
       cart: [],
       error: false,
       erorCode: null,
-      errorMsg: null
+      errorMsg: null,
+      detailPageFloatingAlert: false,
+      detailPageFloatingAlertMsg: ""
     };
   }
   componentWillMount() {
@@ -79,7 +82,7 @@ class Details extends Component {
     })
   }
   addItemHandler = (item) => {
-    console.log(item);
+    //console.log(item);
     var update = false;
     let cart = this.state.cart;
     for (var i = 0; i < cart.length; i++) {
@@ -93,6 +96,19 @@ class Details extends Component {
     }
 
     this.setState({cart: cart});
+    this.openFloatingAlert();
+  }
+  closeFloatingAlert = () => {
+    this.setState({ 
+      detailPageFloatingAlert: false,
+      detailPageFloatingAlertMsg: ""
+    });
+  }
+  openFloatingAlert = () => {
+    this.setState({ 
+      detailPageFloatingAlert: true,
+      detailPageFloatingAlertMsg: "Item added to cart!"
+    });
   }
   render() {
     let restDetails = this.state.restaurantDetails
@@ -180,6 +196,14 @@ class Details extends Component {
               </Grid>
             </Grid>
           </div> : ""}
+          <Snackbar open={this.state.detailPageFloatingAlert}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        autoHideDuration={6000}
+                        onClose={this.closeFloatingAlert}
+                        message={this.state.detailPageFloatingAlertMsg} />
       </div>
     )
   }

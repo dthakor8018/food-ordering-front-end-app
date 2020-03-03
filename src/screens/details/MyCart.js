@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState }  from 'react';
 import "./MyCart.css";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -11,7 +11,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRupeeSign, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { faStopCircle } from '@fortawesome/free-regular-svg-icons'
-
+import Snackbar from '@material-ui/core/Snackbar';
 
 const useStyles = makeStyles({
   root: {
@@ -32,16 +32,33 @@ const useStyles = makeStyles({
 
 export default function MyCart(props) {
   const classes = useStyles();
+  const [cartFloatingAlert, setCartFloatingAlert] = useState(false);
+  const [cartFloatingAlertMsg, setCartFloatingAlertMsg] = useState("");
   let cart = props.cart;
   function checkoutHandler(e){
     if( props.cart.length > 0 ) {
+
+      if(!props.loggedIn) {
+        setCartFloatingAlertMsg("Please login first!")
+        setCartFloatingAlert(true);
+        return;
+      }
+
       props.history.push({
         pathname: '/checkout',
         state: { cart: props.cart, 
                  restaurantId: props.restaurantDetails.id,
                  restaurantName: props.restaurantDetails.restaurant_name }
       })
+    } else {
+      setCartFloatingAlertMsg("Please add an item to your cart!")
+      setCartFloatingAlert(true);
+      return;
     }
+  }
+  function closeCartFloatingAlert(){
+    setCartFloatingAlert(false);
+    setCartFloatingAlertMsg("");
   }
   return (
     <div>
@@ -84,6 +101,14 @@ export default function MyCart(props) {
           <Button variant="contained" fullWidth={true} color="primary" onClick={checkoutHandler} >CHECKOUT</Button>
         </CardActions>
       </Card>
+      <Snackbar open={cartFloatingAlert}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        autoHideDuration={6000}
+                        onClose={closeCartFloatingAlert}
+                        message={cartFloatingAlertMsg} />
     </div>
   );
 }

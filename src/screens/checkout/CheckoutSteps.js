@@ -33,7 +33,7 @@ function getSteps() {
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <SelectAddress/>;
+      return <SelectAddress />;
     case 1:
       return <Payment/>;
     default:
@@ -41,7 +41,7 @@ function getStepContent(step) {
   }
 }
 
-export default function CheckoutSteps() {
+export default function CheckoutSteps(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
