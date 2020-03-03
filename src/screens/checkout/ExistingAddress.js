@@ -27,11 +27,11 @@ const useStyles = makeStyles({
 
 export default function ExistingAddress(props) {
     const classes = useStyles();
-    const [selected, setSelected] = useState(false);
+    const [selected, setSelected] = useState("");
 
     function selectTheAddress(e) {
         //console.log(e.currentTarget.id)
-        setSelected(!selected);
+        setSelected(e.currentTarget.id);
         props.selectedAddressIdCallback(e.currentTarget.id)
     }
 
@@ -58,7 +58,7 @@ export default function ExistingAddress(props) {
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button id={addrObj.id} size="large" onClick={selectTheAddress}>{selected ? <FontAwesomeIcon icon={faCheck} color="green" /> : <FontAwesomeIcon icon={faCheck} color="grey" />}</Button>
+                            <Button id={addrObj.id} size="large" onClick={selectTheAddress}>{selected == addrObj.id ? <FontAwesomeIcon icon={faCheck} color="green" /> : <FontAwesomeIcon icon={faCheck} color="grey" />}</Button>
                         </CardActions>
                     </Card>))
                 : ""}
