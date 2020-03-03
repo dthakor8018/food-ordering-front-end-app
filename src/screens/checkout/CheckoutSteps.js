@@ -35,7 +35,7 @@ function getStepContent(step, props) {
     case 0:
       return <SelectAddress {...props} />;
     case 1:
-      return <Payment/>;
+      return <Payment {...props}/>;
     default:
       return "Unknown step";
   }

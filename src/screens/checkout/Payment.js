@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -56,22 +56,33 @@ function StyledRadio(props) {
             className={classes.root}
             disableRipple
             color="default"
-            checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)}/>}
-            icon={<span className={classes.icon}/>}
+            checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
+            icon={<span className={classes.icon} />}
             {...props}
         />
     );
 }
 
-export default function Payment() {
+export default function Payment(props) {
+    function paymentModeChange(e){
+        //console.log(e.target.value);
+        props.selectedPaymentIdCallback(e.target.value);
+    }
     return (
         <FormControl component="fieldset">
             <FormLabel component="legend">Select Mode of Payment</FormLabel>
-            <RadioGroup aria-label="gender" name="payment-modes">
-                <FormControlLabel value="cash" control={<StyledRadio/>} label="Cash on Delivery"/>
+            <RadioGroup aria-label="gender" name="payment-modes" onChange={paymentModeChange} >
+                {props.paymentMethodsData ?
+                    props.paymentMethodsData.map((payObj, index) => (
+                        <FormControlLabel value={payObj.id} control={<StyledRadio />} label={payObj.payment_name} />
+                    )) : ""}
+
+
+
+                {/* <FormControlLabel value="cash" control={<StyledRadio/>} label="Cash on Delivery"/>
                 <FormControlLabel value="wallet" control={<StyledRadio/>} label="Wallet"/>
                 <FormControlLabel value="net_banking" control={<StyledRadio/>} label="Net Banking"/>
-                <FormControlLabel value="card" control={<StyledRadio/>} label="Debit / Credit Card"/>
+                <FormControlLabel value="card" control={<StyledRadio/>} label="Debit / Credit Card"/> */}
             </RadioGroup>
         </FormControl>
     );

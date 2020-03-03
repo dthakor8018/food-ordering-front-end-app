@@ -10,6 +10,9 @@ class Checkout extends Component {
         this.state = {
             loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
             customerAddressData: [],
+            paymentMethodsData: [],
+            selectedAddress: null,
+            selectedPayment: null,
             error: false,
             erorCode: null,
             errorMsg: null
@@ -18,6 +21,7 @@ class Checkout extends Component {
 
     componentWillMount() {
         this.getCustomerAddressData();
+        this.getPaymentModeData();
     }
     getCustomerAddressData = () => {
 
@@ -59,6 +63,59 @@ class Checkout extends Component {
         })
     }
 
+    getPaymentModeData = () => {
+
+        var url = this.props.baseUrl + "/payment";
+
+        fetch(
+            url,
+            {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json;charset=UTF-8'
+                }
+            }
+        ).then((response) => {
+            if (response.status === 200) {
+                response.json().then((json) => {
+                    console.log(json);
+                    this.setState({ paymentMethodsData: json.paymentMethods });
+                })
+            } else {
+                console.log("Error while getting payment Methos" + response.status);
+                response.json().then((json) => {
+                    this.setState({
+                        error: true,
+                        erorCode: json.code,
+                        errorMsg: json.message
+                    });
+                })
+            }
+        }, error => {
+            console.log("Error while making request to FoodOrderingApp Backend", error)
+            this.setState({
+                error: true,
+                erorCode: error.code,
+                errorMsg: "Error while making request to FoodOrderingApp Backend"
+            });
+        })
+    }
+
+    selectedAddressIdCallback = (addressId) => {
+        console.log(addressId)
+        this.setState({
+            selectedAddress: addressId
+        });
+    }
+
+    selectedPaymentIdCallback = (paymentId) => {
+        console.log(paymentId)
+        this.setState({
+            selectedPayment: paymentId
+        });
+    }
+
     render() {
         const { cart, restaurantId, restaurantName } = this.props.history.location.state;
         return (
@@ -66,7 +123,12 @@ class Checkout extends Component {
                 <Header {...this.props} showSearchBar={false} />
                 <Grid container spacing={3}>
                     <Grid item xs={9}>
-                        <CheckoutSteps {...this.props} customerAddressData={this.state.customerAddressData}/>
+                        <CheckoutSteps {...this.props} 
+                                    customerAddressData={this.state.customerAddressData}
+                                    paymentMethodsData={this.state.paymentMethodsData}
+                                    selectedAddressIdCallback={this.selectedAddressIdCallback}
+                                    selectedPaymentIdCallback={this.selectedPaymentIdCallback}
+                                    />
                     </Grid>
                     <Grid item xs={3} style={{ padding: '36px' }}>
                         <OrderSummary {...this.props} cart={cart} restaurantId={restaurantId} restaurantName={restaurantName} />
