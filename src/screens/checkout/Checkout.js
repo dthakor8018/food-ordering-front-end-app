@@ -10,7 +10,7 @@ class Checkout extends Component {
         const { cart, restaurantId, restaurantName } = this.props.history.location.state;
         return (
             <div>
-                <Header showSearchBar={false} />
+                <Header {...this.props} showSearchBar={false} />
                 <Grid container spacing={3}>
                     <Grid item xs={9}>
                         <CheckoutSteps {...this.props}/>

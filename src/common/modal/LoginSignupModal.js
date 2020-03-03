@@ -38,7 +38,6 @@ class LoginSignupModal extends Component {
             signupErrorMsg: null,
             floatingAlert: false,
             floatingAlertMsg: "Registered successfully! Please login now!",
-            loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
         }
     }
     clearAll(){

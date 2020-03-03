@@ -20,7 +20,6 @@ class Details extends Component {
     this.state = {
       loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
       restaurantDetails: null,
-      //allItems: null,
       cart: [],
       error: false,
       erorCode: null,
@@ -114,7 +113,7 @@ class Details extends Component {
     let restDetails = this.state.restaurantDetails
     return (
       <div>
-        <Header showSearchBar={false} />
+        <Header {...this.props} showSearchBar={false} />
         {restDetails ?
           <div class='root'>
             <Paper class='paper'>
@@ -192,7 +191,7 @@ class Details extends Component {
             </Grid>
             <Grid container item xs={6} direction="column" component="span">
               <MyCart {...this.props}
-                    cart={this.state.cart} restaurantDetails={this.state.restaurantDetails}/>
+                    cart={this.state.cart} restaurantDetails={this.state.restaurantDetails} loggedIn={this.state.loggedIn}/>
               </Grid>
             </Grid>
           </div> : ""}

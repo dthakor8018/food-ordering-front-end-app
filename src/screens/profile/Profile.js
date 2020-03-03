@@ -25,7 +25,7 @@ class Profile extends Component {
   render() {
     return (
       <div>
-        <Header {...this.props} showSearchBar={true}
+        <Header {...this.props} showSearchBar={false}
           loggedIn={this.state.loggedIn}
           logoutHandler={this.logoutHandler} />
       </div>

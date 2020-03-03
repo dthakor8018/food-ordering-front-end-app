@@ -37,8 +37,7 @@ export default function MyCart(props) {
   let cart = props.cart;
   function checkoutHandler(e){
     if( props.cart.length > 0 ) {
-
-      if(!props.loggedIn) {
+      if( sessionStorage.getItem("access-token") == null ) {
         setCartFloatingAlertMsg("Please login first!")
         setCartFloatingAlert(true);
         return;

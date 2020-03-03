@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./Home.css";
 import Header from "../../common/header/Header";
-import LoginSignupModal from "../../common/modal/LoginSignupModal";
 import RestaurantCard from "./restaurantCard";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -10,7 +9,6 @@ class Home extends Component {
     super();
     this.state = {
       loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
-      openLoginSignupModal: false,
       restaurantData: null,
       error: false,
       erorCode: null,
@@ -19,24 +17,6 @@ class Home extends Component {
   }
   componentWillMount() {
     this.getRestaurantData("");
-  }
-
-  openLoginSignupModal = () => {
-    this.setState({
-      openLoginSignupModal: true
-    })
-  }
-  onCloseLoginSignupModal = () => {
-    this.setState({
-      openLoginSignupModal: false,
-      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
-    })
-  }
-  logoutHandler = () => {
-    this.setState({
-      openLoginSignupModal: false,
-      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
-    })
   }
   getRestaurantData = (searchText) => {
     //console.log(searchText);
@@ -83,9 +63,6 @@ class Home extends Component {
     return (
       <div>
         <Header {...this.props} showSearchBar={true}
-          loggedIn={this.state.loggedIn}
-          logoutHandler={this.logoutHandler}
-          openLoginSignupModal={this.openLoginSignupModal}
           getRestaurantData={this.getRestaurantData} />
         {!this.state.restaurantData ?
           <div class='progress-bar'>
@@ -94,10 +71,6 @@ class Home extends Component {
           :
           <RestaurantCard {...this.props} restaurantData={this.state.restaurantData} />
         }
-        <LoginSignupModal {...this.props}
-          openLoginSignupModal={this.state.openLoginSignupModal}
-          onCloseLoginSignupModal={this.onCloseLoginSignupModal} />
-
       </div>
     );
   }
