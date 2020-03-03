@@ -93,9 +93,9 @@ export default function CheckoutSteps(props) {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Typography>View the Summary &amp; place your order now!</Typography>
           <Button onClick={handleReset} className={classes.button}>
-            Reset
+            CHANGE
           </Button>
         </Paper>
       )}

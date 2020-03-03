@@ -9,12 +9,12 @@ import Typography from '@material-ui/core/Typography';
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import { ListItemAvatar } from "@material-ui/core";
+import { ListItemAvatar, Input } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRupeeSign } from "@fortawesome/free-solid-svg-icons";
 import { faStopCircle } from "@fortawesome/free-regular-svg-icons";
 import ListItemText from "@material-ui/core/ListItemText";
-
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles({
     root: {
@@ -45,7 +45,7 @@ export default function OrderSummary(props) {
                         Summary
                     </Typography>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            {props.restaurantName}
+                        {props.restaurantName}
                     </Typography>
                     <Divider />
                     <List>
@@ -63,6 +63,39 @@ export default function OrderSummary(props) {
                                 </ListItemText>
                             </ListItem>)) : " "
                         }
+                    </List>
+                    <List>
+                        <ListItem>
+                            <ListItemText style={{ width: '60%'}}>
+                                <TextField style={{ backgroundColor: '#fbffbd'}} label="Cupon Code" type="string" variant="filled" />
+                            </ListItemText>
+                            <ListItemText style={{ width: '10%'}}>
+                                
+                            </ListItemText>
+                            <ListItemText>
+                                <Button variant="contained" color="gray">APPLY</Button>
+                            </ListItemText>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemText style={{ width: '60%' }}>
+                                <Typography variant="body1" color="textSecondary">Sub Total</Typography>
+                            </ListItemText>
+                            <ListItemText>
+                                <Typography variant="body1" color="textSecondary"><FontAwesomeIcon icon={faRupeeSign} />
+                                    {cart && cart.length > 0 ? cart.reduce((prev, next) => (prev + (next.item.price * next.qty)), 0) : "0"}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemText style={{ width: '60%' }}>
+                                <Typography variant="body1" color="textSecondary">Discount</Typography>
+                            </ListItemText>
+                            <ListItemText>
+                                <Typography variant="body1" color="textSecondary"><FontAwesomeIcon icon={faRupeeSign} />
+                                    {"0"}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
                     </List>
                     <Divider />
                     <List>
