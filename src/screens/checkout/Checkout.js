@@ -17,8 +17,9 @@ class Checkout extends Component {
             selectedAddress: null,
             selectedPayment: null,
             selectedRestaurant: null,
-            orderItem: [],
             cuponData: null,
+            orderBillTotal: 0,
+            discountAmount: 0,
             error: false,
             erorCode: null,
             errorMsg: null
@@ -27,19 +28,10 @@ class Checkout extends Component {
 
     componentWillMount() {
         const { cart, restaurantId, restaurantName } = this.props.history.location.state;
-        var orderItem = [];
-        for (var i = 0; i < cart.length; i++) {
-            orderItem.push({
-                "item_id": cart[i].item.id,
-                "price": cart[i].item.price,
-                "quantity": cart[i].qty
-            });
-        }
         this.setState({
             restaurantName: restaurantName,
             selectedRestaurant: restaurantId,
-            cart: cart,
-            orderItem: orderItem
+            cart: cart
         });
         this.getCustomerAddressData();
         this.getPaymentModeData();
@@ -87,7 +79,7 @@ class Checkout extends Component {
     getCuponData = (cuponText) => {
 
         var url = this.props.baseUrl + "/order/coupon/" + cuponText;
-
+        var ret = 0;
         fetch(
             url,
             {
@@ -122,6 +114,8 @@ class Checkout extends Component {
                 errorMsg: "Error while making request to FoodOrderingApp Backend"
             });
         })
+
+
     }
 
     getPaymentModeData = () => {
@@ -164,20 +158,18 @@ class Checkout extends Component {
     }
 
 
-    onPlaceOrderCallback = () => {
+    onPlaceOrderCallback = (orderBillTotal, discountAmount) => {
 
         console.log("placeOrder");
 
-        console.log(this.state.selectedPayment);
-        console.log({
-            "address_id": this.state.selectedAddress,
-            "bill": 0,
-            "coupon_id": this.state.cuponData && this.state.cuponData.id ? this.state.cuponData.id : "",
-            "discount": this.state.cuponData && this.state.cuponData.percent ? parseInt(this.state.cuponData.percent) : 0,
-            "item_quantities": this.state.orderItem,
-            "payment_id": this.state.selectedPayment,
-            "restaurant_id": this.state.selectedRestaurant
-        });
+        var orderItem = [];
+        for (var i = 0; i < this.state.cart.length; i++) {
+            orderItem.push({
+                "item_id": this.state.cart[i].item.id,
+                "price": this.state.cart[i].item.price,
+                "quantity": this.state.cart[i].qty
+            });
+        }
         var url = this.props.baseUrl + "/order";
 
         fetch(
@@ -192,10 +184,10 @@ class Checkout extends Component {
                 },
                 body: JSON.stringify({
                     "address_id": this.state.selectedAddress,
-                    "bill": 0,
+                    "bill": orderBillTotal,
                     "coupon_id": this.state.cuponData && this.state.cuponData.id ? this.state.cuponData.id : "",
-                    "discount": this.state.cuponData && this.state.cuponData.percent ? parseInt(this.state.cuponData.percent) : 0,
-                    "item_quantities": this.state.orderItem,
+                    "discount": discountAmount,
+                    "item_quantities": orderItem,
                     "payment_id": this.state.selectedPayment,
                     "restaurant_id": this.state.selectedRestaurant
                 })
@@ -244,7 +236,7 @@ class Checkout extends Component {
     selectedCuponTextCallback = (cuponText) => {
         console.log(cuponText)
         this.setState({ getCuponData: null });
-        this.getCuponData(cuponText);
+        return this.getCuponData(cuponText);
     }
 
 
@@ -264,11 +256,12 @@ class Checkout extends Component {
                         />
                     </Grid>
                     <Grid item xs={3} style={{ padding: '36px' }}>
-                        <OrderSummary {...this.props} cart={this.state.cart}
+                        <OrderSummary {...this.props}
+                            cart={this.state.cart}
                             restaurantId={this.state.restaurantId}
                             restaurantName={this.state.restaurantName}
                             selectedCuponTextCallback={this.selectedCuponTextCallback}
-                            discount={this.state.cuponData && this.state.cuponData.percent ? this.state.cuponData.percent : "0"}
+                            discount={this.state.cuponData && this.state.cuponData.percent ? this.state.cuponData.percent : 0 }
                             onPlaceOrderCallback={this.onPlaceOrderCallback}
                         />
                     </Grid>

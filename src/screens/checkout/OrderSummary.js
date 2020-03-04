@@ -33,19 +33,23 @@ const useStyles = makeStyles({
     },
 });
 
+function getOrderBillTotal(props) {
+    return props.cart.reduce((acc, next) => acc + (next.item.price * next.qty), 0);
+}
+
 export default function OrderSummary(props) {
     const classes = useStyles();
     let cart = props.cart;
-    
+    const [orderBillTotal , setOrderBillTotal] = React.useState(getOrderBillTotal(props));  
 
     function onApply() {
         var cuponText = document.getElementById('cupon-text').value;
-        props.selectedCuponTextCallback(cuponText)
+        props.selectedCuponTextCallback(cuponText);
     }
 
     function onPlaceOrder() {
         console.log("onPlaceOrder");
-        props.onPlaceOrderCallback();
+        props.onPlaceOrderCallback(orderBillTotal, props.discount * orderBillTotal / 100);
     }
         
     return (
@@ -93,7 +97,7 @@ export default function OrderSummary(props) {
                             </ListItemText>
                             <ListItemText>
                                 <Typography variant="body1" color="textSecondary"><FontAwesomeIcon icon={faRupeeSign} />
-                                    {cart && cart.length > 0 ? cart.reduce((prev, next) => (prev + (next.item.price * next.qty)), 0) : "0"}
+                                    {orderBillTotal}
                                 </Typography>
                             </ListItemText>
                         </ListItem>
@@ -103,7 +107,7 @@ export default function OrderSummary(props) {
                             </ListItemText>
                             <ListItemText>
                                 <Typography variant="body1" color="textSecondary"><FontAwesomeIcon icon={faRupeeSign} />
-                                    { props.discount }
+                                    { props.discount * orderBillTotal / 100 }
                                 </Typography>
                             </ListItemText>
                         </ListItem>
@@ -116,7 +120,7 @@ export default function OrderSummary(props) {
                             </ListItemText>
                             <ListItemText>
                                 <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign} />
-                                    {cart && cart.length > 0 ? cart.reduce((prev, next) => (prev + (next.item.price * next.qty)), 0) : "0"}
+                                    {orderBillTotal - (props.discount * orderBillTotal / 100 ) }
                                 </Typography>
                             </ListItemText>
                         </ListItem>
