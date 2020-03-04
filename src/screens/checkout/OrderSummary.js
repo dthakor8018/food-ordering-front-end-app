@@ -40,8 +40,7 @@ export default function OrderSummary(props) {
 
     function onApply() {
         var cuponText = document.getElementById('cupon-text').value;
-            props.selectedCuponTextCallback(cuponText)
-        document.getElementById('cupon-text').value = "";
+        props.selectedCuponTextCallback(cuponText)
     }
         
     return (
