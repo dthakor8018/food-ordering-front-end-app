@@ -31,7 +31,7 @@ class Checkout extends Component {
         for (var i = 0; i < cart.length; i++) {
             orderItem.push({
                 "item_id": cart[i].item.id,
-                "price": cart[i].price,
+                "price": cart[i].item.price,
                 "quantity": cart[i].qty
             });
         }
@@ -168,6 +168,16 @@ class Checkout extends Component {
 
         console.log("placeOrder");
 
+        console.log(this.state.selectedPayment);
+        console.log({
+            "address_id": this.state.selectedAddress,
+            "bill": 0,
+            "coupon_id": this.state.cuponData && this.state.cuponData.id ? this.state.cuponData.id : "",
+            "discount": this.state.cuponData && this.state.cuponData.percent ? parseInt(this.state.cuponData.percent) : 0,
+            "item_quantities": this.state.orderItem,
+            "payment_id": this.state.selectedPayment,
+            "restaurant_id": this.state.selectedRestaurant
+        });
         var url = this.props.baseUrl + "/order";
 
         fetch(
@@ -190,14 +200,14 @@ class Checkout extends Component {
                     "restaurant_id": this.state.selectedRestaurant
                 })
             }
-        ).then((response) => {
-            if (response.status === 200) {
+            ).then((response) => {
+            if (response.status === 201) {
                 response.json().then((json) => {
                     console.log(json);
                     //this.setState({ paymentMethodsData: json });
                 })
             } else {
-                console.log("Error while getting payment Methos" + response.status);
+                console.log("Error while Placing Order" + response.status);
                 response.json().then((json) => {
                     this.setState({
                         error: true,
