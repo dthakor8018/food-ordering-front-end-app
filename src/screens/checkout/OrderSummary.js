@@ -36,11 +36,16 @@ const useStyles = makeStyles({
 export default function OrderSummary(props) {
     const classes = useStyles();
     let cart = props.cart;
-    console.log(props.cart);
+    
 
     function onApply() {
         var cuponText = document.getElementById('cupon-text').value;
         props.selectedCuponTextCallback(cuponText)
+    }
+
+    function onPlaceOrder() {
+        console.log("onPlaceOrder");
+        props.onPlaceOrderCallback();
     }
         
     return (
@@ -119,7 +124,7 @@ export default function OrderSummary(props) {
 
                 </CardContent>
                 <CardActions>
-                    <Button variant="contained" fullWidth={true} color="primary">Place Order</Button>
+                    <Button variant="contained" fullWidth={true} color="primary" onClick={onPlaceOrder} >Place Order</Button>
                 </CardActions>
             </Card>
         </div >
