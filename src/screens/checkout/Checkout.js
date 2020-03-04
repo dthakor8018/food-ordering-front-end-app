@@ -3,6 +3,7 @@ import CheckoutSteps from "./CheckoutSteps";
 import Grid from "@material-ui/core/Grid";
 import OrderSummary from "./OrderSummary";
 import Header from "../../common/header/Header";
+import Snackbar from '@material-ui/core/Snackbar';
 
 class Checkout extends Component {
     constructor() {
@@ -22,16 +23,20 @@ class Checkout extends Component {
             discountAmount: 0,
             error: false,
             erorCode: null,
-            errorMsg: null
+            errorMsg: null,
+            checkOutPageFloatingAlert: false,
+            checkOutPageFloatingAlertMsg: "",
         };
     }
 
     componentWillMount() {
         const { cart, restaurantId, restaurantName } = this.props.history.location.state;
+        var orderTotal = cart.reduce((acc, next) => acc + (next.item.price * next.qty), 0);
         this.setState({
             restaurantName: restaurantName,
             selectedRestaurant: restaurantId,
-            cart: cart
+            cart: cart,
+            orderBillTotal: orderTotal
         });
         this.getCustomerAddressData();
         this.getPaymentModeData();
@@ -53,7 +58,7 @@ class Checkout extends Component {
         ).then((response) => {
             if (response.status === 200) {
                 response.json().then((json) => {
-                    console.log(json);
+                    //console.log(json);
                     this.setState({ customerAddressData: json.addresses });
                 })
             } else {
@@ -79,7 +84,7 @@ class Checkout extends Component {
     getCuponData = (cuponText) => {
 
         var url = this.props.baseUrl + "/order/coupon/" + cuponText;
-        var ret = 0;
+
         fetch(
             url,
             {
@@ -93,7 +98,7 @@ class Checkout extends Component {
         ).then((response) => {
             if (response.status === 200) {
                 response.json().then((json) => {
-                    console.log(json);
+                    //console.log(json);
                     this.setState({ cuponData: json });
                 })
             } else {
@@ -114,8 +119,6 @@ class Checkout extends Component {
                 errorMsg: "Error while making request to FoodOrderingApp Backend"
             });
         })
-
-
     }
 
     getPaymentModeData = () => {
@@ -158,9 +161,9 @@ class Checkout extends Component {
     }
 
 
-    onPlaceOrderCallback = (orderBillTotal, discountAmount) => {
+    onPlaceOrderCallback = (discountAmount) => {
 
-        console.log("placeOrder");
+        //console.log("placeOrder");
 
         var orderItem = [];
         for (var i = 0; i < this.state.cart.length; i++) {
@@ -184,7 +187,7 @@ class Checkout extends Component {
                 },
                 body: JSON.stringify({
                     "address_id": this.state.selectedAddress,
-                    "bill": orderBillTotal,
+                    "bill": this.state.orderBillTotal,
                     "coupon_id": this.state.cuponData && this.state.cuponData.id ? this.state.cuponData.id : "",
                     "discount": discountAmount,
                     "item_quantities": orderItem,
@@ -195,8 +198,11 @@ class Checkout extends Component {
             ).then((response) => {
             if (response.status === 201) {
                 response.json().then((json) => {
-                    console.log(json);
-                    //this.setState({ paymentMethodsData: json });
+                    //console.log(json);
+                    this.setState({
+                        checkOutPageFloatingAlert: true,
+                        checkOutPageFloatingAlertMsg: "Order placed successfully! Your order ID is "+json.id
+                    });
                 })
             } else {
                 console.log("Error while Placing Order" + response.status);
@@ -204,7 +210,9 @@ class Checkout extends Component {
                     this.setState({
                         error: true,
                         erorCode: json.code,
-                        errorMsg: json.message
+                        errorMsg: json.message,
+                        checkOutPageFloatingAlert: true,
+                        checkOutPageFloatingAlertMsg: "Unable to place your order! Please try again!"
                     });
                 })
             }
@@ -213,20 +221,22 @@ class Checkout extends Component {
             this.setState({
                 error: true,
                 erorCode: error.code,
-                errorMsg: "Error while making request to FoodOrderingApp Backend"
+                errorMsg: "Error while making request to FoodOrderingApp Backend",
+                checkOutPageFloatingAlert: true,
+                checkOutPageFloatingAlertMsg: "Unable to place your order! Please try again!"
             });
         })
     }
 
     selectedAddressIdCallback = (addressId) => {
-        console.log(addressId)
+        //console.log(addressId)
         this.setState({
             selectedAddress: addressId
         });
     }
 
     selectedPaymentIdCallback = (paymentId) => {
-        console.log(paymentId)
+        //console.log(paymentId)
         this.setState({
             selectedPayment: paymentId
         });
@@ -234,13 +244,15 @@ class Checkout extends Component {
 
 
     selectedCuponTextCallback = (cuponText) => {
-        console.log(cuponText)
-        this.setState({ getCuponData: null });
-        return this.getCuponData(cuponText);
+        this.getCuponData(cuponText);
     }
 
-
-
+    closeFloatingAlert = () => {
+        this.setState({
+            checkOutPageFloatingAlert: false,
+            checkOutPageFloatingAlertMsg: ""
+        });
+    }
 
     render() {
         return (
@@ -263,10 +275,18 @@ class Checkout extends Component {
                             selectedCuponTextCallback={this.selectedCuponTextCallback}
                             discount={this.state.cuponData && this.state.cuponData.percent ? this.state.cuponData.percent : 0 }
                             onPlaceOrderCallback={this.onPlaceOrderCallback}
+                            orderBillTotal={this.state.orderBillTotal}  
                         />
                     </Grid>
                 </Grid>
-
+                <Snackbar open={this.state.checkOutPageFloatingAlert}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        autoHideDuration={6000}
+                        onClose={this.closeFloatingAlert}
+                        message={this.state.checkOutPageFloatingAlertMsg} />
             </div>
         );
     }

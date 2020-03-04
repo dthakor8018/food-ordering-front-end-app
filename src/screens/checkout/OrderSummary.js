@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import { ListItemAvatar, Input } from "@material-ui/core";
+import { ListItemAvatar } from "@material-ui/core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRupeeSign } from "@fortawesome/free-solid-svg-icons";
 import { faStopCircle } from "@fortawesome/free-regular-svg-icons";
@@ -33,14 +33,9 @@ const useStyles = makeStyles({
     },
 });
 
-function getOrderBillTotal(props) {
-    return props.cart.reduce((acc, next) => acc + (next.item.price * next.qty), 0);
-}
-
 export default function OrderSummary(props) {
     const classes = useStyles();
     let cart = props.cart;
-    const [orderBillTotal , setOrderBillTotal] = React.useState(getOrderBillTotal(props));  
 
     function onApply() {
         var cuponText = document.getElementById('cupon-text').value;
@@ -49,9 +44,9 @@ export default function OrderSummary(props) {
 
     function onPlaceOrder() {
         console.log("onPlaceOrder");
-        props.onPlaceOrderCallback(orderBillTotal, props.discount * orderBillTotal / 100);
+        props.onPlaceOrderCallback(props.discount * props.orderBillTotal / 100);
     }
-        
+
     return (
         <div>
             <Card className={classes.root} variant="outlined">
@@ -81,11 +76,11 @@ export default function OrderSummary(props) {
                     </List>
                     <List>
                         <ListItem>
-                            <ListItemText style={{ width: '60%'}}>
-                                <TextField id="cupon-text" style={{ backgroundColor: '#fbffbd'}} label="Cupon Code" type="string" variant="filled" />
+                            <ListItemText style={{ width: '60%' }}>
+                                <TextField id="cupon-text" style={{ backgroundColor: '#fbffbd' }} label="Cupon Code" type="string" variant="filled" />
                             </ListItemText>
-                            <ListItemText style={{ width: '10%'}}>
-                                
+                            <ListItemText style={{ width: '10%' }}>
+
                             </ListItemText>
                             <ListItemText>
                                 <Button variant="contained" color="gray" onClick={onApply} >APPLY</Button>
@@ -97,7 +92,7 @@ export default function OrderSummary(props) {
                             </ListItemText>
                             <ListItemText>
                                 <Typography variant="body1" color="textSecondary"><FontAwesomeIcon icon={faRupeeSign} />
-                                    {orderBillTotal}
+                                    {props.orderBillTotal}
                                 </Typography>
                             </ListItemText>
                         </ListItem>
@@ -107,7 +102,7 @@ export default function OrderSummary(props) {
                             </ListItemText>
                             <ListItemText>
                                 <Typography variant="body1" color="textSecondary"><FontAwesomeIcon icon={faRupeeSign} />
-                                    { props.discount * orderBillTotal / 100 }
+                                    {props.discount * props.orderBillTotal / 100}
                                 </Typography>
                             </ListItemText>
                         </ListItem>
@@ -120,7 +115,7 @@ export default function OrderSummary(props) {
                             </ListItemText>
                             <ListItemText>
                                 <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign} />
-                                    {orderBillTotal - (props.discount * orderBillTotal / 100 ) }
+                                    {props.orderBillTotal - (props.discount * props.orderBillTotal / 100)}
                                 </Typography>
                             </ListItemText>
                         </ListItem>
