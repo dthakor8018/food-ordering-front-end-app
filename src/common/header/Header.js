@@ -19,6 +19,7 @@ class Header extends Component {
     super();
     this.state = {
       loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
+      loggedInCustomeName: sessionStorage.getItem("first_name"),
       anchorEl: null,
       openLoginSignupModal: false,
       error: false,
@@ -53,7 +54,8 @@ class Header extends Component {
   onCloseLoginSignupModal = () => {
     this.setState({
       openLoginSignupModal: false,
-      loggedIn: sessionStorage.getItem("access-token") == null ? false : true
+      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
+      loggedInCustomeName: sessionStorage.getItem("first_name")
     })
   }
   logoutHandler = () => {
@@ -61,7 +63,8 @@ class Header extends Component {
     this.menuCloseHandler();
     this.setState({
       openLoginSignupModal: false,
-      loggedIn: sessionStorage.getItem("access-token") == null ? false : true
+      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
+      loggedInCustomeName: sessionStorage.getItem("first_name")
     })
     this.props.history.push('/');
   }
@@ -103,7 +106,7 @@ class Header extends Component {
                   {this.state.loggedIn ?
                     <IconButton id="profile-icon" edge="start" color="inherit" aria-label="menu" onClick={this.handleClick}>
                       <AccountCircleIcon />
-                      <Typography>{sessionStorage.getItem("first_name")}</Typography>
+                      <Typography>{this.state.loggedInCustomeName}</Typography>
                     </IconButton>
                     :
                     <Button variant="contained" onClick={this.openLoginSignupModal}><AccountCircleIcon />Login</Button>
