@@ -37,6 +37,13 @@ export default function OrderSummary(props) {
     const classes = useStyles();
     let cart = props.cart;
     console.log(props.cart);
+
+    function onApply() {
+        var cuponText = document.getElementById('cupon-text').value;
+            props.selectedCuponTextCallback(cuponText)
+        document.getElementById('cupon-text').value = "";
+    }
+        
     return (
         <div>
             <Card className={classes.root} variant="outlined">
@@ -67,13 +74,13 @@ export default function OrderSummary(props) {
                     <List>
                         <ListItem>
                             <ListItemText style={{ width: '60%'}}>
-                                <TextField style={{ backgroundColor: '#fbffbd'}} label="Cupon Code" type="string" variant="filled" />
+                                <TextField id="cupon-text" style={{ backgroundColor: '#fbffbd'}} label="Cupon Code" type="string" variant="filled" />
                             </ListItemText>
                             <ListItemText style={{ width: '10%'}}>
                                 
                             </ListItemText>
                             <ListItemText>
-                                <Button variant="contained" color="gray">APPLY</Button>
+                                <Button variant="contained" color="gray" onClick={onApply} >APPLY</Button>
                             </ListItemText>
                         </ListItem>
                         <ListItem>
@@ -92,7 +99,7 @@ export default function OrderSummary(props) {
                             </ListItemText>
                             <ListItemText>
                                 <Typography variant="body1" color="textSecondary"><FontAwesomeIcon icon={faRupeeSign} />
-                                    {"0"}
+                                    { props.discount }
                                 </Typography>
                             </ListItemText>
                         </ListItem>

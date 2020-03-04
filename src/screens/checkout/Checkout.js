@@ -13,6 +13,7 @@ class Checkout extends Component {
             paymentMethodsData: [],
             selectedAddress: null,
             selectedPayment: null,
+            cuponData: null,
             error: false,
             erorCode: null,
             errorMsg: null
@@ -42,6 +43,46 @@ class Checkout extends Component {
                 response.json().then((json) => {
                     console.log(json);
                     this.setState({ customerAddressData: json.addresses });
+                })
+            } else {
+                console.log("Error while getting customer address" + response.status);
+                response.json().then((json) => {
+                    this.setState({
+                        error: true,
+                        erorCode: json.code,
+                        errorMsg: json.message
+                    });
+                })
+            }
+        }, error => {
+            console.log("Error while making request to FoodOrderingApp Backend", error)
+            this.setState({
+                error: true,
+                erorCode: error.code,
+                errorMsg: "Error while making request to FoodOrderingApp Backend"
+            });
+        })
+    }
+
+    getCuponData = (cuponText) => {
+
+        var url = this.props.baseUrl + "/order/coupon/" + cuponText;
+
+        fetch(
+            url,
+            {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json;charset=UTF-8',
+                    'authorization': 'Bearer ' + sessionStorage.getItem("access-token")
+                }
+            }
+        ).then((response) => {
+            if (response.status === 200) {
+                response.json().then((json) => {
+                    console.log(json);
+                    this.setState({ cuponData: json });
                 })
             } else {
                 console.log("Error while getting customer address" + response.status);
@@ -116,6 +157,15 @@ class Checkout extends Component {
         });
     }
 
+
+    selectedCuponTextCallback = (cuponText) => {
+        console.log(cuponText)
+        this.setState({getCuponData: null });
+        this.getCuponData(cuponText);
+    }
+
+    
+
     render() {
         const { cart, restaurantId, restaurantName } = this.props.history.location.state;
         return (
@@ -131,7 +181,12 @@ class Checkout extends Component {
                                     />
                     </Grid>
                     <Grid item xs={3} style={{ padding: '36px' }}>
-                        <OrderSummary {...this.props} cart={cart} restaurantId={restaurantId} restaurantName={restaurantName} />
+                        <OrderSummary {...this.props} cart={cart} 
+                            restaurantId={restaurantId} 
+                            restaurantName={restaurantName}
+                            selectedCuponTextCallback={this.selectedCuponTextCallback}
+                            discount={this.state.cuponData && this.state.cuponData.percent ? this.state.cuponData.percent : "0" }
+                        />
                     </Grid>
                 </Grid>
 

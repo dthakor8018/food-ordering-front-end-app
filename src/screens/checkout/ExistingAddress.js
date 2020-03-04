@@ -58,7 +58,7 @@ export default function ExistingAddress(props) {
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button id={addrObj.id} size="large" onClick={selectTheAddress}>{selected == addrObj.id ? <FontAwesomeIcon icon={faCheck} color="green" /> : <FontAwesomeIcon icon={faCheck} color="grey" />}</Button>
+                            <Button id={addrObj.id} size="large" onClick={selectTheAddress}>{selected === addrObj.id ? <FontAwesomeIcon icon={faCheck} color="green" /> : <FontAwesomeIcon icon={faCheck} color="grey" />}</Button>
                         </CardActions>
                     </Card>))
                 : ""}
