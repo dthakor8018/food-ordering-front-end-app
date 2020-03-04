@@ -1,4 +1,4 @@
-import React, { useState }  from 'react';
+import React, { useState } from 'react';
 import "./MyCart.css";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -35,9 +35,9 @@ export default function MyCart(props) {
   const [cartFloatingAlert, setCartFloatingAlert] = useState(false);
   const [cartFloatingAlertMsg, setCartFloatingAlertMsg] = useState("");
   let cart = props.cart;
-  function checkoutHandler(e){
-    if( props.cart.length > 0 ) {
-      if( sessionStorage.getItem("access-token") == null ) {
+  function checkoutHandler(e) {
+    if (props.cart.length > 0) {
+      if (sessionStorage.getItem("access-token") == null) {
         setCartFloatingAlertMsg("Please login first!")
         setCartFloatingAlert(true);
         return;
@@ -45,9 +45,11 @@ export default function MyCart(props) {
 
       props.history.push({
         pathname: '/checkout',
-        state: { cart: props.cart, 
-                 restaurantId: props.restaurantDetails.id,
-                 restaurantName: props.restaurantDetails.restaurant_name }
+        state: {
+          cart: props.cart,
+          restaurantId: props.restaurantDetails.id,
+          restaurantName: props.restaurantDetails.restaurant_name
+        }
       })
     } else {
       setCartFloatingAlertMsg("Please add an item to your cart!")
@@ -55,7 +57,7 @@ export default function MyCart(props) {
       return;
     }
   }
-  function closeCartFloatingAlert(){
+  function closeCartFloatingAlert() {
     setCartFloatingAlert(false);
     setCartFloatingAlertMsg("");
   }
@@ -70,14 +72,18 @@ export default function MyCart(props) {
             My Cart
           </Typography>
           <List>
-            {cart && cart.length > 0  ? cart.map((cartItem, index) => (
+            {cart && cart.length > 0 ? cart.map((cartItem, index) => (
               <ListItem>
                 <ListItemAvatar>
-                  <FontAwesomeIcon icon={faStopCircle} color={cartItem.item.item_type === "VEG" ? "green": "red"} />
+                  <FontAwesomeIcon icon={faStopCircle} color={cartItem.item.item_type === "VEG" ? "green" : "red"} />
                 </ListItemAvatar>
                 <ListItemText style={{ width: '30%' }} color="textSecondary" >{cartItem.item.item_name[0].toUpperCase() + cartItem.item.item_name.slice(1)}</ListItemText>
                 <ListItemText>
-                  <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faMinus} />{" " + cartItem.qty + " "}<FontAwesomeIcon icon={faPlus} /></Typography>
+                  <Typography variant="body1" color="textPrimary">
+                    <FontAwesomeIcon icon={faMinus} onClick={() => props.decQty(index)} />
+                    {" " + cartItem.qty + " "}
+                    <FontAwesomeIcon icon={faPlus} onClick={() => props.incQty(index)} />
+                  </Typography>
                 </ListItemText>
                 <ListItemText>
                   <Typography variant="body1" color="textSecondary"><FontAwesomeIcon icon={faRupeeSign} />{cartItem.item.price * cartItem.qty}</Typography>
@@ -90,7 +96,7 @@ export default function MyCart(props) {
               </ListItemText>
               <ListItemText>
                 <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign} />
-                  { cart && cart.length > 0 ? cart.reduce((prev,next) => (prev + (next.item.price * next.qty)), 0) : "0" }
+                  {cart && cart.length > 0 ? cart.reduce((prev, next) => (prev + (next.item.price * next.qty)), 0) : "0"}
                 </Typography>
               </ListItemText>
             </ListItem>
@@ -101,13 +107,13 @@ export default function MyCart(props) {
         </CardActions>
       </Card>
       <Snackbar open={cartFloatingAlert}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        autoHideDuration={6000}
-                        onClose={closeCartFloatingAlert}
-                        message={cartFloatingAlertMsg} />
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        autoHideDuration={6000}
+        onClose={closeCartFloatingAlert}
+        message={cartFloatingAlertMsg} />
     </div>
   );
 }

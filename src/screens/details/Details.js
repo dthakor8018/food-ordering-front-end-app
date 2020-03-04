@@ -97,6 +97,19 @@ class Details extends Component {
     this.setState({cart: cart});
     this.openFloatingAlert();
   }
+  incQty = (index) => {
+    let cart = this.state.cart
+    cart[index].qty++;
+    this.setState({cart: cart});
+  }
+  decQty = (index) => {
+    let cart = this.state.cart
+    cart[index].qty--;
+    if(cart[index].qty < 0 ) {
+      cart[index].qty = 0;
+    }
+    this.setState({cart: cart});
+  }
   closeFloatingAlert = () => {
     this.setState({ 
       detailPageFloatingAlert: false,
@@ -191,7 +204,11 @@ class Details extends Component {
             </Grid>
             <Grid container item xs={6} direction="column" component="span">
               <MyCart {...this.props}
-                    cart={this.state.cart} restaurantDetails={this.state.restaurantDetails} loggedIn={this.state.loggedIn}/>
+                    cart={this.state.cart} 
+                    restaurantDetails={this.state.restaurantDetails} 
+                    loggedIn={this.state.loggedIn}
+                    incQty={this.incQty}
+                    decQty={this.decQty} />
               </Grid>
             </Grid>
           </div> : ""}
