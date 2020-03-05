@@ -76,13 +76,6 @@ export default function Payment(props) {
                     props.paymentMethodsData.map((payObj, index) => (
                         <FormControlLabel value={payObj.id} control={<StyledRadio />} label={payObj.payment_name} />
                     )) : ""}
-
-
-
-                {/* <FormControlLabel value="cash" control={<StyledRadio/>} label="Cash on Delivery"/>
-                <FormControlLabel value="wallet" control={<StyledRadio/>} label="Wallet"/>
-                <FormControlLabel value="net_banking" control={<StyledRadio/>} label="Net Banking"/>
-                <FormControlLabel value="card" control={<StyledRadio/>} label="Debit / Credit Card"/> */}
             </RadioGroup>
         </FormControl>
     );

@@ -15,6 +15,7 @@ class Checkout extends Component {
             cart: null,
             customerAddressData: [],
             paymentMethodsData: [],
+            statesData: [],
             selectedAddress: null,
             selectedPayment: null,
             selectedRestaurant: null,
@@ -40,6 +41,7 @@ class Checkout extends Component {
         });
         this.getCustomerAddressData();
         this.getPaymentModeData();
+        this.getStateData();
     }
     getCustomerAddressData = () => {
 
@@ -142,6 +144,45 @@ class Checkout extends Component {
                 })
             } else {
                 console.log("Error while getting payment Methos" + response.status);
+                response.json().then((json) => {
+                    this.setState({
+                        error: true,
+                        erorCode: json.code,
+                        errorMsg: json.message
+                    });
+                })
+            }
+        }, error => {
+            console.log("Error while making request to FoodOrderingApp Backend", error)
+            this.setState({
+                error: true,
+                erorCode: error.code,
+                errorMsg: "Error while making request to FoodOrderingApp Backend"
+            });
+        })
+    }
+
+    getStateData = () => {
+
+        var url = this.props.baseUrl + "/states";
+
+        fetch(
+            url,
+            {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json;charset=UTF-8'
+                }
+            }
+        ).then((response) => {
+            if (response.status === 200) {
+                response.json().then((json) => {
+                    console.log(json);
+                    this.setState({ statesData: json.states });
+                })
+            } else {
+                console.log("Error while getting states" + response.status);
                 response.json().then((json) => {
                     this.setState({
                         error: true,
@@ -263,8 +304,10 @@ class Checkout extends Component {
                         <CheckoutSteps {...this.props}
                             customerAddressData={this.state.customerAddressData}
                             paymentMethodsData={this.state.paymentMethodsData}
+                            statesData={this.state.statesData}
                             selectedAddressIdCallback={this.selectedAddressIdCallback}
                             selectedPaymentIdCallback={this.selectedPaymentIdCallback}
+                            newAddressAddedCallBack={this.getCustomerAddressData}
                         />
                     </Grid>
                     <Grid item xs={3} style={{ padding: '36px' }}>
