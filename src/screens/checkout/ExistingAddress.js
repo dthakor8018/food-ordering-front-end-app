@@ -42,7 +42,15 @@ export default function ExistingAddress(props) {
         <div>
             {props.customerAddressData ?
                 props.customerAddressData.map((addrObj, index) => (
-                    <Card className={classes.root}>
+                    <Card className={classes.root}
+                        style={selected === addrObj.id ? {
+                            borderColor: 'red',
+                            borderStyle: 'outset',
+                            borderLeftWidth: '0.1em',
+                            borderTopWidth: '0.1em',
+                            borderRadius: '10'
+                        } : {}}
+                    >
                         <CardContent>
                             <Typography className={classes.pos} color="textPrimary">
                                 {addrObj.flat_building_name}
@@ -61,7 +69,7 @@ export default function ExistingAddress(props) {
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button id={addrObj.id} size="large" onClick={selectTheAddress}><CheckCircleIcon style={selected === addrObj.id ? {fill: "green"} : {fill: "gray"}} /></Button>
+                            <Button id={addrObj.id} size="large" onClick={selectTheAddress}><CheckCircleIcon style={selected === addrObj.id ? { fill: "green" } : { fill: "gray" }} /></Button>
                         </CardActions>
                     </Card>))
                 : ""}
