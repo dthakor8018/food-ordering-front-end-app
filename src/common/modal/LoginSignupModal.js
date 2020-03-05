@@ -40,29 +40,33 @@ class LoginSignupModal extends Component {
             floatingAlertMsg: "Registered successfully! Please login now!",
         }
     }
-    clearAll(){
+    clearAll() {
         this.setState({
-                tab: 'login',
-                lUsernameRequired: false,
-                lUsername: "",
-                lPasswordRequired: false,
-                lPassword: "",
-                loginError: false,
-                loginErrorCode: null,
-                loginErrorMsg: null,
-                sFirstNameRequired: false,
-                sFirstName: "",
-                sLastName: "",
-                sPasswordRequired: false,
-                sPassword: "",
-                sEmailRequired: false,
-                sEmail: "",
-                sContactNoRequired: false,
-                sContactNo: "",
-                signupError: false,
-                signupErrorCode: null,
-                signupErrorMsg: null,
-                floatingAlert: false
+            tab: 'login',
+            lUsernameRequired: false,
+            lUsername: "",
+            lUsernameValidationFailed: false,
+            lPasswordRequired: false,
+            lPassword: "",
+            loginError: false,
+            loginErrorCode: null,
+            loginErrorMsg: null,
+            sFirstNameRequired: false,
+            sFirstName: "",
+            sLastName: "",
+            sPasswordRequired: false,
+            sPassword: "",
+            sPasswordValidationFailed: false,
+            sEmailRequired: false,
+            sEmail: "",
+            sIsEmailValidationFailed: false,
+            sContactNoRequired: false,
+            sContactNo: "",
+            sContactNoValidationFailed: false,
+            signupError: false,
+            signupErrorCode: null,
+            signupErrorMsg: null,
+            floatingAlert: false
         })
     }
     tabChange = (event, newValue) => {
@@ -73,147 +77,203 @@ class LoginSignupModal extends Component {
 
 
     }
-    closeFloatingAlert = () =>{
+    closeFloatingAlert = () => {
         this.setState({ floatingAlert: false });
     }
-        
+
     commonInputChangeHandler = e => {
         var stateName = e.target.id;
-        var requiredflag =  e.target.id + 'Required';
+        var requiredflag = e.target.id + 'Required';
         var requiredflagVal = false;
         if (!e.target.value) {
-            requiredflagVal =  true;
+            requiredflagVal = true;
         } else {
-            requiredflagVal =  false;
+            requiredflagVal = false;
         }
         this.setState({
             [stateName]: e.target.value,
             [requiredflag]: requiredflagVal
         });
     }
-    loginClickHandler = () => {
-        if( this.state.lUsername === null || this.state.lUsername === "" ) {
-            this.setState({ lUsernameRequired: true });
+    isValidContactNo = (contactNumber) => {
+        var format = /^\d{10}$/;
+        if (contactNumber.match(format)) {
+            return true;
         } else {
-            this.setState({ lUsernameRequired: false });
+            return false;
         }
-        if( this.state.lPassword === null || this.state.lPassword === "" ) {
+    }
+    isValidPassword = (password) => {
+        //TODO: implement me
+        return true;
+    }
+    isValidEmail = (email) => {
+        //TODO: implement me
+        return true;
+    }
+    loginClickHandler = () => {
+
+        if (this.state.lUsername === null || this.state.lUsername === "") {
+            this.setState({ lUsernameRequired: true });
+        } else if (!this.isValidContactNo(this.state.lUsername)) {
+            this.setState({ lUsernameValidationFailed: true });
+        } else {
+            this.setState({ 
+                lUsernameRequired: false,
+                lUsernameValidationFailed: false
+            });
+        }
+
+        if (this.state.lPassword === null || this.state.lPassword === "") {
             this.setState({ lPasswordRequired: true });
         } else {
             this.setState({ lPasswordRequired: false });
         }
-        if (this.state.lUsername !== "" && this.state.lPassword !== "") {
-            this.setState({ loginError: false,
-                            loginErrorCode: null,
-                            loginErrorMsg: null});
-            fetch(  
-                    this.props.baseUrl + "customer/login",
-                    {
-                        method: 'POST',
-                        mode: 'cors',
-                        headers: {
-                            'Content-Type': 'application/json;charset=utf-8',
-                            'Accept': 'application/json;charset=UTF-8',
-                            'authorization': 'Basic ' + btoa(this.state.lUsername + ':' + this.state.lPassword),
-                        }
-                    }
-                ).then((response) => {
-                        if(response.status === 200) {
-                            response.json().then((json) => {
-                                Object.keys(json).forEach(function(key) {
-                                    sessionStorage.setItem(key, json[key]);
-                                })
-                            })
-                            response.headers.forEach((val, key) => {
-                                //console.log(key + "=" + val);
-                                if (key === "access-token") {
-                                    sessionStorage.setItem("access-token", val);
-                                }
-                            })
-                            console.log("login successfully")
-                            this.clearAll();  
-                            this.props.onCloseLoginSignupModal();
 
-                        } else {
-                            console.log("login Error "+response.status);
-                            response.json().then((json) => {
-                                this.setState({loginError: true,
-                                                loginErrorCode: json.code,
-                                                loginErrorMsg: json.message});
-                                
-                            })
+        if (this.state.lUsername !== "" && this.state.lPassword !== "") {
+            this.setState({
+                loginError: false,
+                loginErrorCode: null,
+                loginErrorMsg: null
+            });
+            fetch(
+                this.props.baseUrl + "customer/login",
+                {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8',
+                        'Accept': 'application/json;charset=UTF-8',
+                        'authorization': 'Basic ' + btoa(this.state.lUsername + ':' + this.state.lPassword),
+                    }
+                }
+            ).then((response) => {
+                if (response.status === 200) {
+                    response.json().then((json) => {
+                        Object.keys(json).forEach(function (key) {
+                            sessionStorage.setItem(key, json[key]);
+                        })
+                    })
+                    response.headers.forEach((val, key) => {
+                        //console.log(key + "=" + val);
+                        if (key === "access-token") {
+                            sessionStorage.setItem("access-token", val);
                         }
-                    }, error => {
-                    console.log("Error while making request to FoodOrderingApp Backend",error)
-                    this.setState({loginError: true,
-                        loginErrorCode: error,
-                        loginErrorMsg: "Error while making request to FoodOrderingApp Backend"});
+                    })
+                    console.log("login successfully")
+                    this.clearAll();
+                    this.props.onCloseLoginSignupModal();
+
+                } else {
+                    console.log("login Error " + response.status);
+                    response.json().then((json) => {
+                        this.setState({
+                            loginError: true,
+                            loginErrorCode: json.code,
+                            loginErrorMsg: json.message
+                        });
+
+                    })
+                }
+            }, error => {
+                console.log("Error while making request to FoodOrderingApp Backend", error)
+                this.setState({
+                    loginError: true,
+                    loginErrorCode: error,
+                    loginErrorMsg: "Error while making request to FoodOrderingApp Backend"
+                });
             })
         }
     }
     signupClickHandler = () => {
-        if( this.state.sFirstName === null || this.state.sFirstName === "" ) {
+
+        if (this.state.sFirstName === null || this.state.sFirstName === "") {
             this.setState({ sFirstNameRequired: true });
         } else {
             this.setState({ sFirstNameRequired: false });
         }
-        if( this.state.sEmail === null || this.state.sEmail === "" ) {
+
+        if (this.state.sEmail === null || this.state.sEmail === "") {
             this.setState({ sEmailRequired: true });
+        } else if (!this.isValidEmail(this.state.sEmailRequired)) {
+            this.setState({ sEmailValidationFailed: true });
         } else {
-            this.setState({ sEmailRequired: false });
+            this.setState({ 
+                sEmailRequired: false,
+                sEmailValidationFailed: false
+            });
         }
-        if( this.state.sPassword === null || this.state.sPassword === "" ) {
+
+        if (this.state.sPassword === null || this.state.sPassword === "") {
             this.setState({ sPasswordRequired: true });
+        } else if (!this.isValidPassword(this.state.sPassword)) {
+            this.setState({ sPasswordValidationFailed: true });
         } else {
-            this.setState({ sPasswordRequired: false });
+            this.setState({ 
+                sPasswordRequired: false,
+                sPasswordValidationFailed: false
+            });
         }
-        if( this.state.sContactNo === null || this.state.sContactNo === "" ) {
+
+        if (this.state.sContactNo === null || this.state.sContactNo === "") {
             this.setState({ sContactNoRequired: true });
+        } else if (!this.isValidContactNo(this.state.sContactNo)) {
+            this.setState({ sContactNoValidationFailed: true });
         } else {
-            this.setState({ sContactNoRequired: false });
+            this.setState({ 
+                sContactNoRequired: false,
+                sContactNoValidationFailed: false
+            });
         }
-        if (this.state.sFirstName !== "" && this.state.sEmailRequired !== "" && this.state.sPassword !== "" && this.state.sContactNo !== "" ) {
-            this.setState({ signupError: false,
-                            signupErrorCode: null,
-                            signupErrorMsg: null});
-            fetch(  
-                    this.props.baseUrl + "customer/signup",
-                    {
-                        method: 'POST',
-                        mode: 'cors',
-                        headers: {
-                            'Content-Type': 'application/json;charset=utf-8',
-                            'Accept': 'application/json;charset=UTF-8',
-                        },
-                        body: JSON.stringify({
-                            'contact_number': this.state.sContactNo,
-                            'email_address': this.state.sEmail,
-                            'first_name': this.state.sFirstName,
-                            'last_name': this.state.sLastName,
-                            'password': this.state.sPassword
-                        })
-                    }
-                ).then((response) => {
-                        if(response.status === 201) {
-                            console.log("Signup successfully")
-                            this.clearAll();
-                            document.getElementById("container-signup-form").style.display = 'none';
-                            document.getElementById("container-login-form").style.display = 'block';
-                            this.setState({ floatingAlert: true });
-                        } else {
-                            console.log("login Error "+response.status);
-                            response.json().then((json) => {
-                                this.setState({signupError: true,
-                                               signupErrorCode: json.code,
-                                               signupErrorMsg: json.message});
-                                
-                            })
-                        }
-                    }, error => {
-                    console.log("Error while making request to FoodOrderingApp Backend",error)
-                    this.setState({loginError: true,
-                        loginErrorCode: error,
-                        loginErrorMsg: "Error while making request to FoodOrderingApp Backend"});
+
+        if (this.state.sFirstName !== "" && this.state.sEmailRequired !== "" && this.state.sPassword !== "" && this.state.sContactNo !== "") {
+            this.setState({
+                signupError: false,
+                signupErrorCode: null,
+                signupErrorMsg: null
+            });
+            fetch(
+                this.props.baseUrl + "customer/signup",
+                {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8',
+                        'Accept': 'application/json;charset=UTF-8',
+                    },
+                    body: JSON.stringify({
+                        'contact_number': this.state.sContactNo,
+                        'email_address': this.state.sEmail,
+                        'first_name': this.state.sFirstName,
+                        'last_name': this.state.sLastName,
+                        'password': this.state.sPassword
+                    })
+                }
+            ).then((response) => {
+                if (response.status === 201) {
+                    console.log("Signup successfully")
+                    this.clearAll();
+                    document.getElementById("container-signup-form").style.display = 'none';
+                    document.getElementById("container-login-form").style.display = 'block';
+                    this.setState({ floatingAlert: true });
+                } else {
+                    console.log("login Error " + response.status);
+                    response.json().then((json) => {
+                        this.setState({
+                            signupError: true,
+                            signupErrorCode: json.code,
+                            signupErrorMsg: json.message
+                        });
+
+                    })
+                }
+            }, error => {
+                console.log("Error while making request to FoodOrderingApp Backend", error)
+                this.setState({
+                    loginError: true,
+                    loginErrorCode: error,
+                    loginErrorMsg: "Error while making request to FoodOrderingApp Backend"
+                });
             })
         }
     }
@@ -247,6 +307,10 @@ class LoginSignupModal extends Component {
                                     <FormHelperText>
                                         <span className="red">required</span>
                                     </FormHelperText>
+                                ) : this.state.lUsernameValidationFailed ? (
+                                    <FormHelperText>
+                                        <span className="red">Invalid Contact</span>
+                                    </FormHelperText>
                                 ) : null}
                             </FormControl>
                             <br />
@@ -276,13 +340,13 @@ class LoginSignupModal extends Component {
                             ) : null}
                             <br />
                             <Container className="login-button-container">
-                            <Button
-                                className="login-button"
-                                variant="contained"
-                                color="primary"
-                                onClick={this.loginClickHandler}
-                            >
-                                LOGIN
+                                <Button
+                                    className="login-button"
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={this.loginClickHandler}
+                                >
+                                    LOGIN
                             </Button>
                             </Container>
                             <br />
@@ -329,6 +393,10 @@ class LoginSignupModal extends Component {
                                     <FormHelperText>
                                         <span className="red">required</span>
                                     </FormHelperText>
+                                ) : this.state.sEmailValidationFailed ? (
+                                    <FormHelperText>
+                                        <span className="red">Invalid Email</span>
+                                    </FormHelperText>
                                 ) : null}
                             </FormControl>
                             <br />
@@ -345,6 +413,10 @@ class LoginSignupModal extends Component {
                                     <FormHelperText>
                                         <span className="red">required</span>
                                     </FormHelperText>
+                                ) : this.state.sPasswordValidationFailed ? (
+                                    <FormHelperText>
+                                        <span className="red">Password must contain at least one capital letter, one small letter, one number, and one special character</span>
+                                    </FormHelperText>
                                 ) : null}
                             </FormControl>
                             <br />
@@ -360,6 +432,10 @@ class LoginSignupModal extends Component {
                                 {this.state.sContactNoRequired ? (
                                     <FormHelperText>
                                         <span className="red">required</span>
+                                    </FormHelperText>
+                                ) : this.state.sContactNoValidationFailed ? (
+                                    <FormHelperText>
+                                        <span className="red">Contact No. must contain only numbers and must be 10 digits long</span>
                                     </FormHelperText>
                                 ) : null}
                             </FormControl>
@@ -388,13 +464,13 @@ class LoginSignupModal extends Component {
                     </div>
                 </Modal>
                 <Snackbar open={this.state.floatingAlert}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        autoHideDuration={6000}
-                        onClose={this.closeFloatingAlert}
-                        message={this.state.floatingAlertMsg} />
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    autoHideDuration={6000}
+                    onClose={this.closeFloatingAlert}
+                    message={this.state.floatingAlertMsg} />
             </div>
         );
     }
