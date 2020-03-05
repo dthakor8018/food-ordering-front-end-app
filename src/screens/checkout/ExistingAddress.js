@@ -7,10 +7,13 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck";
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 const useStyles = makeStyles({
     root: {
         width: '25%',
+        display: 'inline-block',
+        padding: '10',
     },
     bullet: {
         display: 'inline-block',
@@ -58,7 +61,7 @@ export default function ExistingAddress(props) {
                             </Typography>
                         </CardContent>
                         <CardActions>
-                            <Button id={addrObj.id} size="large" onClick={selectTheAddress}>{selected === addrObj.id ? <FontAwesomeIcon icon={faCheck} color="green" /> : <FontAwesomeIcon icon={faCheck} color="grey" />}</Button>
+                            <Button id={addrObj.id} size="large" onClick={selectTheAddress}><CheckCircleIcon style={selected === addrObj.id ? {fill: "green"} : {fill: "gray"}} /></Button>
                         </CardActions>
                     </Card>))
                 : ""}
