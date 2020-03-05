@@ -127,7 +127,7 @@ class LoginSignupModal extends Component {
                 containdigit = true;
             } else if (c >= 'A' && c <= 'Z') {
                 containUpperCaseChar = true;
-            } else if (c == '#' || c == '@' || c == '$' || c == '%' || c == '&' || c == '*' || c == '!' || c == '^') {
+            } else if (['#','@','$', '%','&','*','!','^'].indexOf(c) !== -1) {
                 containSpecialChar = true;
             }
 
