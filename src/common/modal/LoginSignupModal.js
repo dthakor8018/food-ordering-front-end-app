@@ -104,12 +104,47 @@ class LoginSignupModal extends Component {
         }
     }
     isValidPassword = (password) => {
-        //TODO: implement me
-        return true;
+        /*
+            Password Complexity Rules
+                - min 8 char long
+                - atleast one digit
+                - atleast one uppercase letter
+                - atleast one special character - [#@$%&*!^] 
+        */
+        var containdigit = false;
+        var containUpperCaseChar = false;
+        var containSpecialChar = false;
+
+        if (password.length < 8) {
+            return false;
+        }
+
+        for (var i = 0; i < password.length; i++) {
+
+            var c = password[i];
+
+            if (c >= '0' && c <= '9') {
+                containdigit = true;
+            } else if (c >= 'A' && c <= 'Z') {
+                containUpperCaseChar = true;
+            } else if (c == '#' || c == '@' || c == '$' || c == '%' || c == '&' || c == '*' || c == '!' || c == '^') {
+                containSpecialChar = true;
+            }
+
+            if (containdigit & containUpperCaseChar & containSpecialChar) {
+                return true;
+            }
+        }
+
+        return false;
     }
     isValidEmail = (email) => {
-        //TODO: implement me
-        return true;
+        var format = /^[a-zA-Z0-9]{3,}@[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}$/;
+        if (email.match(format)) {
+            return true;
+        } else {
+            return false;
+        }
     }
     loginClickHandler = () => {
 
@@ -195,7 +230,7 @@ class LoginSignupModal extends Component {
 
         if (this.state.sEmail === null || this.state.sEmail === "") {
             this.setState({ sEmailRequired: true });
-        } else if (!this.isValidEmail(this.state.sEmailRequired)) {
+        } else if (!this.isValidEmail(this.state.sEmail)) {
             this.setState({ sEmailValidationFailed: true });
         } else {
             this.setState({ 
