@@ -5,29 +5,17 @@ import Header from "../../common/header/Header";
 class Profile extends Component {
   constructor() {
     super();
-    this.state = {
-      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
-      
-    };
   }
   componentWillMount() {
-    if (this.state.loggedIn === false) {
+    if (sessionStorage.getItem("access-token") === null) {
         this.props.history.push('/');
       }
   }
-  logoutHandler = () => {
-    sessionStorage.removeItem("access-token");
-    this.setState({
-      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
-    })
-    this.props.history.push('/');
-  }
+
   render() {
     return (
       <div>
-        <Header {...this.props} showSearchBar={false}
-          loggedIn={this.state.loggedIn}
-          logoutHandler={this.logoutHandler} />
+        <Header {...this.props} showSearchBar={false}/>
       </div>
     );
   }

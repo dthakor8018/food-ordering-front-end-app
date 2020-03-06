@@ -18,7 +18,6 @@ class NewAddress extends Component {
     constructor() {
         super();
         this.state = {
-            loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
             flatBuildingNo: "",
             flatBuildingNoRequired: false,
             locality: "",

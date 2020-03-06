@@ -5,7 +5,6 @@ import Button from "@material-ui/core/Button";
 import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import FormControl from "@material-ui/core/FormControl";
-//import Typography from "@material-ui/core/Typography";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -185,9 +184,14 @@ class LoginSignupModal extends Component {
             ).then((response) => {
                 if (response.status === 200) {
                     response.json().then((json) => {
+                        var firstName = "";
                         Object.keys(json).forEach(function (key) {
+                            if( key === 'first_name') {
+                                firstName = json[key]
+                            }
                             sessionStorage.setItem(key, json[key]);
                         })
+                        this.props.onCloseLoginSignupModal(firstName);
                     })
                     response.headers.forEach((val, key) => {
                         //console.log(key + "=" + val);
@@ -197,8 +201,6 @@ class LoginSignupModal extends Component {
                     })
                     console.log("login successfully")
                     this.clearAll();
-                    this.props.onCloseLoginSignupModal();
-
                 } else {
                     console.log("login Error " + response.status);
                     response.json().then((json) => {

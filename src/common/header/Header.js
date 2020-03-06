@@ -51,11 +51,11 @@ class Header extends Component {
       openLoginSignupModal: true
     })
   }
-  onCloseLoginSignupModal = () => {
+  onCloseLoginSignupModal = (firstName) => {
     this.setState({
       openLoginSignupModal: false,
       loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
-      loggedInCustomeName: sessionStorage.getItem("first_name")
+      loggedInCustomeName: firstName//sessionStorage.getItem("first_name")
     })
   }
   logoutHandler = () => {
@@ -64,7 +64,7 @@ class Header extends Component {
     this.setState({
       openLoginSignupModal: false,
       loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
-      loggedInCustomeName: sessionStorage.getItem("first_name")
+      loggedInCustomeName: ""
     })
     this.props.history.push('/');
   }

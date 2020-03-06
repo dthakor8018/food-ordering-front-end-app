@@ -9,7 +9,6 @@ class Checkout extends Component {
     constructor() {
         super();
         this.state = {
-            loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
             restaurantName: null,
             restaurantId: null,
             cart: null,

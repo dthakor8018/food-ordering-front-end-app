@@ -8,7 +8,6 @@ class Home extends Component {
   constructor() {
     super();
     this.state = {
-      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
       restaurantData: null,
       error: false,
       erorCode: null,

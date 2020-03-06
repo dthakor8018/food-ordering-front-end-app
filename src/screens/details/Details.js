@@ -18,7 +18,6 @@ class Details extends Component {
   constructor() {
     super();
     this.state = {
-      loggedIn: sessionStorage.getItem("access-token") == null ? false : true,
       restaurantDetails: null,
       cart: [],
       error: false,
@@ -206,7 +205,6 @@ class Details extends Component {
               <MyCart {...this.props}
                     cart={this.state.cart} 
                     restaurantDetails={this.state.restaurantDetails} 
-                    loggedIn={this.state.loggedIn}
                     incQty={this.incQty}
                     decQty={this.decQty} />
               </Grid>
