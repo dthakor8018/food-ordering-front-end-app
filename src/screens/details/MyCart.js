@@ -36,7 +36,8 @@ export default function MyCart(props) {
   const [cartFloatingAlertMsg, setCartFloatingAlertMsg] = useState("");
   let cart = props.cart;
   function checkoutHandler(e) {
-    if (props.cart.length > 0) {
+    var totalQty = cart.reduce((acc, next) => acc + next.qty, 0);
+    if (totalQty > 0) {
       if (sessionStorage.getItem("access-token") == null) {
         setCartFloatingAlertMsg("Please login first!")
         setCartFloatingAlert(true);
@@ -46,7 +47,7 @@ export default function MyCart(props) {
       props.history.push({
         pathname: '/checkout',
         state: {
-          cart: props.cart,
+          cart: cart.filter( item => item.qty > 0 ),
           restaurantId: props.restaurantDetails.id,
           restaurantName: props.restaurantDetails.restaurant_name
         }
