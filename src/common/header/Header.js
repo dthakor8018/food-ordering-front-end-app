@@ -3,7 +3,7 @@ import "./Header.css";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import FastfoodIcon from "@material-ui/icons/Fastfood";
+import FastfoodIcon from '@material-ui/icons/Fastfood';
 import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from "@material-ui/icons/Search";
 import Button from "@material-ui/core/Button";
@@ -77,7 +77,6 @@ class Header extends Component {
               <Grid item xs={12} sm={4}>
                 <IconButton
                   edge="start"
-                  class='menuButton'
                   color="inherit"
                   aria-label="open drawer"
                 >
