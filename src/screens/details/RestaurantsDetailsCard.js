@@ -60,7 +60,7 @@ export default function RestaurantsDetailsCard(props) {
                 </CardContent>
                 <div className={classes.controls}>
                     <Grid   container>
-                        <Grid item spacing={12} xs={6}>
+                        <Grid item  xs={6}>
                             <Typography variant="body1" color="textPrimary" component="p">
                                 <FontAwesomeIcon icon={faStar} /> {Math.round(restDetails.customer_rating * 10) / 10}
                             </Typography>
@@ -68,7 +68,7 @@ export default function RestaurantsDetailsCard(props) {
                                 {"AVERAGE RATING BY"}<br />{restDetails.number_customers_rated + " CUSTOMERS"}
                             </Typography>
                         </Grid>
-                        <Grid item spacing={2} xs={6}>
+                        <Grid item  xs={6}>
                             <Typography variant="body1" color="textPrimary" component="p">
                                 <FontAwesomeIcon icon={faRupeeSign} />{restDetails.average_price}
                             </Typography>

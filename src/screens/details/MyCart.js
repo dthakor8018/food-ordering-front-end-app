@@ -74,7 +74,7 @@ export default function MyCart(props) {
           </Typography>
           <List>
             {cart && cart.length > 0 ? cart.map((cartItem, index) => (
-              <ListItem>
+              <ListItem key={index}>
                 <ListItemAvatar>
                   <FontAwesomeIcon icon={faStopCircle} color={cartItem.item.item_type === "VEG" ? "green" : "red"} />
                 </ListItemAvatar>
