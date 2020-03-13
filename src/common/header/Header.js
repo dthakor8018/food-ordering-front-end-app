@@ -70,7 +70,7 @@ class Header extends Component {
   }
   render() {
     return (
-      <div class='grow'>
+      <div className='grow'>
         <AppBar position="static" style={{ backgroundColor: "#263238" }}>
           <Toolbar>
             <Grid container>
@@ -86,22 +86,22 @@ class Header extends Component {
               <Grid item xs={12} sm={4}>
                 {this.props.showSearchBar ?
                   <div
-                    class='search'
+                    className='search'
                     style={{ borderBottom: "solid black 0.1rem" }}
                   >
-                    <div class='searchIcon'>
+                    <div className='searchIcon'>
                       <SearchIcon />
                     </div>
                     <InputBase
                       placeholder="Search by Restaurant Name"
-                      class='inputRoot inputInput'
+                      className='inputRoot inputInput'
                       inputProps={{ "aria-label": "search" }}
                       onChange={this.onSearchTextChange}
                     />
                   </div> : ""}
               </Grid>
               <Grid item xs={12} sm={4} style={{ gridColumnStart: "revert" }}>
-                <div class='loginbuttonArea' >
+                <div className='loginbuttonArea' >
                   {this.state.loggedIn ?
                     <IconButton id="profile-icon" edge="start" color="inherit" aria-label="menu" onClick={this.handleClick}>
                       <AccountCircleIcon />

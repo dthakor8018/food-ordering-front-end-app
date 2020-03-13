@@ -175,7 +175,7 @@ class NewAddress extends Component {
     render() {
         return (
             <div>
-                <Card style={{width: '25%'}}>
+                <Card style={{width: '25%', minWidth:'275px'}}>
                     <CardContent>
                         <Container id="container-newaddress-form" >
                             <FormControl className="newaddress-flatBuildingNo-form" required>

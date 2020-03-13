@@ -299,7 +299,7 @@ class Checkout extends Component {
             <div>
                 <Header {...this.props} showSearchBar={false} />
                 <Grid container spacing={3}>
-                    <Grid item xs={9}>
+                    <Grid item xs={9} style={{minWidth:"400px"}}>
                         <CheckoutSteps {...this.props}
                             customerAddressData={this.state.customerAddressData}
                             paymentMethodsData={this.state.paymentMethodsData}
@@ -309,7 +309,7 @@ class Checkout extends Component {
                             newAddressAddedCallBack={this.getCustomerAddressData}
                         />
                     </Grid>
-                    <Grid item xs={3} style={{ padding: '36px' }}>
+                    <Grid item xs={3} style={{ padding: '36px', minWidth:"400px" }}>
                         <OrderSummary {...this.props}
                             cart={this.state.cart}
                             restaurantId={this.state.restaurantId}
