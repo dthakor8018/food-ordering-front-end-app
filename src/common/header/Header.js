@@ -70,7 +70,7 @@ class Header extends Component {
   }
   render() {
     return (
-      <div className='grow'>
+      <div className='grow' style={{minWidth:'400px'}}>
         <AppBar position="static" style={{ backgroundColor: "#263238" }}>
           <Toolbar>
             <Grid container>

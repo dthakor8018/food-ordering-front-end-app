@@ -65,8 +65,7 @@ export default function SelectAddress(props) {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                <ExistingAddressNotFound/>
-                <ExistingAddress {...props} />
+                {props.customerAddressData&&props.customerAddressData.length > 0 ?<ExistingAddress {...props} />:  <ExistingAddressNotFound/>}
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <NewAddress {...props} />

@@ -2,17 +2,10 @@ import React, { Component } from "react";
 import "./Details.css";
 import Header from "../../common/header/Header";
 import MyCart from "./MyCart"
-import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRupeeSign, faCircle, faPlus, faStar } from '@fortawesome/free-solid-svg-icons'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Snackbar from '@material-ui/core/Snackbar';
+import RestaurantsDetailsCard from "./RestaurantsDetailsCard";
+import RestaurantsMenu from "./RestaurantsMenu";
 
 class Details extends Component {
   constructor() {
@@ -124,87 +117,19 @@ class Details extends Component {
   render() {
     let restDetails = this.state.restaurantDetails
     return (
+        <div><Header {...this.props} showSearchBar={false} />
       <div>
-        <Header {...this.props} showSearchBar={false} />
         {restDetails ?
-          <div class='root'>
-            <Paper class='paper'>
-              <Grid container spacing={10}>
-                <Grid item>
-                  <img id='img-detail-page' alt="complex" src={restDetails.photo_URL} />
-                </Grid>
-                <Grid item xs={10} sm container>
-                  <Grid item xs container direction="column" spacing={2}  >
-                    <Grid item xs>
-                      <Typography gutterBottom variant="h4" component="h4">
-                        {restDetails.restaurant_name}
-                      </Typography>
-                      <Typography gutterBottom variant="h6" component="h6">
-                        {restDetails.address.locality}
-                      </Typography>
-                      <Typography variant="body1" color="textPrimary" component="p">
-                        {restDetails.categories.map((cat, index) => (
-                          cat.category_name + " "
-                        ))}
-                      </Typography>
-                      <br />
-                      <br />
-                    </Grid>
-                    <Grid item xs container direction="row" >
-                      <Grid item xs container direction="column" spacing={2}>
-                        <Typography variant="body1" color="textPrimary" component="p">
-                          <FontAwesomeIcon icon={faStar} /> {Math.round(restDetails.customer_rating * 10) / 10}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                          {"AVERAGE RATING BY"}<br />{restDetails.number_customers_rated + " CUSTOMERS"}
-                        </Typography>
-                      </Grid>
-                      <Grid item xs container direction="column" spacing={2}>
-                        <Typography variant="body1" color="textPrimary" component="p">
-                          <FontAwesomeIcon icon={faRupeeSign} />{restDetails.average_price}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary" component="p">
-                          {"AVERAGE COST FOR"}<br />{"TWO PEOPLE"}
-                        </Typography>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
+          <div>
+<RestaurantsDetailsCard restDetails={restDetails}/>
+            <Grid  container>
+              <Grid item xs={6}  style={{minWidth:"400px"}}>
+              <RestaurantsMenu restDetails={restDetails} addItemHandler={this.addItemHandler}/>
               </Grid>
-            </Paper>
-            <Grid class="details-content" container>
-            <Grid class='menu-item' container item xs={6} direction="column" component="span">
-              {restDetails.categories.map((cat, index) => (
-                <div>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    {cat.category_name.toUpperCase()}
-                  </Typography>
-                  <Divider />
-                  <List>
-                    {cat.item_list.map(item => {
-                      return (
-                        <ListItem>
-                          <ListItemAvatar>
-                            {item.item_type === "VEG" ? <FontAwesomeIcon icon={faCircle} color="green" /> : <FontAwesomeIcon icon={faCircle} color="red" />}
-                          </ListItemAvatar>
-                          <ListItemText style={{ width: '30%' }} primary={item.item_name[0].toUpperCase() + item.item_name.slice(1)} />
-                          <ListItemText>
-                            <Typography variant="body1" color="textPrimary"><FontAwesomeIcon icon={faRupeeSign} />{item.price}</Typography>
-                          </ListItemText>
-                          <ListItemText>
-                            <FontAwesomeIcon icon={faPlus} color="gray" onClick={ () => this.addItemHandler(item)}/>
-                          </ListItemText>
-                        </ListItem>
-                      )
-                    })}
-                  </List>
-                </div>
-              ))}
-            </Grid>
-            <Grid container item xs={6} direction="column" component="span">
+            <Grid item xs={6} style={{minWidth:"400px"}}>
               <MyCart {...this.props}
-                    cart={this.state.cart} 
-                    restaurantDetails={this.state.restaurantDetails} 
+                    cart={this.state.cart}
+                    restaurantDetails={this.state.restaurantDetails}
                     incQty={this.incQty}
                     decQty={this.decQty} />
               </Grid>
@@ -219,6 +144,7 @@ class Details extends Component {
                         onClose={this.closeFloatingAlert}
                         message={this.state.detailPageFloatingAlertMsg} />
       </div>
+        </div>
     )
   }
 }
