@@ -12,7 +12,7 @@ function RestaurantsMenu(props) {
     const {restDetails, addItemHandler} = props;
     return (
 
-                <div>
+                <div style={{marginTop:'2rem', marginLeft:'4rem', marginRight:'4rem'}}>
                     {restDetails.categories.map((cat, index) => (
                         <div key={index}>
                             <Typography variant="body2" color="textSecondary" component="p">

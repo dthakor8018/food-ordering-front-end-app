@@ -117,11 +117,13 @@ class Details extends Component {
   render() {
     let restDetails = this.state.restaurantDetails
     return (
-        <div><Header {...this.props} showSearchBar={false} />
+        <div style={{minWidth:"400px"}}><Header {...this.props} showSearchBar={false} />
       <div>
         {restDetails ?
-          <div>
-<RestaurantsDetailsCard restDetails={restDetails}/>
+            <div>
+          <div style={{padding: '2rem', backgroundColor: 'lightgray', minWidth:"400px"}}>
+<RestaurantsDetailsCard restDetails={restDetails} />
+          </div>
             <Grid  container>
               <Grid item xs={6}  style={{minWidth:"400px"}}>
               <RestaurantsMenu restDetails={restDetails} addItemHandler={this.addItemHandler}/>

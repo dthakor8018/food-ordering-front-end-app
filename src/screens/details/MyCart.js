@@ -63,7 +63,7 @@ export default function MyCart(props) {
     setCartFloatingAlertMsg("");
   }
   return (
-    <div>
+    <div style={{marginTop: '2rem'}}>
       <Card className={classes.root} variant="outlined">
         <CardContent>
           <Badge badgeContent={cart.reduce((acc, next) => acc + next.qty, 0)} color="primary">

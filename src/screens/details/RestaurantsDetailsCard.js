@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
     details: {
         display: 'flex',
         flexDirection: 'column',
+        width:'80%'
     },
     content: {
         flex: '1 0 auto',
@@ -26,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     },
     controls: {
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'left',
         paddingLeft: theme.spacing(1),
         paddingBottom: theme.spacing(1),
     }
@@ -37,7 +38,7 @@ export default function RestaurantsDetailsCard(props) {
     const {restDetails} = props;
 
     return (
-        <Card className={classes.root} style={{minWidth:"400px"}}>
+        <Card className={classes.root} style={{minWidth:"400px", boxShadow:"none"}}>
             <CardMedia
                 className={classes.cover}
                 image={restDetails.photo_URL}
