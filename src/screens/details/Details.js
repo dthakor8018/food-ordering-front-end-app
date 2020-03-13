@@ -118,7 +118,7 @@ class Details extends Component {
     let restDetails = this.state.restaurantDetails
     return (
         <div>
-        <div style={{minWidth:"400px"}}><Header {...this.props} showSearchBar={false} /></div>
+            <Header {...this.props} showSearchBar={false} />
       <div>
         {restDetails ?
             <div>
