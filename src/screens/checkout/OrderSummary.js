@@ -59,7 +59,7 @@ export default function OrderSummary(props) {
                     <Divider />
                     <List>
                         {cart && cart.length > 0 ? cart.map((cartItem, index) => (
-                            <ListItem>
+                            <ListItem key={index}>
                                 <ListItemAvatar>
                                     <FontAwesomeIcon icon={faStopCircle} color={cartItem.item.item_type === "VEG" ? "green" : "red"} />
                                 </ListItemAvatar>
@@ -82,7 +82,7 @@ export default function OrderSummary(props) {
 
                             </ListItemText>
                             <ListItemText>
-                                <Button variant="contained" color="gray" onClick={onApply} >APPLY</Button>
+                                <Button variant="contained" color="primary" onClick={onApply} >APPLY</Button>
                             </ListItemText>
                         </ListItem>
                         <ListItem>

@@ -73,7 +73,7 @@ export default function Payment(props) {
             <RadioGroup aria-label="gender" name="payment-modes" onChange={paymentModeChange} >
                 {props.paymentMethodsData ?
                     props.paymentMethodsData.map((payObj, index) => (
-                        <FormControlLabel value={payObj.id} control={<StyledRadio />} label={payObj.payment_name} />
+                        <FormControlLabel value={payObj.id} key={index} control={<StyledRadio />} label={payObj.payment_name} />
                     )) : ""}
             </RadioGroup>
         </FormControl>

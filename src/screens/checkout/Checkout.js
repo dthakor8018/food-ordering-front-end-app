@@ -29,7 +29,7 @@ class Checkout extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const { cart, restaurantId, restaurantName } = this.props.history.location.state;
         var orderTotal = cart.reduce((acc, next) => acc + (next.item.price * next.qty), 0);
         this.setState({

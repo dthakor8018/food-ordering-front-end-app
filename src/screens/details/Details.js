@@ -20,7 +20,7 @@ class Details extends Component {
       detailPageFloatingAlertMsg: ""
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.getRestaurantDetails();
   }
   getRestaurantDetails = () => {

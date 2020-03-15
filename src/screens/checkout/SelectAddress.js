@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,21 +9,23 @@ import Box from '@material-ui/core/Box';
 import ExistingAddress from "./ExistingAddress";
 import NewAddress from "./NewAddress";
 
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
+class TabPanel extends Component {
+    render() {
+        const {children, value, index, ...other} = this.props;
 
-    return (
-        <Typography
-            component="span"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box p={3}>{children}</Box>}
-        </Typography>
-    );
+        return (
+            <Typography
+                component="div"
+                role="tabpanel"
+                hidden={value !== index}
+                id={`simple-tabpanel-${index}`}
+                aria-labelledby={`simple-tab-${index}`}
+                {...other}
+            >
+                {value === index && <Box p={2}>{children}</Box>}
+            </Typography>
+        );
+    }
 }
 
 TabPanel.propTypes = {
@@ -59,7 +61,7 @@ export default function SelectAddress(props) {
     return (
         <div className={classes.root} >
             <AppBar position="static">
-                <Tabs value={value} onChange={handleChange}>
+                <Tabs value={value} onChange={handleChange} component="div">
                     <Tab label="Existing Address" {...a11yProps(0)} />
                     <Tab label="New Address" {...a11yProps(1)} />
                 </Tabs>

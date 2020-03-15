@@ -68,7 +68,12 @@ class Header extends Component {
     })
     this.props.history.push('/');
   }
+  redirectToHome = () => {
+    this.props.history.push('/');
+  }
   render() {
+
+
     return (
       <div className='grow' style={{minWidth:'400px'}}>
         <AppBar position="static" style={{ backgroundColor: "#263238" }}>
@@ -77,6 +82,7 @@ class Header extends Component {
               <Grid item xs={12} sm={4}>
                 <IconButton
                   edge="start"
+                  onClick={this.redirectToHome }
                   color="inherit"
                   aria-label="open drawer"
                 >

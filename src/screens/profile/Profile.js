@@ -3,10 +3,7 @@ import "./Profile.css";
 import Header from "../../common/header/Header";
 
 class Profile extends Component {
-  constructor() {
-    super();
-  }
-  componentWillMount() {
+  componentDidMount() {
     if (sessionStorage.getItem("access-token") === null) {
         this.props.history.push('/');
       }

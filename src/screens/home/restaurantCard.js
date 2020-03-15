@@ -54,7 +54,7 @@ export default function RestaurantCard(props) {
         >
             {   props.restaurantData && props.restaurantData.length > 0 ?
                 props.restaurantData.map((restObj, index) => (
-                    <Grid>
+                    <Grid key={index}>
                         <ButtonBase id={restObj.id} onClick={handleClickCardEvent}>
                         <Card className={classes.root} >
                             <CardActionArea>

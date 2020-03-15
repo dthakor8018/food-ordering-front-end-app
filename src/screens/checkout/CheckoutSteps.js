@@ -67,7 +67,7 @@ export default function CheckoutSteps(props) {
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
             <StepContent>
-              <Typography>{getStepContent(index, props)}</Typography>
+              <Typography component="div">{getStepContent(index, props)}</Typography>
               <div className={classes.actionsContainer}>
                 <div>
                   <Button
