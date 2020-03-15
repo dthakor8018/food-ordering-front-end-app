@@ -34,6 +34,7 @@ export default function ExistingAddress(props) {
     function selectTheAddress(e) {
         setSelected(e.currentTarget.id);
         props.selectedAddressIdCallback(e.currentTarget.id)
+        props.selectedAddressId(e.currentTarget.id)
     }
 
     return (

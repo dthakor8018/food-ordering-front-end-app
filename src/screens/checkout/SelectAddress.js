@@ -58,6 +58,10 @@ export default function SelectAddress(props) {
         setValue(newValue);
     };
 
+    const setSelectedAddressId = (newValue) => {
+        props.setSelectedAddressId(newValue);
+    };
+
     return (
         <div className={classes.root} >
             <AppBar position="static">
@@ -67,7 +71,7 @@ export default function SelectAddress(props) {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                {props.customerAddressData&&props.customerAddressData.length > 0 ?<ExistingAddress {...props} />:  <ExistingAddressNotFound/>}
+                {props.customerAddressData&&props.customerAddressData.length > 0 ?<ExistingAddress selectedAddressId={setSelectedAddressId}{...props} />:  <ExistingAddressNotFound/>}
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <NewAddress {...props} />
