@@ -59,11 +59,9 @@ class Checkout extends Component {
         ).then((response) => {
             if (response.status === 200) {
                 response.json().then((json) => {
-                    //console.log(json);
                     this.setState({ customerAddressData: json.addresses });
                 })
             } else {
-                console.log("Error while getting customer address" + response.status);
                 response.json().then((json) => {
                     this.setState({
                         error: true,
@@ -73,7 +71,6 @@ class Checkout extends Component {
                 })
             }
         }, error => {
-            console.log("Error while making request to FoodOrderingApp Backend", error)
             this.setState({
                 error: true,
                 erorCode: error.code,
@@ -99,11 +96,9 @@ class Checkout extends Component {
         ).then((response) => {
             if (response.status === 200) {
                 response.json().then((json) => {
-                    //console.log(json);
                     this.setState({ cuponData: json });
                 })
             } else {
-                console.log("Error while getting customer address" + response.status);
                 response.json().then((json) => {
                     this.setState({
                         error: true,
@@ -113,7 +108,6 @@ class Checkout extends Component {
                 })
             }
         }, error => {
-            console.log("Error while making request to FoodOrderingApp Backend", error)
             this.setState({
                 error: true,
                 erorCode: error.code,
@@ -138,11 +132,9 @@ class Checkout extends Component {
         ).then((response) => {
             if (response.status === 200) {
                 response.json().then((json) => {
-                    console.log(json);
                     this.setState({ paymentMethodsData: json.paymentMethods });
                 })
             } else {
-                console.log("Error while getting payment Methos" + response.status);
                 response.json().then((json) => {
                     this.setState({
                         error: true,
@@ -152,7 +144,6 @@ class Checkout extends Component {
                 })
             }
         }, error => {
-            console.log("Error while making request to FoodOrderingApp Backend", error)
             this.setState({
                 error: true,
                 erorCode: error.code,
@@ -177,11 +168,9 @@ class Checkout extends Component {
         ).then((response) => {
             if (response.status === 200) {
                 response.json().then((json) => {
-                    console.log(json);
                     this.setState({ statesData: json.states });
                 })
             } else {
-                console.log("Error while getting states" + response.status);
                 response.json().then((json) => {
                     this.setState({
                         error: true,
@@ -191,7 +180,6 @@ class Checkout extends Component {
                 })
             }
         }, error => {
-            console.log("Error while making request to FoodOrderingApp Backend", error)
             this.setState({
                 error: true,
                 erorCode: error.code,
@@ -202,8 +190,6 @@ class Checkout extends Component {
 
 
     onPlaceOrderCallback = (discountAmount) => {
-
-        //console.log("placeOrder");
 
         var orderItem = [];
         for (var i = 0; i < this.state.cart.length; i++) {
@@ -238,14 +224,12 @@ class Checkout extends Component {
             ).then((response) => {
             if (response.status === 201) {
                 response.json().then((json) => {
-                    //console.log(json);
                     this.setState({
                         checkOutPageFloatingAlert: true,
                         checkOutPageFloatingAlertMsg: "Order placed successfully! Your order ID is "+json.id
                     });
                 })
             } else {
-                console.log("Error while Placing Order" + response.status);
                 response.json().then((json) => {
                     this.setState({
                         error: true,
@@ -257,7 +241,6 @@ class Checkout extends Component {
                 })
             }
         }, error => {
-            console.log("Error while making request to FoodOrderingApp Backend", error)
             this.setState({
                 error: true,
                 erorCode: error.code,
@@ -269,14 +252,12 @@ class Checkout extends Component {
     }
 
     selectedAddressIdCallback = (addressId) => {
-        //console.log(addressId)
         this.setState({
             selectedAddress: addressId
         });
     }
 
     selectedPaymentIdCallback = (paymentId) => {
-        //console.log(paymentId)
         this.setState({
             selectedPayment: paymentId
         });

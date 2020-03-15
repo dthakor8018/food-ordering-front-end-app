@@ -31,7 +31,6 @@ export default function ExistingAddress(props) {
     const [selected, setSelected] = useState("");
 
     function selectTheAddress(e) {
-        //console.log(e.currentTarget.id)
         setSelected(e.currentTarget.id);
         props.selectedAddressIdCallback(e.currentTarget.id)
     }

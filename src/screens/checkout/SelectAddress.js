@@ -14,7 +14,7 @@ function TabPanel(props) {
 
     return (
         <Typography
-            component="div"
+            component="span"
             role="tabpanel"
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}

@@ -52,7 +52,6 @@ class NewAddress extends Component {
         });
     }
     selectStateIndexHandler = e => {
-        console.log(e.target.value)
         var requiredflagVal = false;
         if (e.target.value === -1) {
             requiredflagVal = true;
@@ -73,8 +72,6 @@ class NewAddress extends Component {
     }
 
     onNewAddressSubmit = () => {
-        console.log("onNewAddressSubmit");
-        console.log(this.state);
         if (this.state.flatBuildingNo === ""){
             this.setState({
                 flatBuildingNoRequired: true
@@ -106,14 +103,12 @@ class NewAddress extends Component {
             || this.state.cityRequired
             || this.state.pincodeRequired
             || this.state.stateIndexRequired){
-            console.log("some field missing");
             return;    
         }
         if (!this.state.pincode.match(/^\d{6}$/)) {
             this.setState({
                 isPincodeValid: false
             });
-            console.log("pincode invalid");
             return;
         }
 
@@ -140,7 +135,6 @@ class NewAddress extends Component {
         ).then((response) => {
             if (response.status === 201) {
                 response.json().then((json) => {
-                    //console.log(json);
                     this.setState({
                         newAddressPageFloatingAlert: true,
                         newAddressPageFloatingAlertMsg: json.status
@@ -155,7 +149,6 @@ class NewAddress extends Component {
                     this.props.newAddressAddedCallBack();
                 })
             } else {
-                console.log("Error while Adding New Address" + response.status);
                 response.json().then((json) => {
                     this.setState({
                         newAddressError: true,
@@ -164,7 +157,6 @@ class NewAddress extends Component {
                 })
             }
         }, error => {
-            console.log("Error while making request to FoodOrderingApp Backend", error)
             this.setState({
                 newAddressError: true,
                 newAddressErrorMsg: "Error while making request to FoodOrderingApp Backend"

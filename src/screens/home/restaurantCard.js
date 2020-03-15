@@ -42,9 +42,7 @@ const useStyles = makeStyles({
 
 export default function RestaurantCard(props) {
     const classes = useStyles();
-    console.log(props.restaurantData);
     function handleClickCardEvent(e){
-        console.log(e.currentTarget.id);
         props.history.push('/restaurant/'+e.currentTarget.id);
     }
     return (

@@ -38,8 +38,6 @@ class Details extends Component {
     ).then((response) => {
       if (response.status === 200) {
         response.json().then((json) => {
-          console.log(json);
-          console.log(typeof (json));
           this.setState({
             restaurantDetails: json
           });
@@ -54,7 +52,6 @@ class Details extends Component {
           // });
         })
       } else {
-        console.log("Error " + response.status);
         response.json().then((json) => {
           this.setState({
             erro: true,
@@ -64,7 +61,6 @@ class Details extends Component {
         })
       }
     }, error => {
-      console.log("Error while making request to FoodOrderingApp Backend", error)
       this.setState({
         erro: true,
         errorCode: error.code,
@@ -73,7 +69,6 @@ class Details extends Component {
     })
   }
   addItemHandler = (item) => {
-    //console.log(item);
     var update = false;
     let cart = this.state.cart;
     for (var i = 0; i < cart.length; i++) {

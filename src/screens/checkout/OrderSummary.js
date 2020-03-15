@@ -43,7 +43,6 @@ export default function OrderSummary(props) {
     }
 
     function onPlaceOrder() {
-        console.log("onPlaceOrder");
         props.onPlaceOrderCallback(props.discount * props.orderBillTotal / 100);
     }
 

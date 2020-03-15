@@ -69,7 +69,6 @@ class LoginSignupModal extends Component {
         })
     }
     tabChange = (event, newValue) => {
-        console.log(newValue)
         document.getElementById("container-" + this.state.tab + "-form").style.display = 'none';
         this.setState({ tab: newValue });
         document.getElementById("container-" + newValue + "-form").style.display = 'block';
@@ -194,15 +193,12 @@ class LoginSignupModal extends Component {
                         this.props.onCloseLoginSignupModal(firstName);
                     })
                     response.headers.forEach((val, key) => {
-                        //console.log(key + "=" + val);
                         if (key === "access-token") {
                             sessionStorage.setItem("access-token", val);
                         }
                     })
-                    console.log("login successfully")
                     this.clearAll();
                 } else {
-                    console.log("login Error " + response.status);
                     response.json().then((json) => {
                         this.setState({
                             loginError: true,
@@ -213,7 +209,6 @@ class LoginSignupModal extends Component {
                     })
                 }
             }, error => {
-                console.log("Error while making request to FoodOrderingApp Backend", error)
                 this.setState({
                     loginError: true,
                     loginErrorCode: error,
@@ -288,13 +283,11 @@ class LoginSignupModal extends Component {
                 }
             ).then((response) => {
                 if (response.status === 201) {
-                    console.log("Signup successfully")
                     this.clearAll();
                     document.getElementById("container-signup-form").style.display = 'none';
                     document.getElementById("container-login-form").style.display = 'block';
                     this.setState({ floatingAlert: true });
                 } else {
-                    console.log("login Error " + response.status);
                     response.json().then((json) => {
                         this.setState({
                             signupError: true,
@@ -305,7 +298,6 @@ class LoginSignupModal extends Component {
                     })
                 }
             }, error => {
-                console.log("Error while making request to FoodOrderingApp Backend", error)
                 this.setState({
                     loginError: true,
                     loginErrorCode: error,

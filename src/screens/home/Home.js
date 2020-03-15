@@ -18,7 +18,6 @@ class Home extends Component {
     this.getRestaurantData("");
   }
   getRestaurantData = (searchText) => {
-    //console.log(searchText);
     var url = this.props.baseUrl + "restaurant";
 
     if (searchText !== null && searchText.trim() !== "") {
@@ -36,11 +35,9 @@ class Home extends Component {
     ).then((response) => {
       if (response.status === 200) {
         response.json().then((json) => {
-          //console.log(json);
           this.setState({ restaurantData: json.restaurants });
         })
       } else {
-        console.log("login Error " + response.status);
         response.json().then((json) => {
           this.setState({
             error: true,
@@ -50,7 +47,6 @@ class Home extends Component {
         })
       }
     }, error => {
-      console.log("Error while making request to FoodOrderingApp Backend", error)
       this.setState({
         error: true,
         erorCode: error.code,
