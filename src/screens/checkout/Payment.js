@@ -66,6 +66,7 @@ function StyledRadio(props) {
 export default function Payment(props) {
     function paymentModeChange(e){
         props.selectedPaymentIdCallback(e.target.value);
+        props.selectedPaymentId(e.target.value);
     }
     return (
         <FormControl component="fieldset">

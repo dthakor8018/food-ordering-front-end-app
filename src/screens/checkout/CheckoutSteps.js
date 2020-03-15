@@ -37,17 +37,22 @@ export default function CheckoutSteps(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [addressId, setAddressId] = React.useState();
+    const [paymentId, setPaymentId] = React.useState();
   const steps = getSteps();
 
   const setSelectedAddressId = (newValue) => {
     setAddressId(newValue);
   };
+    const setSelectedPaymentId = (id) => {
+        setPaymentId(id);
+    };
+
   function getStepContent(step, props) {
     switch (step) {
       case 0:
         return <SelectAddress  selectedAddressId={setSelectedAddressId} {...props} />;
       case 1:
-        return <Payment {...props}/>;
+        return <Payment selectedPaymentId={setSelectedPaymentId} {...props}/>;
       default:
         return "Unknown step";
     }
@@ -88,7 +93,7 @@ export default function CheckoutSteps(props) {
                     variant="contained"
                     color="primary"
                     onClick={handleNext}
-                    disabled={activeStep !== steps.length - 1 && !addressId}
+                    disabled={(activeStep !== steps.length - 1 && !addressId) || (activeStep === steps.length - 1 && !paymentId)}
                     className={classes.button}
                   >
                     {activeStep === steps.length - 1 ? "Finish" : "Next"}
