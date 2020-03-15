@@ -40,7 +40,7 @@ export default function ExistingAddress(props) {
         <div>
             {props.customerAddressData ?
                 props.customerAddressData.map((addrObj, index) => (
-                    <Card className={classes.root}
+                    <Card className={classes.root} key={index}
                         style={selected === addrObj.id ? {
                             borderColor: 'red',
                             borderStyle: 'outset',

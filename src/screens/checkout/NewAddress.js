@@ -235,7 +235,7 @@ class NewAddress extends Component {
                                 >
                                     <MenuItem value={-1}>{}</MenuItem>
                                     {this.props.statesData ? this.props.statesData.map((s, index) => (
-                                        <MenuItem value={index}>{s.state_name}</MenuItem>
+                                        <MenuItem value={index+s.state_name}>{s.state_name}</MenuItem>
                                     )) : ""}
                                 </Select>
                                 {this.state.stateIndexRequired ? (

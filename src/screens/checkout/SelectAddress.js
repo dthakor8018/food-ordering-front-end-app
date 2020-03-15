@@ -59,7 +59,7 @@ export default function SelectAddress(props) {
     return (
         <div className={classes.root} >
             <AppBar position="static">
-                <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+                <Tabs value={value} onChange={handleChange}>
                     <Tab label="Existing Address" {...a11yProps(0)} />
                     <Tab label="New Address" {...a11yProps(1)} />
                 </Tabs>
