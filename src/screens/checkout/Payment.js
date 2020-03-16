@@ -64,6 +64,7 @@ function StyledRadio(props) {
 }
 
 export default function Payment(props) {
+    // on payment mode change
     function paymentModeChange(e){
         props.selectedPaymentIdCallback(e.target.value);
         props.selectedPaymentId(e.target.value);

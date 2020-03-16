@@ -39,14 +39,15 @@ export default function CheckoutSteps(props) {
   const [addressId, setAddressId] = React.useState();
     const [paymentId, setPaymentId] = React.useState();
   const steps = getSteps();
-
+// set selected address Id
   const setSelectedAddressId = (newValue) => {
     setAddressId(newValue);
   };
+  // set selected payment Id
     const setSelectedPaymentId = (id) => {
         setPaymentId(id);
     };
-
+// render steps for wizard
   function getStepContent(step, props) {
     switch (step) {
       case 0:
@@ -57,15 +58,15 @@ export default function CheckoutSteps(props) {
         return "Unknown step";
     }
   }
-
+// handle wizard next
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
-
+// handle wizard back
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
-
+// set initial wizard step
   const handleReset = () => {
     setActiveStep(0);
   };

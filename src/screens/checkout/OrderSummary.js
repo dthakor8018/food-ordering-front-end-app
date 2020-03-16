@@ -36,12 +36,12 @@ const useStyles = makeStyles({
 export default function OrderSummary(props) {
     const classes = useStyles();
     let cart = props.cart;
-
+// on applying coupon code
     function onApply() {
         var cuponText = document.getElementById('cupon-text').value;
         props.selectedCuponTextCallback(cuponText);
     }
-
+// on placing order
     function onPlaceOrder() {
         props.onPlaceOrderCallback(props.discount * props.orderBillTotal / 100);
     }

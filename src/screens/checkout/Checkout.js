@@ -42,6 +42,7 @@ class Checkout extends Component {
         this.getPaymentModeData();
         this.getStateData();
     }
+    // fetch custome address data
     getCustomerAddressData = () => {
 
         var url = this.props.baseUrl + "/address/customer";
@@ -78,7 +79,7 @@ class Checkout extends Component {
             });
         })
     }
-
+    // fetch available coupn
     getCuponData = (cuponText) => {
 
         var url = this.props.baseUrl + "/order/coupon/" + cuponText;
@@ -115,7 +116,7 @@ class Checkout extends Component {
             });
         })
     }
-
+// fetch payment mode data
     getPaymentModeData = () => {
 
         var url = this.props.baseUrl + "/payment";
@@ -188,7 +189,7 @@ class Checkout extends Component {
         })
     }
 
-
+// place the order after discount
     onPlaceOrderCallback = (discountAmount) => {
 
         var orderItem = [];
@@ -250,20 +251,20 @@ class Checkout extends Component {
             });
         })
     }
-
+// set selected address Id
     selectedAddressIdCallback = (addressId) => {
         this.setState({
             selectedAddress: addressId
         });
     }
-
+// set selected payment Id
     selectedPaymentIdCallback = (paymentId) => {
         this.setState({
             selectedPayment: paymentId
         });
     }
 
-
+// fetch coupon data
     selectedCuponTextCallback = (cuponText) => {
         this.getCuponData(cuponText);
     }

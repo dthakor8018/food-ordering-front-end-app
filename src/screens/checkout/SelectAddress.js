@@ -47,17 +47,17 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.paper,
     },
 }));
-
+// if there is not address added
 export const ExistingAddressNotFound = () => <span>There are no saved addresses! You can save an address using the 'New Address' tab or using your ‘Profile’ menu option.</span>;
 
 export default function SelectAddress(props) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-
+// handle change in address selection
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-
+// set selected address Id
     const setSelectedAddressId = (newValue) => {
         props.setSelectedAddressId(newValue);
     };

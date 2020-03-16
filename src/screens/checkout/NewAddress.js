@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-//import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-//import Typography from '@material-ui/core/Typography';
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
@@ -63,14 +61,14 @@ class NewAddress extends Component {
             stateIndexRequired: requiredflagVal
         });
     }
-
+// closing alert
     closeFloatingAlert = () => {
         this.setState({
             newAddressPageFloatingAlert: false,
             newAddressPageFloatingAlertMsg: ""
         });
     }
-
+// on adding new address submit
     onNewAddressSubmit = () => {
         if (this.state.flatBuildingNo === ""){
             this.setState({
