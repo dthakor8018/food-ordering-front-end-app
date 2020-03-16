@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -11,7 +11,7 @@ import NewAddress from "./NewAddress";
 
 class TabPanel extends Component {
     render() {
-        const {children, value, index, ...other} = this.props;
+        const { children, value, index, ...other } = this.props;
 
         return (
             <Typography
@@ -53,11 +53,11 @@ export const ExistingAddressNotFound = () => <span>There are no saved addresses!
 export default function SelectAddress(props) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-// handle change in address selection
+    // handle change in address selection
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-// set selected address Id
+    // set selected address Id
     const setSelectedAddressId = (newValue) => {
         props.setSelectedAddressId(newValue);
     };
@@ -71,7 +71,7 @@ export default function SelectAddress(props) {
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
-                {props.customerAddressData&&props.customerAddressData.length > 0 ?<ExistingAddress selectedAddressId={setSelectedAddressId}{...props} />:  <ExistingAddressNotFound/>}
+                {props.customerAddressData && props.customerAddressData.length > 0 ? <ExistingAddress selectedAddressId={setSelectedAddressId}{...props} /> : <ExistingAddressNotFound />}
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <NewAddress {...props} />

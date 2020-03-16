@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 export default function ExistingAddress(props) {
     const classes = useStyles();
     const [selected, setSelected] = useState("");
-// set selected address id
+    // set selected address id
     function selectTheAddress(e) {
         setSelected(e.currentTarget.id);
         props.selectedAddressIdCallback(e.currentTarget.id)

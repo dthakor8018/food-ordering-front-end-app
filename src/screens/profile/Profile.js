@@ -6,14 +6,14 @@ class Profile extends Component {
   // if token is null then redirect to home page
   componentDidMount() {
     if (sessionStorage.getItem("access-token") === null) {
-        this.props.history.push('/');
-      }
+      this.props.history.push('/');
+    }
   }
 
   render() {
     return (
       <div>
-        <Header {...this.props} showSearchBar={false}/>
+        <Header {...this.props} showSearchBar={false} />
       </div>
     );
   }

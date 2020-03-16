@@ -37,82 +37,82 @@ export default function CheckoutSteps(props) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [addressId, setAddressId] = React.useState();
-    const [paymentId, setPaymentId] = React.useState();
+  const [paymentId, setPaymentId] = React.useState();
   const steps = getSteps();
-// set selected address Id
+  // set selected address Id
   const setSelectedAddressId = (newValue) => {
     setAddressId(newValue);
   };
   // set selected payment Id
-    const setSelectedPaymentId = (id) => {
-        setPaymentId(id);
-    };
-// render steps for wizard
+  const setSelectedPaymentId = (id) => {
+    setPaymentId(id);
+  };
+  // render steps for wizard
   function getStepContent(step, props) {
     switch (step) {
       case 0:
-        return <SelectAddress  selectedAddressId={setSelectedAddressId} {...props} />;
+        return <SelectAddress selectedAddressId={setSelectedAddressId} {...props} />;
       case 1:
-        return <Payment selectedPaymentId={setSelectedPaymentId} {...props}/>;
+        return <Payment selectedPaymentId={setSelectedPaymentId} {...props} />;
       default:
         return "Unknown step";
     }
   }
-// handle wizard next
+  // handle wizard next
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
-// handle wizard back
+  // handle wizard back
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
-// set initial wizard step
+  // set initial wizard step
   const handleReset = () => {
     setActiveStep(0);
   };
 
   return (
-      <div>
-    <div className={classes.root}>
+    <div>
+      <div className={classes.root}>
 
-      <Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map((label, index) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-            <StepContent>
-              <Typography component="div">{getStepContent(index, props)}</Typography>
-              <div className={classes.actionsContainer}>
-                <div>
-                  <Button
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    className={classes.button}
-                  >
-                    Back
+        <Stepper activeStep={activeStep} orientation="vertical">
+          {steps.map((label, index) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+              <StepContent>
+                <Typography component="div">{getStepContent(index, props)}</Typography>
+                <div className={classes.actionsContainer}>
+                  <div>
+                    <Button
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                      className={classes.button}
+                    >
+                      Back
                   </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    disabled={(activeStep !== steps.length - 1 && !addressId) || (activeStep === steps.length - 1 && !paymentId)}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                  </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      disabled={(activeStep !== steps.length - 1 && !addressId) || (activeStep === steps.length - 1 && !paymentId)}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </StepContent>
-          </Step>
-        ))}
-      </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>View the Summary &amp; place your order now!</Typography>
-          <Button onClick={handleReset} className={classes.button}>
-            CHANGE
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
+        {activeStep === steps.length && (
+          <Paper square elevation={0} className={classes.resetContainer}>
+            <Typography>View the Summary &amp; place your order now!</Typography>
+            <Button onClick={handleReset} className={classes.button}>
+              CHANGE
           </Button>
-        </Paper>
-      )}
-    </div></div>
+          </Paper>
+        )}
+      </div></div>
   );
 }

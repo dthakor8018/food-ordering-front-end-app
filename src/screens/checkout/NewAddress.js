@@ -61,36 +61,36 @@ class NewAddress extends Component {
             stateIndexRequired: requiredflagVal
         });
     }
-// closing alert
+    // closing alert
     closeFloatingAlert = () => {
         this.setState({
             newAddressPageFloatingAlert: false,
             newAddressPageFloatingAlertMsg: ""
         });
     }
-// on adding new address submit
+    // on adding new address submit
     onNewAddressSubmit = () => {
-        if (this.state.flatBuildingNo === ""){
+        if (this.state.flatBuildingNo === "") {
             this.setState({
                 flatBuildingNoRequired: true
             });
         }
-        if (this.state.locality === ""){
+        if (this.state.locality === "") {
             this.setState({
                 localityRequired: true
             });
         }
-        if (this.state.city === ""){
+        if (this.state.city === "") {
             this.setState({
                 cityRequired: true
             });
         }
-        if (this.state.pincode === ""){
+        if (this.state.pincode === "") {
             this.setState({
                 pincodeRequired: true
             });
         }
-        if (this.state.stateIndex === -1 ){
+        if (this.state.stateIndex === -1) {
             this.setState({
                 stateIndexRequired: true
             });
@@ -100,8 +100,8 @@ class NewAddress extends Component {
             || this.state.localityRequired
             || this.state.cityRequired
             || this.state.pincodeRequired
-            || this.state.stateIndexRequired){
-            return;    
+            || this.state.stateIndexRequired) {
+            return;
         }
         if (!this.state.pincode.match(/^\d{6}$/)) {
             this.setState({
@@ -165,7 +165,7 @@ class NewAddress extends Component {
     render() {
         return (
             <div>
-                <Card style={{width: '25%', minWidth:'275px'}}>
+                <Card style={{ width: '25%', minWidth: '275px' }}>
                     <CardContent>
                         <Container id="container-newaddress-form" >
                             <FormControl className="newaddress-flatBuildingNo-form" required>
@@ -272,13 +272,13 @@ class NewAddress extends Component {
                     </CardContent>
                 </Card>
                 <Snackbar open={this.state.newAddressPageFloatingAlert}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        autoHideDuration={6000}
-                        onClose={this.closeFloatingAlert}
-                        message={this.state.newAddressPageFloatingAlertMsg} />
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    autoHideDuration={6000}
+                    onClose={this.closeFloatingAlert}
+                    message={this.state.newAddressPageFloatingAlertMsg} />
             </div>
         );
     }

@@ -27,7 +27,7 @@ class Header extends Component {
       errorMsg: null
     };
   }
-  
+
   handleClick = (event) => {
     this.setState({
       anchorEl: event.currentTarget
@@ -44,7 +44,7 @@ class Header extends Component {
     this.menuCloseHandler();
     this.props.history.push('/profile');
   }
-// setting up the text search
+  // setting up the text search
   onSearchTextChange = (e) => {
     this.props.getRestaurantData(e.currentTarget.value);
   }
@@ -80,14 +80,14 @@ class Header extends Component {
 
 
     return (
-      <div className='grow' style={{minWidth:'400px'}}>
+      <div className='grow' style={{ minWidth: '400px' }}>
         <AppBar position="static" style={{ backgroundColor: "#263238" }}>
           <Toolbar>
             <Grid container>
-              <Grid style={{minWidth:'400px'}} item xs={12} sm={4} >
+              <Grid style={{ minWidth: '400px' }} item xs={12} sm={4} >
                 <IconButton
                   edge="start"
-                  onClick={this.redirectToHome }
+                  onClick={this.redirectToHome}
                   color="inherit"
                   aria-label="open drawer"
                 >
@@ -111,7 +111,7 @@ class Header extends Component {
                     />
                   </div> : ""}
               </Grid>
-              <Grid item xs={12} sm={4} style={{ gridColumnStart: "revert", minWidth:'400px' }}>
+              <Grid item xs={12} sm={4} style={{ gridColumnStart: "revert", minWidth: '400px' }}>
                 <div className='loginbuttonArea' >
                   {this.state.loggedIn ?
                     <IconButton id="profile-icon" edge="start" color="inherit" aria-label="menu" onClick={this.handleClick}>

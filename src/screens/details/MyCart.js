@@ -49,7 +49,7 @@ export default function MyCart(props) {
       props.history.push({
         pathname: '/checkout',
         state: {
-          cart: cart.filter( item => item.qty > 0 ),
+          cart: cart.filter(item => item.qty > 0),
           restaurantId: props.restaurantDetails.id,
           restaurantName: props.restaurantDetails.restaurant_name
         }
@@ -67,7 +67,7 @@ export default function MyCart(props) {
     setCartFloatingAlertMsg("");
   }
   return (
-    <div style={{marginTop: '2rem'}}>
+    <div style={{ marginTop: '2rem' }}>
       <Card className={classes.root} variant="outlined">
         <CardContent>
           <Badge badgeContent={cart.reduce((acc, next) => acc + next.qty, 0)} color="primary">

@@ -116,7 +116,7 @@ class Checkout extends Component {
             });
         })
     }
-// fetch payment mode data
+    // fetch payment mode data
     getPaymentModeData = () => {
 
         var url = this.props.baseUrl + "/payment";
@@ -189,7 +189,7 @@ class Checkout extends Component {
         })
     }
 
-// place the order after discount
+    // place the order after discount
     onPlaceOrderCallback = (discountAmount) => {
 
         var orderItem = [];
@@ -222,12 +222,12 @@ class Checkout extends Component {
                     "restaurant_id": this.state.selectedRestaurant
                 })
             }
-            ).then((response) => {
+        ).then((response) => {
             if (response.status === 201) {
                 response.json().then((json) => {
                     this.setState({
                         checkOutPageFloatingAlert: true,
-                        checkOutPageFloatingAlertMsg: "Order placed successfully! Your order ID is "+json.id
+                        checkOutPageFloatingAlertMsg: "Order placed successfully! Your order ID is " + json.id
                     });
                 })
             } else {
@@ -251,20 +251,20 @@ class Checkout extends Component {
             });
         })
     }
-// set selected address Id
+    // set selected address Id
     selectedAddressIdCallback = (addressId) => {
         this.setState({
             selectedAddress: addressId
         });
     }
-// set selected payment Id
+    // set selected payment Id
     selectedPaymentIdCallback = (paymentId) => {
         this.setState({
             selectedPayment: paymentId
         });
     }
 
-// fetch coupon data
+    // fetch coupon data
     selectedCuponTextCallback = (cuponText) => {
         this.getCuponData(cuponText);
     }
@@ -281,7 +281,7 @@ class Checkout extends Component {
             <div>
                 <Header {...this.props} showSearchBar={false} />
                 <Grid container spacing={3}>
-                    <Grid item xs={9} style={{minWidth:"400px"}}>
+                    <Grid item xs={9} style={{ minWidth: "400px" }}>
                         <CheckoutSteps {...this.props}
                             customerAddressData={this.state.customerAddressData}
                             paymentMethodsData={this.state.paymentMethodsData}
@@ -291,26 +291,26 @@ class Checkout extends Component {
                             newAddressAddedCallBack={this.getCustomerAddressData}
                         />
                     </Grid>
-                    <Grid item xs={3} style={{ padding: '36px', minWidth:"400px" }}>
+                    <Grid item xs={3} style={{ padding: '36px', minWidth: "400px" }}>
                         <OrderSummary {...this.props}
                             cart={this.state.cart}
                             restaurantId={this.state.restaurantId}
                             restaurantName={this.state.restaurantName}
                             selectedCuponTextCallback={this.selectedCuponTextCallback}
-                            discount={this.state.cuponData && this.state.cuponData.percent ? this.state.cuponData.percent : 0 }
+                            discount={this.state.cuponData && this.state.cuponData.percent ? this.state.cuponData.percent : 0}
                             onPlaceOrderCallback={this.onPlaceOrderCallback}
-                            orderBillTotal={this.state.orderBillTotal}  
+                            orderBillTotal={this.state.orderBillTotal}
                         />
                     </Grid>
                 </Grid>
                 <Snackbar open={this.state.checkOutPageFloatingAlert}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        autoHideDuration={6000}
-                        onClose={this.closeFloatingAlert}
-                        message={this.state.checkOutPageFloatingAlertMsg} />
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    autoHideDuration={6000}
+                    onClose={this.closeFloatingAlert}
+                    message={this.state.checkOutPageFloatingAlertMsg} />
             </div>
         );
     }

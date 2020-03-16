@@ -125,7 +125,7 @@ class LoginSignupModal extends Component {
                 containdigit = true;
             } else if (c >= 'A' && c <= 'Z') {
                 containUpperCaseChar = true;
-            } else if (['#','@','$', '%','&','*','!','^'].indexOf(c) !== -1) {
+            } else if (['#', '@', '$', '%', '&', '*', '!', '^'].indexOf(c) !== -1) {
                 containSpecialChar = true;
             }
 
@@ -151,7 +151,7 @@ class LoginSignupModal extends Component {
         } else if (!this.isValidContactNo(this.state.lUsername)) {
             this.setState({ lUsernameValidationFailed: true });
         } else {
-            this.setState({ 
+            this.setState({
                 lUsernameRequired: false,
                 lUsernameValidationFailed: false
             });
@@ -185,7 +185,7 @@ class LoginSignupModal extends Component {
                     response.json().then((json) => {
                         var firstName = "";
                         Object.keys(json).forEach(function (key) {
-                            if( key === 'first_name') {
+                            if (key === 'first_name') {
                                 firstName = json[key]
                             }
                             sessionStorage.setItem(key, json[key]);
@@ -230,7 +230,7 @@ class LoginSignupModal extends Component {
         } else if (!this.isValidEmail(this.state.sEmail)) {
             this.setState({ sEmailValidationFailed: true });
         } else {
-            this.setState({ 
+            this.setState({
                 sEmailRequired: false,
                 sEmailValidationFailed: false
             });
@@ -241,7 +241,7 @@ class LoginSignupModal extends Component {
         } else if (!this.isValidPassword(this.state.sPassword)) {
             this.setState({ sPasswordValidationFailed: true });
         } else {
-            this.setState({ 
+            this.setState({
                 sPasswordRequired: false,
                 sPasswordValidationFailed: false
             });
@@ -252,7 +252,7 @@ class LoginSignupModal extends Component {
         } else if (!this.isValidContactNo(this.state.sContactNo)) {
             this.setState({ sContactNoValidationFailed: true });
         } else {
-            this.setState({ 
+            this.setState({
                 sContactNoRequired: false,
                 sContactNoValidationFailed: false
             });

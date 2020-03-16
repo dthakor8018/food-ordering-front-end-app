@@ -1,12 +1,12 @@
 import React from 'react';
-import { makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import Grid from "@material-ui/core/Grid";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faRupeeSign, faStar} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRupeeSign, faStar } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     details: {
         display: 'flex',
         flexDirection: 'column',
-        width:'80%'
+        width: '80%'
     },
     content: {
         flex: '1 0 auto',
@@ -35,10 +35,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function RestaurantsDetailsCard(props) {
     const classes = useStyles();
-    const {restDetails} = props;
+    const { restDetails } = props;
 
     return (
-        <Card className={classes.root} style={{minWidth:"400px", boxShadow:"none"}}>
+        <Card className={classes.root} style={{ minWidth: "400px", boxShadow: "none" }}>
             <CardMedia
                 className={classes.cover}
                 image={restDetails.photo_URL}
@@ -59,8 +59,8 @@ export default function RestaurantsDetailsCard(props) {
                     </Typography>
                 </CardContent>
                 <div className={classes.controls}>
-                    <Grid   container>
-                        <Grid item  xs={6}>
+                    <Grid container>
+                        <Grid item xs={6}>
                             <Typography variant="body1" color="textPrimary" component="p">
                                 <FontAwesomeIcon icon={faStar} /> {Math.round(restDetails.customer_rating * 10) / 10}
                             </Typography>
@@ -68,7 +68,7 @@ export default function RestaurantsDetailsCard(props) {
                                 {"AVERAGE RATING BY"}<br />{restDetails.number_customers_rated + " CUSTOMERS"}
                             </Typography>
                         </Grid>
-                        <Grid item  xs={6}>
+                        <Grid item xs={6}>
                             <Typography variant="body1" color="textPrimary" component="p">
                                 <FontAwesomeIcon icon={faRupeeSign} />{restDetails.average_price}
                             </Typography>

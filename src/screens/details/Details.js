@@ -69,38 +69,38 @@ class Details extends Component {
         update = true;
       }
     }
-    if(!update) {
-      cart.push({'item': item, 'qty': 1 });
+    if (!update) {
+      cart.push({ 'item': item, 'qty': 1 });
     }
 
-    this.setState({cart: cart});
+    this.setState({ cart: cart });
     this.openFloatingAlert();
   }
   // increase quantity
   incQty = (index) => {
     let cart = this.state.cart
     cart[index].qty++;
-    this.setState({cart: cart});
+    this.setState({ cart: cart });
   }
   // decrease quantity
   decQty = (index) => {
     let cart = this.state.cart
     cart[index].qty--;
-    if(cart[index].qty < 0 ) {
+    if (cart[index].qty < 0) {
       cart[index].qty = 0;
     }
-    this.setState({cart: cart});
+    this.setState({ cart: cart });
   }
   // closing alert
   closeFloatingAlert = () => {
-    this.setState({ 
+    this.setState({
       detailPageFloatingAlert: false,
       detailPageFloatingAlertMsg: ""
     });
   }
   // open alert
   openFloatingAlert = () => {
-    this.setState({ 
+    this.setState({
       detailPageFloatingAlert: true,
       detailPageFloatingAlertMsg: "Item added to cart!"
     });
@@ -108,37 +108,37 @@ class Details extends Component {
   render() {
     let restDetails = this.state.restaurantDetails
     return (
-        <div>
-            <Header {...this.props} showSearchBar={false} />
       <div>
-        {restDetails ?
+        <Header {...this.props} showSearchBar={false} />
+        <div>
+          {restDetails ?
             <div>
-          <div style={{padding: '2rem', backgroundColor: 'lightgray', minWidth:"400px"}}>
-<RestaurantsDetailsCard restDetails={restDetails} />
-          </div>
-            <Grid  container>
-              <Grid item xs={6}  style={{minWidth:"400px"}}>
-              <RestaurantsMenu restDetails={restDetails} addItemHandler={this.addItemHandler}/>
-              </Grid>
-            <Grid item xs={6} style={{minWidth:"400px"}}>
-              <MyCart {...this.props}
+              <div style={{ padding: '2rem', backgroundColor: 'lightgray', minWidth: "400px" }}>
+                <RestaurantsDetailsCard restDetails={restDetails} />
+              </div>
+              <Grid container>
+                <Grid item xs={6} style={{ minWidth: "400px" }}>
+                  <RestaurantsMenu restDetails={restDetails} addItemHandler={this.addItemHandler} />
+                </Grid>
+                <Grid item xs={6} style={{ minWidth: "400px" }}>
+                  <MyCart {...this.props}
                     cart={this.state.cart}
                     restaurantDetails={this.state.restaurantDetails}
                     incQty={this.incQty}
                     decQty={this.decQty} />
+                </Grid>
               </Grid>
-            </Grid>
-          </div> : ""}
+            </div> : ""}
           <Snackbar open={this.state.detailPageFloatingAlert}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        autoHideDuration={6000}
-                        onClose={this.closeFloatingAlert}
-                        message={this.state.detailPageFloatingAlertMsg} />
-      </div>
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            autoHideDuration={6000}
+            onClose={this.closeFloatingAlert}
+            message={this.state.detailPageFloatingAlertMsg} />
         </div>
+      </div>
     )
   }
 }

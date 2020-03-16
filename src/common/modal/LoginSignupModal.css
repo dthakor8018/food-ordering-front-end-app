@@ -1,9 +1,11 @@
 #container-login-form {
     display: block;
 }
+
 #container-signup-form {
     display: none;
 }
+
 .modal-div {
     position: absolute;
     top: 50%;
@@ -11,12 +13,6 @@
     transform: translate(-50%, -50%);
     background-color: white;
     height: auto;
-    /* width: 100%; */
-    /* padding: 15px;
-    border: 1px solid rgba(0,0,0,.2);
-    border-radius: .3rem;
-    box-shadow: black;
-    inline-size: fit-content; */
 }
 
 .red {
@@ -38,9 +34,8 @@
 
 .login-signup-form {
     width: 300px;
-}   
+}
 
 .login-button-container, .signup-button-container {
     text-align: -webkit-center;
 }
-
