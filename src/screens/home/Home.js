@@ -17,6 +17,8 @@ class Home extends Component {
   componentDidMount() {
     this.getRestaurantData("");
   }
+
+  // fetch restaurant data based on search text
   getRestaurantData = (searchText) => {
     var url = this.props.baseUrl + "restaurant";
 

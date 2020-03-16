@@ -35,6 +35,8 @@ export default function MyCart(props) {
   const [cartFloatingAlert, setCartFloatingAlert] = useState(false);
   const [cartFloatingAlertMsg, setCartFloatingAlertMsg] = useState("");
   let cart = props.cart;
+
+  // check out handler
   function checkoutHandler(e) {
     var totalQty = cart.reduce((acc, next) => acc + next.qty, 0);
     if (totalQty > 0) {
@@ -58,6 +60,8 @@ export default function MyCart(props) {
       return;
     }
   }
+
+  // closing alert
   function closeCartFloatingAlert() {
     setCartFloatingAlert(false);
     setCartFloatingAlertMsg("");

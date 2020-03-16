@@ -42,6 +42,7 @@ const useStyles = makeStyles({
 
 export default function RestaurantCard(props) {
     const classes = useStyles();
+    // redirect to the selected restaurant Id
     function handleClickCardEvent(e){
         props.history.push('/restaurant/'+e.currentTarget.id);
     }

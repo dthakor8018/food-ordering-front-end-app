@@ -23,8 +23,8 @@ class Details extends Component {
   componentDidMount() {
     this.getRestaurantDetails();
   }
+  // fetch restaurant details
   getRestaurantDetails = () => {
-    //this.setState({ restaurantId: this.props.match.params.restaurantId});
     var url = this.props.baseUrl + "restaurant/" + this.props.match.params.restaurantId;
     fetch(
       url,
@@ -41,15 +41,6 @@ class Details extends Component {
           this.setState({
             restaurantDetails: json
           });
-          // var items = {};
-          // json.categories.forEach(cat => {
-          //   cat.item_list.forEach(item => {
-          //     items[item.id] = item;
-          //   })
-          // });
-          // this.setState({
-          //   allItems: items
-          // });
         })
       } else {
         response.json().then((json) => {
@@ -68,6 +59,7 @@ class Details extends Component {
       });
     })
   }
+  // handle adding new item in the cart
   addItemHandler = (item) => {
     var update = false;
     let cart = this.state.cart;
@@ -84,11 +76,13 @@ class Details extends Component {
     this.setState({cart: cart});
     this.openFloatingAlert();
   }
+  // increase quantity
   incQty = (index) => {
     let cart = this.state.cart
     cart[index].qty++;
     this.setState({cart: cart});
   }
+  // decrease quantity
   decQty = (index) => {
     let cart = this.state.cart
     cart[index].qty--;
@@ -97,12 +91,14 @@ class Details extends Component {
     }
     this.setState({cart: cart});
   }
+  // closing alert
   closeFloatingAlert = () => {
     this.setState({ 
       detailPageFloatingAlert: false,
       detailPageFloatingAlertMsg: ""
     });
   }
+  // open alert
   openFloatingAlert = () => {
     this.setState({ 
       detailPageFloatingAlert: true,
