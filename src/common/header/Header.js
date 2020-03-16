@@ -33,24 +33,28 @@ class Header extends Component {
       anchorEl: event.currentTarget
     });
   }
+  // close menu
   menuCloseHandler = () => {
     this.setState({
       anchorEl: null
     });
   }
+  // open profile page
   menuMyAccountHandler = () => {
     this.menuCloseHandler();
     this.props.history.push('/profile');
   }
-
+// setting up the text search
   onSearchTextChange = (e) => {
     this.props.getRestaurantData(e.currentTarget.value);
   }
+  // open signup modal
   openLoginSignupModal = () => {
     this.setState({
       openLoginSignupModal: true
     })
   }
+  // close signup modal
   onCloseLoginSignupModal = (firstName) => {
     this.setState({
       openLoginSignupModal: false,
@@ -58,6 +62,7 @@ class Header extends Component {
       loggedInCustomeName: firstName//sessionStorage.getItem("first_name")
     })
   }
+  // logout and remove token
   logoutHandler = () => {
     sessionStorage.removeItem("access-token");
     this.menuCloseHandler();
@@ -79,7 +84,7 @@ class Header extends Component {
         <AppBar position="static" style={{ backgroundColor: "#263238" }}>
           <Toolbar>
             <Grid container>
-              <Grid item xs={12} sm={4}>
+              <Grid style={{minWidth:'400px'}} item xs={12} sm={4} >
                 <IconButton
                   edge="start"
                   onClick={this.redirectToHome }
@@ -106,7 +111,7 @@ class Header extends Component {
                     />
                   </div> : ""}
               </Grid>
-              <Grid item xs={12} sm={4} style={{ gridColumnStart: "revert" }}>
+              <Grid item xs={12} sm={4} style={{ gridColumnStart: "revert", minWidth:'400px' }}>
                 <div className='loginbuttonArea' >
                   {this.state.loggedIn ?
                     <IconButton id="profile-icon" edge="start" color="inherit" aria-label="menu" onClick={this.handleClick}>
